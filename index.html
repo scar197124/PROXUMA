@@ -1,62 +1,90 @@
 <!DOCTYPE html>
-<html><head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Proxuma</title>
-<style>
-:root {
-  --bg:#000;
-  --neon:#00ff66;
-  --text:#ffffff;
-  --border:rgba(0,255,102,.85);
-  --glow:rgba(0,255,102,.45);
-}
-*{box-sizing:border-box;margin:0;padding:0;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto}
-body{background:var(--bg);color:var(--text);line-height:1.65}
-.container{max-width:1100px;margin:auto;padding:60px 20px}
-.card{border:2px solid var(--border);border-radius:14px;background:#000;padding:32px 36px;margin-bottom:24px;position:relative}
-.card::before{content:"";position:absolute;inset:-2px;border-radius:16px;opacity:0;box-shadow:0 0 22px var(--glow);transition:.2s;pointer-events:none}
-.card:hover::before{opacity:1}
-.header h1{text-align:center;font-size:2.6rem;letter-spacing:2px}
-.header h2{text-align:center;margin-top:10px;color:var(--neon);font-weight:400}
-.top-nav,.footer-actions{display:flex;justify-content:center;gap:14px;flex-wrap:wrap}
-.top-btn,.footer-btn{padding:8px 16px;border:1.5px solid var(--border);border-radius:999px;color:var(--text);text-decoration:none;font-size:.8rem;transition:.2s}
-.top-btn:hover,.footer-btn:hover{background:var(--neon);color:#000;box-shadow:0 0 14px var(--glow)}
-.active{background:var(--neon);color:#000;pointer-events:none}
-.cta-wrap{display:flex;justify-content:center;margin:26px 0}
-.btn{padding:14px 36px;border:2px solid var(--border);border-radius:12px;color:var(--neon);text-decoration:none;font-size:1rem;transition:.2s}
-.btn:hover{background:var(--neon);color:#000;box-shadow:0 0 16px var(--glow)}
-footer{margin-top:80px;padding:36px 20px;border-top:1px solid var(--border);text-align:center}
-.footer-note{font-size:.8rem;color:var(--neon);opacity:.75;margin-top:12px}
-</style>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+  <title>Proxuma — Secure Every Click (Offline Link Intelligence)</title>
+  <meta name="description" content="Proxuma is an offline link intelligence hub that helps you evaluate URLs and QR codes before you click, log in, or share sensitive information. No accounts. No tracking. Clarity before consequence.">
+
+  <link rel="canonical" href="https://scar197124.github.io/PROXUMA/">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Proxuma">
+  <meta property="og:title" content="Proxuma — Secure Every Click">
+  <meta property="og:description" content="Offline link intelligence for URLs and QR codes. Clarity before consequence — before you click or share sensitive info.">
+  <meta property="og:url" content="https://scar197124.github.io/PROXUMA/">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Proxuma — Secure Every Click">
+  <meta name="twitter:description" content="Offline link intelligence for URLs and QR codes. No accounts. No tracking. Runs locally.">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Proxuma",
+    "applicationCategory": "SecurityApplication",
+    "operatingSystem": "Web",
+    "url": "https://scar197124.github.io/PROXUMA/",
+    "description": "Offline link intelligence hub for evaluating URLs and QR codes before clicking or sharing sensitive information. Privacy-first: no accounts, no tracking.",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+  }
+  </script>
+
+  <style>
+    :root {
+      --bg:#000;
+      --neon:#00ff66;
+      --text:#ffffff;
+      --border:rgba(0,255,102,.85);
+      --glow:rgba(0,255,102,.45);
+    }
+    *{box-sizing:border-box;margin:0;padding:0;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto}
+    body{background:var(--bg);color:var(--text);line-height:1.65}
+    .container{max-width:1100px;margin:auto;padding:60px 20px}
+    .card{border:2px solid var(--border);border-radius:14px;background:#000;padding:32px 36px;margin-bottom:24px;position:relative}
+    .card::before{content:"";position:absolute;inset:-2px;border-radius:16px;opacity:0;box-shadow:0 0 22px var(--glow);transition:.2s;pointer-events:none}
+    .card:hover::before{opacity:1}
+    .header h1{text-align:center;font-size:2.6rem;letter-spacing:2px}
+    .header h2{text-align:center;margin-top:10px;color:var(--neon);font-weight:400}
+    .top-nav{display:flex;justify-content:center;gap:14px;flex-wrap:wrap}
+    .top-btn{padding:8px 16px;border:1.5px solid var(--border);border-radius:999px;color:var(--text);text-decoration:none;font-size:.8rem;transition:.2s}
+    .top-btn:hover{background:var(--neon);color:#000;box-shadow:0 0 14px var(--glow)}
+    .active{background:var(--neon);color:#000;pointer-events:none}
+    footer{margin-top:80px;padding:36px 20px;border-top:1px solid var(--border);text-align:center}
+    .footer-note{font-size:.8rem;color:var(--neon);opacity:.75;margin-top:12px}
+  </style>
 </head>
+
 <body>
 <div class="container">
 
-<nav class="top-nav">
-<a class="top-btn active" href="index.html">Proxuma</a>
-<a class="top-btn " href="light.html">Light</a>
-<a class="top-btn " href="scene.html">Sense</a>
-<a class="top-btn " href="shield.html">Shield</a>
-<a class="top-btn " href="privacy.html">Privacy</a>
-<a class="top-btn " href="transparency.html">Transparency</a>
-</nav>
+  <nav class="top-nav">
+    <a class="top-btn active" href="index.html">Proxuma</a>
+    <a class="top-btn" href="light.html">Light</a>
+    <a class="top-btn" href="scene.html">Sense</a>
+    <a class="top-btn" href="shield.html">Shield</a>
+    <a class="top-btn" href="privacy.html">Privacy</a>
+    <a class="top-btn" href="transparency.html">Transparency</a>
+  </nav>
 
-<div class="card header"><h1>Proxuma</h1><h2>Clarity before consequence.</h2></div>
+  <div class="card header">
+    <h1>Proxuma</h1>
+    <h2>Clarity before consequence.</h2>
+  </div>
 
-<div class='card'>
-<p><strong>Proxuma helps you understand risk before you act</strong> — without fear, alerts, or technical overload.</p>
-<p>It is designed to meet you at the moment of uncertainty and give you just enough clarity to decide what to do next.</p>
-<p>No judgment. No pressure. Just insight.</p>
+  <div class="card">
+    <p><strong>Proxuma helps you understand risk before you act</strong> — without fear, alerts, or technical overload.</p>
+    <p>It is designed to meet you at the moment of uncertainty and give you just enough clarity to decide what to do next.</p>
+    <p>No judgment. No pressure. Just insight.</p>
+  </div>
+
 </div>
-
-</div>
-
-
 
 <footer>
   <div class="footer-note">Proxuma — clarity before consequence.</div>
 </footer>
 
-
-</body></html>
+</body>
+</html>
