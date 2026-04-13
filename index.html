@@ -3,35 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
-
-  <title>Proxuma — Secure Every Click (Offline Link Intelligence)</title>
-  <meta name="description" content="Proxuma is an offline link intelligence hub that helps you evaluate URLs and QR codes before you click, log in, or share sensitive information. No accounts. No tracking. Clarity before consequence.">
-
-  <link rel="canonical" href="https://scar197124.github.io/PROXUMA/">
-
-  <meta property="og:type" content="website">
-  <meta property="og:site_name" content="Proxuma">
-  <meta property="og:title" content="Proxuma — Secure Every Click">
-  <meta property="og:description" content="Offline link intelligence for URLs and QR codes. Clarity before consequence — before you click or share sensitive info.">
-  <meta property="og:url" content="https://scar197124.github.io/PROXUMA/">
-
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Proxuma — Secure Every Click">
-  <meta name="twitter:description" content="Offline link intelligence for URLs and QR codes. No accounts. No tracking. Runs locally.">
-
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    "name": "Proxuma",
-    "applicationCategory": "SecurityApplication",
-    "operatingSystem": "Web",
-    "url": "https://scar197124.github.io/PROXUMA/",
-    "description": "Offline link intelligence hub for evaluating URLs and QR codes before clicking or sharing sensitive information. Privacy-first: no accounts, no tracking.",
-    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
-  }
-  </script>
-
+  <title>Proxuma — Privacy-First Link Scanner</title>
+  <meta name="description" content="Proxuma is a privacy-first link scanner built to help you check suspicious links with clarity before consequence.">
+  <meta name="robots" content="index,follow">
   <style>
     :root {
       --bg:#000;
@@ -39,52 +13,505 @@
       --text:#ffffff;
       --border:rgba(0,255,102,.85);
       --glow:rgba(0,255,102,.45);
+      --muted:rgba(255,255,255,.78);
+      --panel:#050505;
     }
-    *{box-sizing:border-box;margin:0;padding:0;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto}
-    body{background:var(--bg);color:var(--text);line-height:1.65}
-    .container{max-width:1100px;margin:auto;padding:60px 20px}
-    .card{border:2px solid var(--border);border-radius:14px;background:#000;padding:32px 36px;margin-bottom:24px;position:relative}
-    .card::before{content:"";position:absolute;inset:-2px;border-radius:16px;opacity:0;box-shadow:0 0 22px var(--glow);transition:.2s;pointer-events:none}
-    .card:hover::before{opacity:1}
-    .header h1{text-align:center;font-size:2.6rem;letter-spacing:2px}
-    .header h2{text-align:center;margin-top:10px;color:var(--neon);font-weight:400}
-    .top-nav{display:flex;justify-content:center;gap:14px;flex-wrap:wrap}
-    .top-btn{padding:8px 16px;border:1.5px solid var(--border);border-radius:999px;color:var(--text);text-decoration:none;font-size:.8rem;transition:.2s}
-    .top-btn:hover{background:var(--neon);color:#000;box-shadow:0 0 14px var(--glow)}
-    .active{background:var(--neon);color:#000;pointer-events:none}
-    footer{margin-top:80px;padding:36px 20px;border-top:1px solid var(--border);text-align:center}
-    .footer-note{font-size:.8rem;color:var(--neon);opacity:.75;margin-top:12px}
+
+    * { box-sizing:border-box; margin:0; padding:0; font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; }
+
+    html { scroll-behavior:smooth; }
+
+    body {
+      background:var(--bg);
+      color:var(--text);
+      line-height:1.65;
+    }
+
+    a { color:inherit; }
+
+    .container {
+      max-width:1100px;
+      margin:auto;
+      padding:32px 20px 70px;
+    }
+
+    .top-nav, .footer-actions {
+      display:flex;
+      justify-content:center;
+      gap:14px;
+      flex-wrap:wrap;
+    }
+
+    .top-btn, .footer-btn {
+      padding:8px 16px;
+      border:1.5px solid var(--border);
+      border-radius:999px;
+      color:var(--text);
+      text-decoration:none;
+      font-size:.84rem;
+      transition:.2s ease;
+      background:transparent;
+    }
+
+    .top-btn:hover, .footer-btn:hover {
+      background:var(--neon);
+      color:#000;
+      box-shadow:0 0 14px var(--glow);
+    }
+
+    .active {
+      background:var(--neon);
+      color:#000;
+      pointer-events:none;
+    }
+
+    .card {
+      border:2px solid var(--border);
+      border-radius:14px;
+      background:var(--panel);
+      padding:30px 28px;
+      margin-top:24px;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .card::before {
+      content:"";
+      position:absolute;
+      inset:-2px;
+      border-radius:16px;
+      opacity:0;
+      box-shadow:0 0 22px var(--glow);
+      transition:.2s ease;
+      pointer-events:none;
+    }
+
+    .card:hover::before { opacity:1; }
+
+    .hero {
+      padding:42px 32px;
+      text-align:center;
+    }
+
+    .hero h1 {
+      font-size:clamp(2.2rem, 5vw, 3.4rem);
+      letter-spacing:2px;
+      margin-bottom:12px;
+    }
+
+    .hero p.lead {
+      max-width:760px;
+      margin:0 auto;
+      color:var(--muted);
+      font-size:1.06rem;
+    }
+
+    .hero-badges {
+      display:flex;
+      justify-content:center;
+      gap:12px;
+      flex-wrap:wrap;
+      margin-top:22px;
+    }
+
+    .hero-badges span {
+      border:1px solid var(--border);
+      border-radius:999px;
+      padding:8px 14px;
+      font-size:.84rem;
+      color:var(--neon);
+      background:rgba(0,255,102,.05);
+    }
+
+    .grid {
+      display:grid;
+      grid-template-columns:1.1fr .9fr;
+      gap:24px;
+      margin-top:24px;
+    }
+
+    .scanner-box label,
+    .result-box h2,
+    .section-title,
+    .feature h3,
+    .steps h2,
+    .seo-block h2 {
+      color:var(--neon);
+    }
+
+    .scanner-box label {
+      display:block;
+      margin-bottom:12px;
+      font-size:.92rem;
+      letter-spacing:.3px;
+    }
+
+    .scanner-input-row {
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+
+    .scanner-input-row input {
+      flex:1 1 360px;
+      min-width:0;
+      background:#000;
+      color:var(--text);
+      border:1.5px solid var(--border);
+      border-radius:12px;
+      padding:14px 16px;
+      outline:none;
+      font-size:1rem;
+    }
+
+    .scanner-input-row input:focus {
+      box-shadow:0 0 0 3px rgba(0,255,102,.12);
+    }
+
+    .scan-btn, .cta-btn {
+      border:2px solid var(--border);
+      background:transparent;
+      color:var(--neon);
+      border-radius:12px;
+      padding:14px 22px;
+      cursor:pointer;
+      font-size:1rem;
+      transition:.2s ease;
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .scan-btn:hover, .cta-btn:hover {
+      background:var(--neon);
+      color:#000;
+      box-shadow:0 0 16px var(--glow);
+    }
+
+    .helper-text {
+      margin-top:12px;
+      color:var(--muted);
+      font-size:.92rem;
+    }
+
+    .result-box {
+      min-height:100%;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+    }
+
+    .result-panel {
+      margin-top:16px;
+      border:1px solid var(--border);
+      border-radius:12px;
+      padding:18px;
+      background:#000;
+    }
+
+    .result-top {
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      align-items:center;
+      flex-wrap:wrap;
+      margin-bottom:12px;
+    }
+
+    .risk-pill {
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      border:1px solid var(--border);
+      border-radius:999px;
+      padding:6px 12px;
+      font-size:.82rem;
+      color:var(--neon);
+      background:rgba(0,255,102,.06);
+    }
+
+    .score {
+      font-size:1.6rem;
+      font-weight:700;
+      color:var(--neon);
+    }
+
+    .findings {
+      margin-top:12px;
+      display:grid;
+      gap:10px;
+      color:var(--muted);
+      font-size:.95rem;
+    }
+
+    .findings strong { color:var(--text); }
+
+    .mini-note {
+      margin-top:14px;
+      color:var(--muted);
+      font-size:.88rem;
+    }
+
+    .features {
+      display:grid;
+      grid-template-columns:repeat(3, 1fr);
+      gap:20px;
+      margin-top:24px;
+    }
+
+    .feature p, .steps p, .seo-block p {
+      color:var(--muted);
+    }
+
+    .steps-grid {
+      display:grid;
+      grid-template-columns:repeat(3, 1fr);
+      gap:18px;
+      margin-top:18px;
+    }
+
+    .step {
+      border:1px solid var(--border);
+      border-radius:12px;
+      padding:18px;
+      background:#000;
+    }
+
+    .step-num {
+      color:var(--neon);
+      font-size:.86rem;
+      margin-bottom:6px;
+      letter-spacing:.6px;
+    }
+
+    .seo-block p + p,
+    .feature p,
+    .step p,
+    .card p + p {
+      margin-top:10px;
+    }
+
+    .cta-row {
+      display:flex;
+      gap:14px;
+      flex-wrap:wrap;
+      margin-top:20px;
+    }
+
+    footer {
+      margin-top:60px;
+      padding:36px 20px 10px;
+      border-top:1px solid var(--border);
+      text-align:center;
+    }
+
+    .footer-note {
+      font-size:.84rem;
+      color:var(--neon);
+      opacity:.75;
+      margin-top:12px;
+    }
+
+    @media (max-width: 900px) {
+      .grid,
+      .features,
+      .steps-grid {
+        grid-template-columns:1fr;
+      }
+
+      .hero {
+        padding:34px 22px;
+      }
+    }
   </style>
 </head>
-
 <body>
-<div class="container">
+  <div class="container">
+    <nav class="top-nav" aria-label="Primary">
+      <a class="top-btn active" href="index.html">Proxuma</a>
+      <a class="top-btn" href="light.html">Light</a>
+      <a class="top-btn" href="scene.html">Sense</a>
+      <a class="top-btn" href="shield.html">Shield</a>
+      <a class="top-btn" href="privacy.html">Privacy</a>
+      <a class="top-btn" href="transparency.html">Transparency</a>
+      <a class="top-btn" href="is-this-link-safe.html">Is This Link Safe?</a>
+    </nav>
 
-  <nav class="top-nav">
-    <a class="top-btn active" href="index.html">Proxuma</a>
-    <a class="top-btn" href="light.html">Light</a>
-    <a class="top-btn" href="scene.html">Sense</a>
-    <a class="top-btn" href="shield.html">Shield</a>
-    <a class="top-btn" href="privacy.html">Privacy</a>
-    <a class="top-btn" href="transparency.html">Transparency</a>
-  </nav>
+    <section class="card hero">
+      <h1>Proxuma</h1>
+      <p class="lead">Privacy-first link clarity built for people who want a fast answer before they click. Scan suspicious URLs, review the signal, and move with confidence.</p>
+      <div class="hero-badges">
+        <span>Privacy-First</span>
+        <span>Fast Link Review</span>
+        <span>Clarity Before Consequence</span>
+      </div>
+    </section>
 
-  <div class="card header">
-    <h1>Proxuma</h1>
-    <h2>Clarity before consequence.</h2>
+    <section class="grid" aria-label="Proxuma scanner area">
+      <div class="card scanner-box">
+        <h2 class="section-title">Scan a Link</h2>
+        <p class="helper-text">Paste a URL below to review a simple safety-style reading. This homepage version is structured as a clean front door and visual foundation for the wider Proxuma system.</p>
+
+        <div style="margin-top:18px;">
+          <label for="urlInput">Enter a link to review</label>
+          <div class="scanner-input-row">
+            <input id="urlInput" type="url" placeholder="https://example.com" aria-label="URL input">
+            <button class="scan-btn" id="scanBtn" type="button">Analyze</button>
+          </div>
+          <p class="helper-text">Examples: suspicious redirects, unknown websites, giveaway pages, login links, QR destinations.</p>
+        </div>
+
+        <div class="cta-row">
+          <a class="cta-btn" href="is-this-link-safe.html">Open Link Safety Page</a>
+          <a class="cta-btn" href="privacy.html">Read Privacy</a>
+        </div>
+      </div>
+
+      <div class="card result-box">
+        <div>
+          <h2>Result Preview</h2>
+          <p class="helper-text">This panel gives the visitor a clear, readable breakdown rather than a wall of technical noise.</p>
+          <div class="result-panel" id="resultPanel">
+            <div class="result-top">
+              <span class="risk-pill" id="riskPill">Ready</span>
+              <span class="score" id="scoreText">--</span>
+            </div>
+            <p id="summaryText">Paste a link and run a quick reading.</p>
+            <div class="findings">
+              <div><strong>Signal:</strong> <span id="signalText">Waiting for input.</span></div>
+              <div><strong>Why it matters:</strong> <span id="whyText">The homepage is designed to feel clear, calm, and trustworthy.</span></div>
+            </div>
+          </div>
+        </div>
+        <p class="mini-note">This front-page scanner logic is intentionally lightweight so the page stays clean while the brand, structure, and trust layer stay strong.</p>
+      </div>
+    </section>
+
+    <section class="features">
+      <article class="card feature">
+        <h3>Fast clarity</h3>
+        <p>Proxuma is designed to reduce hesitation. A user should be able to land, paste, read, and decide without friction.</p>
+      </article>
+      <article class="card feature">
+        <h3>Consistent identity</h3>
+        <p>The black background and neon green system carry the same visual language across the scanner and future discovery pages.</p>
+      </article>
+      <article class="card feature">
+        <h3>Built for growth</h3>
+        <p>This homepage now supports both people and search engines by pairing the scanner front door with readable supporting text.</p>
+      </article>
+    </section>
+
+    <section class="card steps">
+      <h2>How Proxuma works</h2>
+      <div class="steps-grid">
+        <div class="step">
+          <div class="step-num">STEP 01</div>
+          <p>Paste a suspicious URL into the scanner input.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">STEP 02</div>
+          <p>Review a simple link reading focused on clarity instead of clutter.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">STEP 03</div>
+          <p>Move forward with more confidence before clicking or sharing.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="card seo-block">
+      <h2>Check if a link is safe before you click</h2>
+      <p>Proxuma is a privacy-first link scanner created to help users review suspicious URLs in a calmer, clearer way. Whether the concern is a phishing-style login page, a giveaway link, a QR destination, or an unfamiliar website, Proxuma gives visitors a simple starting point before action.</p>
+      <p>Many people search phrases like “is this link safe,” “check a suspicious URL,” or “scan a link before clicking.” This homepage supports that intent while still keeping the product interface direct and visually consistent. As the Proxuma system grows, this foundation can connect cleanly to deeper pages like Link Safety Checks, Privacy, Transparency, and future scan examples.</p>
+    </section>
   </div>
 
-  <div class="card">
-    <p><strong>Proxuma helps you understand risk before you act</strong> — without fear, alerts, or technical overload.</p>
-    <p>It is designed to meet you at the moment of uncertainty and give you just enough clarity to decide what to do next.</p>
-    <p>No judgment. No pressure. Just insight.</p>
-  </div>
+  <footer>
+    <div class="footer-actions">
+      <a class="footer-btn" href="index.html">Home</a>
+      <a class="footer-btn" href="is-this-link-safe.html">Link Safety Checks</a>
+      <a class="footer-btn" href="privacy.html">Privacy</a>
+      <a class="footer-btn" href="transparency.html">Transparency</a>
+    </div>
+    <div class="footer-note">Proxuma — clarity before consequence.</div>
+  </footer>
 
-</div>
+  <script>
+    const scanBtn = document.getElementById('scanBtn');
+    const urlInput = document.getElementById('urlInput');
+    const riskPill = document.getElementById('riskPill');
+    const scoreText = document.getElementById('scoreText');
+    const summaryText = document.getElementById('summaryText');
+    const signalText = document.getElementById('signalText');
+    const whyText = document.getElementById('whyText');
 
-<footer>
-  <div class="footer-note">Proxuma — clarity before consequence.</div>
-</footer>
+    function analyzeUrl(raw) {
+      const value = raw.trim();
+      if (!value) {
+        return {
+          risk: 'Ready',
+          score: '--',
+          summary: 'Paste a link and run a quick reading.',
+          signal: 'Waiting for input.',
+          why: 'The homepage is designed to feel clear, calm, and trustworthy.'
+        };
+      }
 
+      let risk = 'Low';
+      let score = 82;
+      let signal = 'Basic link pattern looks ordinary.';
+      let why = 'A cleaner structure usually suggests less immediate friction, but every unknown link still deserves attention.';
+      const lower = value.toLowerCase();
+
+      if (!/^https?:\/\//.test(lower)) {
+        risk = 'Caution';
+        score = 55;
+        signal = 'The link is missing a standard http or https prefix.';
+        why = 'Malformed or shortened-looking inputs can hide the true destination.';
+      }
+
+      if (lower.includes('login') || lower.includes('verify') || lower.includes('wallet') || lower.includes('gift') || lower.includes('claim')) {
+        risk = 'Medium';
+        score = 48;
+        signal = 'This link uses common bait or account-action wording.';
+        why = 'Links built around urgency, reward, or account verification deserve slower review.';
+      }
+
+      if (lower.includes('@') || lower.includes('bit.ly') || lower.includes('tinyurl') || lower.includes('redirect')) {
+        risk = 'High';
+        score = 28;
+        signal = 'This link contains patterns often associated with masking or redirection.';
+        why = 'When a destination is obscured, the user has less visibility into where they are truly going.';
+      }
+
+      if (lower.startsWith('https://') && !lower.includes('bit.ly') && !lower.includes('tinyurl') && !lower.includes('@') && !lower.includes('redirect')) {
+        summary = 'This link appears structurally cleaner than a typical suspicious redirect.';
+      } else {
+        summary = 'This link shows one or more patterns worth a closer look before clicking.';
+      }
+
+      return { risk, score, summary, signal, why };
+    }
+
+    function renderResult(result) {
+      riskPill.textContent = result.risk;
+      scoreText.textContent = result.score;
+      summaryText.textContent = result.summary;
+      signalText.textContent = result.signal;
+      whyText.textContent = result.why;
+    }
+
+    scanBtn.addEventListener('click', () => {
+      renderResult(analyzeUrl(urlInput.value));
+    });
+
+    urlInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        renderResult(analyzeUrl(urlInput.value));
+      }
+    });
+  </script>
 </body>
 </html>
