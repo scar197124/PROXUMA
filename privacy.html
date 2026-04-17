@@ -1,63 +1,212 @@
 <!DOCTYPE html>
-<html><head>
+<html lang="en">
+<head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Privacy</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Proxuma Privacy</title>
+<meta name="description" content="Privacy page for Proxuma and its connected mode environments.">
 <style>
 :root {
   --bg:#000;
   --neon:#00ff66;
-  --text:#ffffff;
-  --border:rgba(0,255,102,.85);
-  --glow:rgba(0,255,102,.45);
+  --text:#fff;
+  --muted:rgba(255,255,255,0.75);
+  --border:rgba(0,255,102,.6);
 }
-*{box-sizing:border-box;margin:0;padding:0;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto}
-body{background:var(--bg);color:var(--text);line-height:1.65}
-.container{max-width:1100px;margin:auto;padding:60px 20px}
-.card{border:2px solid var(--border);border-radius:14px;background:#000;padding:32px 36px;margin-bottom:24px;position:relative}
-.card::before{content:"";position:absolute;inset:-2px;border-radius:16px;opacity:0;box-shadow:0 0 22px var(--glow);transition:.2s;pointer-events:none}
-.card:hover::before{opacity:1}
-.header h1{text-align:center;font-size:2.6rem;letter-spacing:2px}
-.header h2{text-align:center;margin-top:10px;color:var(--neon);font-weight:400}
-.top-nav,.footer-actions{display:flex;justify-content:center;gap:14px;flex-wrap:wrap}
-.top-btn,.footer-btn{padding:8px 16px;border:1.5px solid var(--border);border-radius:999px;color:var(--text);text-decoration:none;font-size:.8rem;transition:.2s}
-.top-btn:hover,.footer-btn:hover{background:var(--neon);color:#000;box-shadow:0 0 14px var(--glow)}
-.active{background:var(--neon);color:#000;pointer-events:none}
-.cta-wrap{display:flex;justify-content:center;margin:26px 0}
-.btn{padding:14px 36px;border:2px solid var(--border);border-radius:12px;color:var(--neon);text-decoration:none;font-size:1rem;transition:.2s}
-.btn:hover{background:var(--neon);color:#000;box-shadow:0 0 16px var(--glow)}
-footer{margin-top:80px;padding:36px 20px;border-top:1px solid var(--border);text-align:center}
-.footer-note{font-size:.8rem;color:var(--neon);opacity:.75;margin-top:12px}
+
+* { box-sizing:border-box; margin:0; padding:0; font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; }
+
+body {
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.5;
+}
+
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  background:
+    radial-gradient(circle at 50% 20%, rgba(0,255,102,0.08), transparent 60%),
+    radial-gradient(circle at 80% 80%, rgba(0,255,102,0.04), transparent 70%);
+  pointer-events:none;
+}
+
+.container{
+  max-width:950px;
+  margin:auto;
+  padding:10px 14px 26px;
+  text-align:center;
+  position:relative;
+  z-index:1;
+}
+
+.top-nav{
+  display:flex;
+  justify-content:center;
+  gap:10px;
+  margin-bottom:6px;
+  flex-wrap:wrap;
+}
+
+.nav-btn{
+  border:1px solid var(--border);
+  padding:6px 12px;
+  border-radius:999px;
+  color:var(--neon);
+  font-size:.75rem;
+  text-decoration:none;
+  display:inline-block;
+}
+
+.nav-btn.active{
+  background:var(--neon);
+  color:#000;
+  box-shadow:0 0 8px rgba(0,255,102,0.55);
+}
+
+.section{
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:20px 16px;
+  margin-top:10px;
+  background:rgba(0,255,102,0.02);
+}
+
+.logo-wrap{
+  margin-bottom:6px;
+  padding:8px;
+  border-radius:10px;
+  border:1px solid rgba(0,255,102,0.2);
+}
+
+.logo-wrap img{
+  width:clamp(180px, 38vw, 280px);
+  height:auto;
+}
+
+h1,h2,h3{ color:var(--neon); }
+p{ color:var(--muted); }
+
+.hero p{ font-size:.9rem; max-width:540px; margin:auto; }
+.trust-line{ margin-top:6px; font-size:.75rem; color:var(--neon); }
+
+.mode-buttons, .trust-links{
+  margin-top:10px;
+  display:flex;
+  justify-content:center;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.mode-btn, .trust-links a{
+  border:2px solid var(--border);
+  padding:10px 16px;
+  border-radius:10px;
+  color:var(--neon);
+  min-width:130px;
+  font-size:.85rem;
+  text-decoration:none;
+  display:inline-block;
+}
+
+.mode-btn.primary{
+  background:var(--neon);
+  color:#000;
+}
+
+.divider{
+  height:1px;
+  margin:10px auto;
+  width:50%;
+  background:linear-gradient(to right, transparent, rgba(0,255,102,0.5), transparent);
+}
+
+.copy{
+  max-width:620px;
+  margin:0 auto;
+}
+
+.list{
+  text-align:left;
+  max-width:700px;
+  margin:12px auto 0;
+  color:var(--muted);
+}
+
+.list li{ margin:8px 0; }
+
+footer{ margin-top:18px; }
+.footer-note{ font-size:.7rem; color:var(--neon); }
+
+@media (max-width:600px){
+  .container{ padding:12px 12px 24px; }
+  .mode-btn, .trust-links a{ min-width:unset; width:100%; max-width:280px; }
+}
+
+.logo-container{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:6px 0;
+}
+
+.header-card{
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:10px 10px;
+  margin-top:6px;
+  background:rgba(0,255,102,.02);
+}
 </style>
+
+
 </head>
 <body>
 <div class="container">
 
+  <section class="header-card">
 <nav class="top-nav">
-<a class="top-btn " href="index.html">Proxuma</a>
-<a class="top-btn " href="light.html">Light</a>
-<a class="top-btn " href="scene.html">Sense</a>
-<a class="top-btn " href="shield.html">Shield</a>
-<a class="top-btn active" href="privacy.html">Privacy</a>
-<a class="top-btn " href="transparency.html">Transparency</a>
-</nav>
+    <a class="nav-btn" href="index.html">Proxuma</a>
+    <a class="nav-btn active" href="privacy.html">Privacy</a>
+    <a class="nav-btn" href="transparency.html">Transparency</a>
+  </nav>
 
-<div class="card header"><h1>Privacy</h1><h2>Your data stays yours.</h2></div>
+  <div class="logo-wrap">
+    <div class="logo-container"><img src="proxuma-logo.png" alt="Proxuma Logo">
+  </div>
+</section>
 
-<div class='card'>
-<p><strong>Privacy is not a feature of Proxuma — it is the foundation.</strong></p>
-<p>Proxuma does not track you, profile you, or build hidden records about your behavior.</p>
-<p>No accounts. No selling data. No silent collection.</p>
-<p>You stay in control of what you analyze and when.</p>
+  <section class="section">
+    <h1>Privacy</h1>
+    <p class="copy">Proxuma is built around clarity without unnecessary exposure. The homepage is intended as a lightweight routing layer into the live mode environments.</p>
+  </section>
+
+  <div class="divider"></div>
+</section>
+
+  <section class="section">
+    <h2>Core approach</h2>
+    <ul class="list">
+      <li>Privacy-first interaction is a design goal, not an afterthought.</li>
+      <li>The homepage does not need to collect personal information to do its job.</li>
+      <li>Users are directed into purpose-built mode environments only when they choose to continue.</li>
+      <li>Any future changes to data handling should be clearly disclosed before use.</li>
+    </ul>
+  </section>
+
+  <div class="divider"></div>
+</section>
+
+  <section class="section">
+    <h2>Practical note</h2>
+    <p class="copy">Because Proxuma routes into live mode environments, privacy details can also vary slightly by environment. Where that happens, the mode-specific page should make that clear inside its own interface.</p>
+  </section>
+
+  <footer>
+    <div class="footer-note">Proxuma — privacy by direction and restraint.</div>
+  </footer>
+
 </div>
-
-</div>
-
-
-
-<footer>
-  <div class="footer-note">Proxuma — clarity before consequence.</div>
-</footer>
-
-
-</body></html>
+</body>
+</html>
