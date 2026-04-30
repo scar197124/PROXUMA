@@ -1,230 +1,55 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Proxuma — Clarity Before Consequence</title>
-<meta name="description" content="Proxuma is a privacy-first hub that routes you into Light, Sense, and Shield for safer, clearer interaction.">
+<title>Proxuma Hub</title>
 <style>
-:root {
-  --bg:#000;
-  --neon:#00ff66;
-  --text:#fff;
-  --muted:rgba(255,255,255,0.75);
-  --border:rgba(0,255,102,.6);
+:root{--neon:#39ff14;--muted:#a6b3aa;}
+*{box-sizing:border-box}
+body{margin:0;background:#000;color:#fff;font-family:Arial,Helvetica,sans-serif;}
+.header{
+  position:relative;height:112px;max-width:1200px;margin:0 auto;width:100%;
+  background:url('proxuma-logo.png') left center / 315px auto no-repeat;
+  border-bottom:1px solid var(--neon);
 }
-
-* { box-sizing:border-box; margin:0; padding:0; font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; }
-
-body {
-  background:var(--bg);
-  color:var(--text);
-  line-height:1.5;
+.nav{position:absolute;right:24px;top:32px;}
+.nav a{
+  text-decoration:none;color:#d8ffe9;border:2px solid var(--neon);
+  padding:9px 13px;margin-left:8px;border-radius:6px;font-size:13px;
+  box-shadow:0 0 8px var(--neon),0 0 20px #39ff1440;
 }
-
-body::before{
-  content:"";
-  position:fixed;
-  inset:0;
-  background:
-    radial-gradient(circle at 50% 20%, rgba(0,255,102,0.08), transparent 60%),
-    radial-gradient(circle at 80% 80%, rgba(0,255,102,0.04), transparent 70%);
-  pointer-events:none;
-}
-
-.container{
-  max-width:950px;
-  margin:auto;
-  padding:10px 14px 26px;
-  text-align:center;
-  position:relative;
-  z-index:1;
-}
-
-.top-nav{
-  display:flex;
-  justify-content:center;
-  gap:10px;
-  margin-bottom:6px;
-  flex-wrap:wrap;
-}
-
-.nav-btn{
-  border:1px solid var(--border);
-  padding:6px 12px;
-  border-radius:999px;
-  color:var(--neon);
-  font-size:.75rem;
-  text-decoration:none;
-  display:inline-block;
-}
-
-.nav-btn.active{
-  background:var(--neon);
-  color:#000;
-  box-shadow:0 0 8px rgba(0,255,102,0.55);
-}
-
-.section{
-  border:1px solid var(--border);
-  border-radius:12px;
-  padding:14px 14px;
-  margin-top:10px;
-  background:rgba(0,255,102,0.02);
-}
-
-.logo-card{
-  padding:10px 12px;
-}
-
-.logo-wrap{
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  min-height:0;
-}
-
-.logo-wrap img{
-  width:clamp(180px, 38vw, 280px);
-  height:auto;
-}
-
-h1,h2,h3{ color:var(--neon); }
-p{ color:var(--muted); }
-
-.hero p{ font-size:.9rem; max-width:540px; margin:auto; }
-.trust-line{ margin-top:6px; font-size:.75rem; color:var(--neon); }
-
-.mode-buttons, .trust-links{
-  margin-top:10px;
-  display:flex;
-  justify-content:center;
-  gap:10px;
-  flex-wrap:wrap;
-}
-
-.mode-btn, .trust-links a{
-  border:2px solid var(--border);
-  padding:10px 16px;
-  border-radius:10px;
-  color:var(--neon);
-  min-width:130px;
-  font-size:.85rem;
-  text-decoration:none;
-  display:inline-block;
-}
-
-.mode-btn.primary{
-  background:var(--neon);
-  color:#000;
-}
-
-.divider{
-  height:1px;
-  margin:10px auto;
-  width:50%;
-  background:linear-gradient(to right, transparent, rgba(0,255,102,0.5), transparent);
-}
-
-.copy{
-  max-width:620px;
-  margin:0 auto;
-}
-
-.list{
-  text-align:left;
-  max-width:700px;
-  margin:12px auto 0;
-  color:var(--muted);
-}
-
-.list li{ margin:8px 0; }
-
-footer{ margin-top:18px; }
-.footer-note{ font-size:.7rem; color:var(--neon); }
-
-@media (max-width:600px){
-  .container{ padding:12px 12px 24px; }
-  .mode-btn, .trust-links a{ min-width:unset; width:100%; max-width:280px; }
-}
-
-.header-card{
-  border:1px solid var(--border);
-  border-radius:10px;
-  padding:10px 10px;
-  margin-top:6px;
-  background:rgba(0,255,102,.02);
-}
-
-.logo-container{
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  padding:6px 0;
-}
+.nav a.active{background:rgba(57,255,20,.15);}
+.wrap{max-width:1200px;margin:0 auto;padding:42px 20px;}
+.hero{border:2px solid var(--neon);border-radius:14px;padding:34px;background:rgba(0,0,0,.6);box-shadow:0 0 24px rgba(57,255,20,.2);}
+h1{color:var(--neon);font-size:46px;margin:0 0 10px;}
+p{color:var(--muted);font-size:16px;line-height:1.5;}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;margin-top:26px;}
+.card{border:2px solid var(--neon);border-radius:12px;padding:22px;background:#050705;box-shadow:0 0 14px rgba(57,255,20,.25);text-decoration:none;color:#fff;transition:.25s;}
+.card:hover{transform:translateY(-4px);box-shadow:0 0 26px rgba(57,255,20,.45);}
+.card strong{color:var(--neon);display:block;margin-bottom:8px;letter-spacing:1px;}
+@media(max-width:760px){.header{height:142px;background-position:center 12px;background-size:260px auto}.nav{left:10px;right:10px;top:88px;text-align:center}.nav a{display:inline-block;margin:4px 2px;padding:7px 8px;font-size:11px}h1{font-size:34px}}
 </style>
-
-
 </head>
 <body>
-<div class="container">
-
-  <section class="header-card">
-<nav class="top-nav">
-    <a class="nav-btn active" href="index.html">Proxuma</a>
-    <a class="nav-btn" href="privacy.html">Privacy</a>
-    <a class="nav-btn" href="transparency.html">Transparency</a>
-  </nav>
-
-  <section class="section logo-card">
-    <div class="logo-wrap">
-      <div class="logo-container"><img src="proxuma-logo.png" alt="Proxuma Logo">
+<div class="header">
+  <div class="nav">
+    <a href="https://scar197124.github.io/PROXUMA/" class="active">PROXUMA HOME</a>
+    <a href="sense.html">PROXUMA SENSE</a>
+    <a href="privacy.html">PRIVACY</a>
+    <a href="transparency.html">TRANSPARENCY</a>
+  </div>
+</div>
+<div class="wrap">
+  <div class="hero">
+    <h1>PROXUMA HOME</h1>
+    <p>Proxuma ecosystem hub for Proxuma tools. This page can later point to the canonical Proxuma home when the final link is ready.</p>
+    <div class="grid">
+      <a class="card" href="sense.html"><strong>PROXUMA SENSE</strong>Scan links, text, domains, and risk signals locally.</a>
+      <a class="card" href="privacy.html"><strong>PRIVACY</strong>See how the system keeps local scans private.</a>
+      <a class="card" href="transparency.html"><strong>TRANSPARENCY</strong>Understand visible signals and human-readable reasoning.</a>
     </div>
-  </section>
-
-  <section class="hero section">
-    <h1>Clarity before consequence</h1>
-    <p>Proxuma is a privacy-first system designed to help you move with confidence before interaction.</p>
-    <div class="trust-line">No tracking. No storage. Local-first interaction.</div>
-  </section>
-
-  <div class="divider"></div>
-
-  <section class="section">
-    <h2>Enter Proxuma</h2>
-    <div class="mode-buttons">
-      <a href="https://scar197124.github.io/Proxuma-lite/" class="mode-btn primary">Proxuma Light</a>
-      <a href="https://scar197124.github.io/Proxuma-sense/" class="mode-btn">Proxuma Sense</a>
-      <a href="https://scar197124.github.io/Proxuma-Shield/" class="mode-btn">Proxuma Shield</a>
-    </div>
-  </section>
-
-  <div class="divider"></div>
-
-  <section class="section">
-    <h2>Why it matters</h2>
-    <p class="copy">Clarity changes outcomes. Proxuma helps you pause, understand, and act with confidence before interaction.</p>
-  </section>
-
-  <div class="divider"></div>
-
-  <section class="section">
-    <h2>Privacy &amp; Transparency</h2>
-    <div class="trust-links">
-      <a href="privacy.html">Privacy</a>
-      <a href="transparency.html">Transparency</a>
-    </div>
-  </section>
-
-  <section style="display:none;">
-    <h2>Proxuma Link Safety and Interaction Awareness</h2>
-    <p>Proxuma provides tools for evaluating links, interactions, and digital environments before engagement. With Proxuma Light, Sense, and Shield, users can assess safety, clarity, and intent across different levels of interaction.</p>
-  </section>
-
-  <footer>
-    <div class="footer-note">Proxuma — clarity before consequence.</div>
-  </footer>
-
+  </div>
 </div>
 </body>
 </html>
