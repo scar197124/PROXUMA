@@ -1,55 +1,295 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Proxuma Hub</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Proxuma | Privacy-First Threat Detection</title>
+<meta name="description" content="Scan faster. Understand deeper. Investigate smarter. Proxuma helps users detect phishing, scams, and suspicious links without sacrificing privacy.">
 <style>
-:root{--neon:#39ff14;--muted:#a6b3aa;}
+:root{
+--bg:#050505;
+--accent:#00ff66;
+--text:#e6ffe6;
+--muted:#9cb39c;
+}
 *{box-sizing:border-box}
-body{margin:0;background:#000;color:#fff;font-family:Arial,Helvetica,sans-serif;}
-.header{
-  position:relative;height:112px;max-width:1200px;margin:0 auto;width:100%;
-  background:url('proxuma-logo.png') left center / 315px auto no-repeat;
-  border-bottom:1px solid var(--neon);
+body{
+margin:0;
+font-family:Arial,sans-serif;
+background:radial-gradient(circle at top left, rgba(0,255,102,.08), transparent 30%), var(--bg);
+color:var(--text);
 }
-.nav{position:absolute;right:24px;top:32px;}
-.nav a{
-  text-decoration:none;color:#d8ffe9;border:2px solid var(--neon);
-  padding:9px 13px;margin-left:8px;border-radius:6px;font-size:13px;
-  box-shadow:0 0 8px var(--neon),0 0 20px #39ff1440;
+header{
+padding:30px 20px;
+text-align:center;
+border-bottom:1px solid rgba(0,255,102,.25);
 }
-.nav a.active{background:rgba(57,255,20,.15);}
-.wrap{max-width:1200px;margin:0 auto;padding:42px 20px;}
-.hero{border:2px solid var(--neon);border-radius:14px;padding:34px;background:rgba(0,0,0,.6);box-shadow:0 0 24px rgba(57,255,20,.2);}
-h1{color:var(--neon);font-size:46px;margin:0 0 10px;}
-p{color:var(--muted);font-size:16px;line-height:1.5;}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;margin-top:26px;}
-.card{border:2px solid var(--neon);border-radius:12px;padding:22px;background:#050705;box-shadow:0 0 14px rgba(57,255,20,.25);text-decoration:none;color:#fff;transition:.25s;}
-.card:hover{transform:translateY(-4px);box-shadow:0 0 26px rgba(57,255,20,.45);}
-.card strong{color:var(--neon);display:block;margin-bottom:8px;letter-spacing:1px;}
-@media(max-width:760px){.header{height:142px;background-position:center 12px;background-size:260px auto}.nav{left:10px;right:10px;top:88px;text-align:center}.nav a{display:inline-block;margin:4px 2px;padding:7px 8px;font-size:11px}h1{font-size:34px}}
+.logo{
+font-size:48px;
+font-weight:800;
+letter-spacing:.08em;
+color:var(--accent);
+}
+.subtitle{
+max-width:760px;
+margin:12px auto 0;
+font-size:1.05rem;
+color:var(--muted);
+line-height:1.6;
+}
+.nav{
+display:flex;
+justify-content:center;
+gap:10px;
+flex-wrap:wrap;
+margin-top:20px;
+}
+.nav button{
+background:#050505;
+color:var(--accent);
+border:2px solid var(--accent);
+padding:10px 18px;
+border-radius:999px;
+cursor:pointer;
+}
+.hero{
+max-width:1000px;
+margin:40px auto;
+padding:0 20px;
+text-align:center;
+}
+.hero h1{
+font-size:clamp(2rem,5vw,4rem);
+margin-bottom:12px;
+}
+.hero p{
+color:var(--muted);
+line-height:1.6;
+max-width:700px;
+margin:auto;
+}
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+gap:20px;
+max-width:1100px;
+margin:40px auto;
+padding:0 20px 50px;
+}
+.card{
+border:1px solid rgba(0,255,102,.35);
+background:rgba(255,255,255,.03);
+border-radius:20px;
+padding:25px;
+}
+.card h2{color:var(--accent)}
+.card button{
+margin-top:12px;
+background:#050505;
+color:var(--accent);
+border:2px solid var(--accent);
+padding:10px 18px;
+border-radius:999px;
+cursor:pointer;
+width:100%;
+}
+.info{
+max-width:1100px;
+margin:auto;
+padding:0 20px 60px;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+gap:20px;
+}
+.panel{
+border:1px solid rgba(0,255,102,.25);
+border-radius:18px;
+padding:22px;
+}
+.hidden{display:none}
+.module-wrap{height:100vh}
+iframe{width:100%;height:100vh;border:none}
+
+@media(max-width:768px){
+.logo{font-size:38px}
+.hero h1{font-size:2rem}
+}
+
+/* === Canonical Final Glow Patch === */
+.card{
+  border:2px solid rgba(0,255,102,.65) !important;
+  box-shadow:0 0 14px rgba(0,255,102,.18);
+}
+.panel{
+  border:2px solid rgba(0,255,102,.55) !important;
+  box-shadow:0 0 12px rgba(0,255,102,.12);
+}
+.nav button,
+.card button{
+  border:2px solid #00ff66 !important;
+  box-shadow:0 0 10px rgba(0,255,102,.18);
+}
+header{
+  box-shadow:0 0 18px rgba(0,255,102,.08);
+}
+.logo-wrap{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  margin-bottom:12px;
+}
+.logo-wrap img{
+  width:220px;
+  max-width:80%;
+  height:auto;
+  filter:drop-shadow(0 0 14px rgba(0,255,102,.35));
+}
+@media(max-width:768px){
+  .logo-wrap img{
+    width:170px;
+  }
+}
+
+
+/* === Final Header Cleanup === */
+
+/* Bigger primary logo now that text logo is removed */
+.logo-wrap img{
+  width:280px !important;
+  max-width:85% !important;
+  height:auto !important;
+  filter:drop-shadow(0 0 18px rgba(0,255,102,.45)) !important;
+}
+
+/* Tighten header spacing */
+header{
+  padding:24px 20px !important;
+}
+
+/* Subtitle becomes true secondary line */
+.subtitle{
+  max-width:720px;
+  margin:10px auto 0 auto !important;
+  font-size:1.05rem;
+  line-height:1.6;
+}
+
+@media(max-width:768px){
+  .logo-wrap img{
+    width:210px !important;
+  }
+
+  .subtitle{
+    font-size:.95rem !important;
+    padding:0 10px;
+  }
+}
+
 </style>
 </head>
 <body>
-<div class="header">
-  <div class="nav">
-    <a href="https://scar197124.github.io/PROXUMA/" class="active">PROXUMA HOME</a>
-    <a href="sense.html">PROXUMA SENSE</a>
-    <a href="privacy.html">PRIVACY</a>
-    <a href="transparency.html">TRANSPARENCY</a>
-  </div>
+
+<section id="home">
+<header>
+<div class="logo-wrap"><img src="proxuma-logo.png" alt="Proxuma logo"></div>
+<div class="subtitle">
+Privacy-first threat detection built for everyday people.
+Scan suspicious links without exposing your data.
 </div>
-<div class="wrap">
-  <div class="hero">
-    <h1>PROXUMA HOME</h1>
-    <p>Proxuma ecosystem hub for Proxuma tools. This page can later point to the canonical Proxuma home when the final link is ready.</p>
-    <div class="grid">
-      <a class="card" href="sense.html"><strong>PROXUMA SENSE</strong>Scan links, text, domains, and risk signals locally.</a>
-      <a class="card" href="privacy.html"><strong>PRIVACY</strong>See how the system keeps local scans private.</a>
-      <a class="card" href="transparency.html"><strong>TRANSPARENCY</strong>Understand visible signals and human-readable reasoning.</a>
-    </div>
-  </div>
+
+<div class="nav">
+<button onclick="scrollToSection('products')">Home</button>
+<button onclick="scrollToSection('privacy')">Privacy</button>
+<button onclick="scrollToSection('transparency')">Transparency</button>
 </div>
+</header>
+
+<section class="hero">
+<h1>Scan faster. Understand deeper. Investigate smarter.</h1>
+<p>
+Scams are rising across North America through SMS, QR codes, fake banking alerts,
+package scams, parking scams, and phishing links. Proxuma helps people verify links
+before they click.
+</p>
+</section>
+
+<section id="products" class="grid">
+<div class="card">
+<h2>Proxuma Lite</h2>
+<p>Fast scans. QR scanning. Instant verdicts.</p>
+<button onclick="openModule('lite')">Enter Lite</button>
+</div>
+
+<div class="card">
+<h2>Proxuma Sense</h2>
+<p>Understand why something feels dangerous.</p>
+<button onclick="openModule('sense')">Enter Sense</button>
+</div>
+
+<div class="card">
+<h2>Proxuma Shield</h2>
+<p>Deep intelligence layer for advanced inspection.</p>
+<button onclick="openModule('shield')">Enter Shield</button>
+</div>
+</section>
+
+<section class="info">
+<div id="privacy" class="panel">
+<h2>Privacy</h2>
+<p>
+Proxuma was built on a privacy-first model. Your scans run locally in your browser whenever possible.
+We do not sell scan history. We do not require accounts to scan links.
+We do not force users to upload personal data. You stay in control of what gets scanned.
+</p>
+</div>
+
+<div id="transparency" class="panel">
+<h2>Transparency</h2>
+<p>
+Proxuma does not hide behind vague warnings. We show users why links are flagged through visible signals like suspicious domains,
+redirect chains, phishing indicators, and scam language patterns.
+Our goal is protection through understanding—not blind trust.
+</p>
+</div>
+
+<div class="panel">
+<h2>Why Proxuma Exists</h2>
+<p>
+Scams are evolving faster than many people can keep up with.
+Fake banking alerts. Fake delivery texts. QR scams. Verification scams.
+Proxuma exists to help everyday people verify before they click.
+</p>
+</div>
+
+</section>
+</section>
+
+<section id="module" class="hidden module-wrap">
+<iframe id="appFrame"></iframe>
+</section>
+
+<script>
+function openModule(type){
+ document.getElementById('home').classList.add('hidden');
+ document.getElementById('module').classList.remove('hidden');
+
+ const frame=document.getElementById('appFrame');
+ if(type==='lite') frame.src='lite.html';
+ if(type==='sense') frame.src='sense.html';
+ if(type==='shield') frame.src='shield.html';
+}
+
+function goHome(){
+ document.getElementById('module').classList.add('hidden');
+ document.getElementById('home').classList.remove('hidden');
+ document.getElementById('appFrame').src='';
+ window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function scrollToSection(id){
+ document.getElementById(id).scrollIntoView({behavior:'smooth'});
+}
+</script>
+
 </body>
 </html>

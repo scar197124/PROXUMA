@@ -2,442 +2,386 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Proxuma Sense — Offline Risk Explanation</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Proxuma Sense</title>
 <style>
 :root{
-  --neon:#39ff14;
-  --bg:#000;
-  --panel:#07110b;
-  --panel2:#0b1f12;
-  --soft:#a6b3aa;
-  --text:#f2fff6;
-  --line:rgba(57,255,20,.42);
-  --warn:#ffaa00;
-  --danger:#ff4444;
+  --neon:#39ff14;--bg:#030503;--panel:#060806;--panel2:#090d09;--text:#f3f6f3;--soft:#a8b5a8;
+  --red:#ff3b2f;--orange:#ffb000;--line:rgba(57,255,20,.42);--glass:rgba(0,0,0,.72)
 }
-*{box-sizing:border-box}
-body{margin:0;background:radial-gradient(circle at 20% 0%,rgba(57,255,20,.12),transparent 32%),#000;color:var(--text);font-family:Arial,Helvetica,sans-serif;}
-.container{max-width:1200px;margin:0 auto;padding:0 20px 46px;}
-.header{position:relative;height:112px;max-width:1200px;margin:0 auto;width:100%;background:url('proxuma-logo.png') left center / 315px auto no-repeat;border-bottom:1px solid var(--neon);}
-.nav{position:absolute;right:24px;top:32px;white-space:nowrap}
-.nav a{text-decoration:none;color:#d8ffe9;border:2px solid var(--neon);padding:9px 13px;margin-left:8px;border-radius:6px;font-size:13px;box-shadow:0 0 8px rgba(57,255,20,.55),0 0 20px rgba(57,255,20,.18);}
-.nav a.active{background:rgba(57,255,20,.15)}
-.hero{display:grid;grid-template-columns:minmax(0,1.35fr) 320px;gap:34px;align-items:center;padding:40px 0 20px;}
-.eyebrow{color:var(--neon);font-size:13px;letter-spacing:1px;margin-bottom:10px;font-weight:700}
-.hero h1{font-size:clamp(34px,5vw,56px);line-height:1.02;margin:0 0 12px;}
-.hero h1 span{color:var(--neon)}
-.hero p{color:var(--soft);max-width:620px;line-height:1.55}
-.radar{width:280px;height:280px;border-radius:50%;position:relative;border:3px solid var(--neon);box-shadow:0 0 22px rgba(57,255,20,.55),inset 0 0 18px rgba(57,255,20,.15);background:
-radial-gradient(circle at center, transparent 20%, rgba(57,255,20,.22) 21%, transparent 22%),
-radial-gradient(circle at center, transparent 40%, rgba(57,255,20,.22) 41%, transparent 42%),
-radial-gradient(circle at center, transparent 60%, rgba(57,255,20,.22) 61%, transparent 62%),
-linear-gradient(0deg, rgba(57,255,20,.24) 1px, transparent 1px),
-linear-gradient(90deg, rgba(57,255,20,.24) 1px, transparent 1px);background-size:100% 100%,100% 100%,100% 100%,24px 24px,24px 24px;margin:auto;}
-.radar:after{content:"";position:absolute;width:0;height:0;border-left:140px solid rgba(57,255,20,.45);border-top:2px solid transparent;border-bottom:2px solid transparent;top:50%;left:50%;transform:translate(-50%,-50%) rotate(25deg);animation:radarSweep 1.2s linear infinite;}
-@keyframes radarSweep{from{transform:translate(-50%,-50%) rotate(0deg)}to{transform:translate(-50%,-50%) rotate(360deg)}}
-.panel{border:2px solid var(--neon);border-radius:14px;background:rgba(0,0,0,.62);box-shadow:0 0 22px rgba(57,255,20,.18);padding:20px;}
-.scan-title{color:var(--neon);font-weight:700;margin-bottom:12px;letter-spacing:.5px}
-.scan-row{display:flex;gap:10px}
-.scan-row input{flex:1;min-width:0;padding:14px;background:#050705;border:2px solid var(--neon);color:#eafff5;border-radius:8px;box-shadow:0 0 8px rgba(57,255,20,.22)}
-.scan-row button{padding:14px 22px;background:var(--neon);color:#00210f;border:none;border-radius:8px;cursor:pointer;font-weight:800;}
-.sample-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
-.sample-chip{border:1px solid var(--line);background:#061108;color:#d8ffe9;border-radius:999px;padding:8px 11px;cursor:pointer;font-size:12px}
-.sample-chip:hover{box-shadow:0 0 10px rgba(57,255,20,.3)}
-.scan-note{margin-top:12px;color:var(--soft);font-size:13px}
-.results{padding:28px 0 10px;}
-.results h2{margin-bottom:6px}
-.results-sub{color:var(--soft);margin-bottom:18px}
-.metrics-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
-.metric{border:1px solid var(--line);border-radius:10px;background:#050705;padding:12px;min-height:76px}
-.metric div{font-size:12px;color:var(--soft);letter-spacing:.6px}
-.metric strong{display:block;color:var(--neon);font-size:18px;margin-top:8px}
-.verdict-card{border:2px solid var(--neon);border-radius:14px;background:#050705;padding:16px;margin-bottom:18px}
-.status-box{padding:16px;border-radius:12px}
-.status-safe{border:2px solid var(--neon);box-shadow:0 0 18px rgba(57,255,20,.25)}
-.status-caution{border:2px solid var(--warn);box-shadow:0 0 18px rgba(255,170,0,.2)}
-.status-risky{border:2px solid var(--danger);box-shadow:0 0 18px rgba(255,68,68,.2)}
-.status-box h3{margin:0 0 8px;font-size:24px}
-.status-safe h3{color:var(--neon)}.status-caution h3{color:var(--warn)}.status-risky h3{color:var(--danger)}
-.status-box ul{margin-bottom:0}
-.explain-box{border:1px solid var(--line);border-radius:12px;background:#07110b;padding:16px;color:#caffde;line-height:1.55;margin-bottom:18px}
-.intel-panel{border:2px solid var(--neon);border-radius:16px;background:#050705;box-shadow:0 0 22px rgba(57,255,20,.2);padding:18px;width:100%;overflow:hidden}
-.intel-title{color:var(--neon);font-weight:800;letter-spacing:.8px;margin-bottom:14px}
-.intel-summary-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
-.intel-summary-card{border:1px solid rgba(57,255,20,.52);border-radius:12px;background:rgba(0,0,0,.48);padding:12px;min-height:105px}
-.intel-summary-card strong{display:block;color:#d8ffe9;margin-bottom:8px}
-.intel-summary-card small{color:var(--soft)}
-.signal-strength{font-size:20px;color:var(--neon);font-weight:800;text-shadow:0 0 10px rgba(57,255,20,.55)}
-.intel-pill{display:inline-block;padding:6px 9px;border-radius:999px;border:1px solid var(--neon);color:var(--neon);font-size:12px;margin:3px 4px 3px 0}
-.intel-detail-feed{margin-top:16px;border-top:1px solid rgba(57,255,20,.25);padding-top:14px;max-height:380px;overflow-y:auto;overflow-x:hidden;padding-right:6px}
-.detail-card{border:1px solid rgba(57,255,20,.48);border-radius:12px;background:#07110b;padding:14px;margin-bottom:12px;color:#caffde;line-height:1.48}
-.detail-card strong{color:#d8ffe9}
-.action-list{margin:8px 0 0 18px;padding:0}
-.history-toggle{margin:18px 0 10px;color:var(--neon);cursor:pointer;text-align:right;font-size:13px;letter-spacing:.4px}
-.history-panel{display:none;margin-top:10px;padding:10px;border:1px solid var(--neon);background:#050705;box-shadow:0 0 10px rgba(57,255,20,.18);max-height:150px;overflow:auto}
-.history-item{font-size:12px;padding:6px 0;border-bottom:1px solid #1a3a2a;color:#caffde}
-.split{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;padding:28px 0}
-.split>div{border:2px solid var(--neon);border-radius:12px;padding:20px;background:rgba(0,0,0,.55)}
-.split h3,.trust h3{color:var(--neon)}
-.trust{text-align:center;padding:24px 0}
-.trust-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:18px;margin-top:20px;align-items:center}
-.trust-badge{width:150px;height:170px;margin:0 auto;background:#0b1f12;clip-path:polygon(50% 0%,90% 18%,82% 84%,50% 100%,18% 84%,10% 18%);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;border:4px solid var(--neon);box-shadow:0 0 8px rgba(57,255,20,.35),inset 0 0 6px rgba(57,255,20,.12);color:#eafff5;text-decoration:none}
-.badge-icon{font-size:32px;color:var(--neon);text-shadow:0 0 12px var(--neon)}
-.badge-title{font-size:12px;font-weight:bold;letter-spacing:1px}.badge-desc{max-width:112px;font-size:10px;line-height:1.25;color:#caffde;text-align:center}
-footer{border-top:1px solid var(--neon);padding:20px 0;display:flex;flex-wrap:wrap;justify-content:space-between;color:#9fb3a6}
-@media(max-width:900px){.hero{grid-template-columns:1fr}.metrics-grid,.intel-summary-grid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:760px){.header{height:142px;background-position:center 12px;background-size:260px auto}.nav{left:10px;right:10px;top:88px;text-align:center;white-space:normal}.nav a{margin:4px 2px;padding:7px 8px;font-size:11px}.scan-row{flex-direction:column}.metrics-grid,.intel-summary-grid,.split{grid-template-columns:1fr}.radar{width:240px;height:240px}}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 65% 12%,rgba(57,255,20,.08),transparent 30%),#000;color:var(--text);font-family:Arial,Helvetica,sans-serif;min-height:100vh}button,input{font:inherit}.app{max-width:1500px;margin:auto;padding:18px 28px 80px}.topbar{display:grid;grid-template-columns:300px 1fr;align-items:center;gap:20px;border-bottom:1px solid rgba(57,255,20,.22);padding-bottom:18px}.logo{display:flex;align-items:center;gap:10px}.logo img{width:250px;max-width:100%;height:auto;filter:drop-shadow(0 0 10px rgba(57,255,20,.35))}.nav{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid rgba(255,255,255,.2);border-radius:8px;overflow:hidden;max-width:730px;margin-left:auto}.nav button{background:#050505;color:#fff;border:0;border-right:1px solid rgba(255,255,255,.18);padding:14px 20px;cursor:pointer}.nav button:last-child{border-right:0}.nav button.active{background:rgba(57,255,20,.16);color:var(--neon);box-shadow:inset 0 0 0 1px var(--neon)}.section{display:none}.section.active{display:block}.scanbar{margin-top:38px;border:1px solid var(--line);border-radius:8px;padding:12px 96px 12px 14px;display:grid;grid-template-columns:1fr 230px;gap:26px;position:relative;background:rgba(57,255,20,.03)}.inputwrap{position:relative}input{width:100%;background:#050505;border:1px solid rgba(255,255,255,.28);border-radius:8px;color:#fff;padding:18px 56px 18px 14px;font-size:21px;outline:none}input:focus{border-color:var(--neon);box-shadow:0 0 0 2px rgba(57,255,20,.12)}.clear{position:absolute;right:12px;top:50%;transform:translateY(-50%);width:34px;height:34px;border-radius:50%;border:1px solid #eee;background:#111;color:#fff;cursor:pointer}.scanBtn{border:0;border-radius:8px;background:linear-gradient(180deg,#71ff3f,#28e915);color:#031103;font-weight:800;font-size:18px;cursor:pointer;box-shadow:0 0 18px rgba(57,255,20,.35)}.samples{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:16px 0 18px 16px;color:#c6cbc6}.chip{border:1px solid var(--neon);color:var(--neon);background:#050805;border-radius:7px;padding:8px 18px;cursor:pointer}.grid{display:grid;grid-template-columns:1fr 452px;gap:16px}.card{background:linear-gradient(180deg,rgba(0,0,0,.88),rgba(3,8,3,.9));border:1px solid var(--line);border-radius:8px;padding:22px;box-shadow:0 0 18px rgba(0,0,0,.55)}.result{border-color:rgba(255,59,47,.88);min-height:562px}.resultTop{display:grid;grid-template-columns:160px 1fr 280px;gap:18px;align-items:center;border-bottom:1px solid rgba(255,255,255,.12);padding-bottom:20px}.shield{width:135px;height:150px;margin:auto;filter:drop-shadow(0 0 16px rgba(255,59,47,.45))}.status h2{font-size:30px;margin:0 0 10px}.status .word{color:var(--red);font-size:36px}.subline{border-top:1px solid rgba(255,255,255,.12);padding-top:12px;color:#fff}.scoreLabel{font-size:15px;color:#ddd}.scoreNum{font-size:74px;color:var(--red);font-weight:900;line-height:1}.scoreNum span{font-size:36px;color:#aaa}.cols{display:grid;grid-template-columns:1fr 1.35fr;gap:28px;margin-top:16px;padding-top:8px}.cols h3,.right h3,.think h3{margin:0 0 18px;font-size:20px}.signals ul,.actions ul{list-style:none;padding:0;margin:0}.signals li{margin:13px 0;color:#ff554c;font-weight:700;font-size:18px}.signals li:before{content:'•';margin-right:14px}.actions li{display:flex;gap:14px;align-items:flex-start;margin:14px 0;color:#eee;font-size:17px}.ico{width:28px;height:28px;display:inline-grid;place-items:center;border-radius:50%;border:2px solid var(--neon);color:var(--neon);flex:0 0 auto}.ico.red{border-color:var(--red);color:var(--red)}.ico.orange{border-color:var(--orange);color:var(--orange)}.riskBox{margin-top:24px;border:1px solid var(--red);border-radius:8px;padding:14px 18px;display:flex;justify-content:space-between;gap:14px;align-items:center;color:#fff;font-size:18px}.explainBtn{border:1px solid var(--red);background:#070707;color:var(--red);border-radius:8px;padding:13px 22px;font-weight:800}.radarCard{height:313px}.radarBox{height:230px;display:grid;place-items:center;position:relative}.radarCircle{width:218px;height:218px;border-radius:50%;border:1px solid rgba(57,255,20,.45);position:relative;background:repeating-radial-gradient(circle,transparent 0 27px,rgba(57,255,20,.32) 28px 29px),linear-gradient(90deg,transparent 49.5%,rgba(57,255,20,.55) 50%,transparent 50.5%),linear-gradient(0deg,transparent 49.5%,rgba(57,255,20,.55) 50%,transparent 50.5%)}.sweep{position:absolute;left:50%;top:50%;width:108px;height:62px;transform-origin:0 0;background:linear-gradient(35deg,rgba(57,255,20,.75),rgba(57,255,20,.05) 65%,transparent);clip-path:polygon(0 0,100% 25%,100% 100%);animation:spin 2.5s linear infinite}.dot{position:absolute;width:13px;height:13px;border-radius:50%;background:var(--red);box-shadow:0 0 15px var(--red);opacity:.35}.dot.active{opacity:1}.d1{left:55px;top:68px}.d2{left:108px;top:76px}.d3{right:45px;top:86px}.d4{left:68px;bottom:62px}@keyframes spin{to{transform:rotate(360deg)}}.level{text-align:center;color:#ddd}.level b{color:var(--red)}.findings{min-height:278px}.findings li{margin:14px 0;color:#ddd}.findings .ok{color:var(--neon);margin-right:14px}.findings .warn{color:var(--orange);margin-right:14px}.note{color:var(--neon);line-height:1.5;margin-top:18px}.think{margin-top:14px;display:grid;grid-template-columns:1fr 540px;gap:22px;align-items:center}.brain{display:grid;grid-template-columns:75px 1fr;gap:16px;align-items:center}.brainIcon{font-size:48px;color:var(--neon);filter:drop-shadow(0 0 10px rgba(57,255,20,.45))}.stats{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid rgba(255,255,255,.15);border-radius:8px;overflow:hidden}.stat{padding:14px;text-align:center;border-right:1px solid rgba(255,255,255,.12);color:#ddd}.stat:last-child{border-right:0}.stat div{font-size:20px;margin-top:8px;color:var(--neon)}.stat .bad{color:var(--red)}.bottom{position:fixed;bottom:0;left:0;right:0;background:rgba(0,0,0,.92);border-top:1px solid rgba(255,255,255,.12);padding:11px 36px;display:flex;justify-content:space-between;align-items:center;color:#aaa;backdrop-filter:blur(8px)}.bottom button{background:#050505;color:var(--neon);border:1px solid rgba(57,255,20,.25);border-radius:8px;padding:10px 18px}.pagePanel{max-width:1000px;margin:48px auto}.pagePanel h1{color:var(--neon)}.pagePanel p,.pagePanel li{font-size:18px;line-height:1.6;color:#d4ddd4}.hidden{display:none!important}@media(max-width:980px){.topbar{grid-template-columns:1fr}.nav{margin:0;max-width:none}.scanbar{grid-template-columns:1fr;padding-right:14px}.grid,.think,.resultTop,.cols{grid-template-columns:1fr}.resultTop{text-align:center}.bottom{position:static;margin-top:20px;flex-direction:column;gap:10px}.app{padding:14px}.logo img{width:210px}}
+
+/* === Sense Header Unification Patch === */
+.topbar{
+  grid-template-columns:260px 1fr !important;
+  align-items:center !important;
+}
+.logo{
+  display:flex !important;
+  align-items:center !important;
+  gap:12px !important;
+}
+.logo img{
+  width:180px !important;
+  max-width:100% !important;
+  height:auto !important;
+  display:block !important;
+  filter:drop-shadow(0 0 10px rgba(57,255,20,.35)) !important;
+}
+.nav{
+  display:flex !important;
+  justify-content:center !important;
+  align-items:center !important;
+  gap:10px !important;
+  border:none !important;
+  background:transparent !important;
+}
+.nav button{
+  padding:10px 18px !important;
+  border-radius:999px !important;
+  border:2px solid rgba(57,255,20,.55) !important;
+  background:#050505 !important;
+  color:#e6ffe6 !important;
+  font-weight:700 !important;
+  box-shadow:0 0 8px rgba(57,255,20,.15) !important;
+}
+.nav button:hover{
+  transform:translateY(-1px);
+  box-shadow:0 0 12px rgba(57,255,20,.35) !important;
+}
+.nav button.active{
+  background:rgba(57,255,20,.18) !important;
+  color:#39ff14 !important;
+  box-shadow:0 0 12px rgba(57,255,20,.45) !important;
+}
+
+
+/* === Sense Logo Size + Mobile Optimization Patch === */
+
+/* Desktop logo slightly larger */
+.logo img{
+  width:210px !important;
+  max-width:100% !important;
+  height:auto !important;
+}
+
+/* Give top bar better spacing */
+.topbar{
+  padding-bottom:20px !important;
+}
+
+/* Tablet responsiveness */
+@media(max-width:980px){
+  .topbar{
+    grid-template-columns:1fr !important;
+    gap:16px !important;
+    text-align:center !important;
+  }
+
+  .logo{
+    justify-content:center !important;
+  }
+
+  .logo img{
+    width:180px !important;
+  }
+
+  .nav{
+    flex-wrap:wrap !important;
+    justify-content:center !important;
+  }
+}
+
+/* Mobile optimization */
+@media(max-width:640px){
+  .app{
+    padding:12px !important;
+  }
+
+  .logo img{
+    width:150px !important;
+  }
+
+  .nav{
+    gap:8px !important;
+  }
+
+  .nav button{
+    padding:8px 14px !important;
+    font-size:.85rem !important;
+  }
+
+  .scanbar{
+    grid-template-columns:1fr !important;
+    padding:12px !important;
+  }
+
+  input{
+    font-size:16px !important;
+    padding:14px !important;
+  }
+
+  .grid,
+  .cols,
+  .think,
+  .resultTop{
+    grid-template-columns:1fr !important;
+  }
+}
+
 </style>
 </head>
 <body>
-<div class="header">
-  <div class="nav">
-    <a href="https://scar197124.github.io/PROXUMA/">PROXUMA HOME</a>
-    <a href="sense.html" class="active">PROXUMA SENSE</a>
-    <a href="privacy.html">PRIVACY</a>
-    <a href="transparency.html">TRANSPARENCY</a>
-  </div>
-</div>
+<div class="app">
+  <header class="topbar">
+    <div class="logo"><img src="proxuma-logo.png" alt="Proxuma Sense logo"></div>
+    <nav class="nav">
+      <button onclick="showPage('home',this)">Proxuma</button>
+      <button class="active" onclick="showPage('sense',this)">Proxuma Sense</button>
+      <button onclick="showPage('privacy',this)">Privacy</button>
+      <button onclick="showPage('transparency',this)">Transparency</button>
+    </nav>
+  </header>
 
-<div class="container">
-<section class="hero">
-  <div>
-    <div class="eyebrow">PROXUMA SENSE</div>
-    <h1>SEE EVERYTHING.<br><span>TRUST NOTHING.</span></h1>
-    <p>Proxuma Sense explains why a link, domain, IP address, or text pattern may be risky — locally, privately, and without turning Sense into Shield.</p>
-  </div>
-  <div><div class="radar"></div></div>
-</section>
-
-<section class="panel">
-  <div class="scan-title">START A SCAN</div>
-  <div class="scan-row">
-    <input id="scanInput" placeholder="Enter URL, IP address, domain, or text..." />
-    <button onclick="startScan()">SCAN NOW</button>
-  </div>
-  <div class="sample-row">
-    <button class="sample-chip" data-sample="https://www.rbcroyalbank.com">Safe Example</button>
-    <button class="sample-chip" data-sample="https://secure-update-account.com/login-help">Caution Example</button>
-    <button class="sample-chip" data-sample="https://secure-login-paypal.ru/account-verify?redirect=https%3A%2F%2Fbit.ly%2Fclaim-prize&next=https%3A%2F%2Ftinyurl.com%2Fbank-update&return=https%3A%2F%2Fpaypal.security.verify.account.ru%2Flogin&backup=http%3A%2F%2F185.22.91.14%2Fupdate-login&wallet=verify&password=reset&urgent=claim-now">Heavy Risk Example</button>
-    <button class="sample-chip" data-sample="https://toronto-parking-pay.net/secure-payment?verify=card">Fake Parking QR</button>
-    <button class="sample-chip" data-sample="http://185.22.91.14/update-login">Raw IP Attack</button>
-  </div>
-  <div class="scan-note">✔ 100% local analysis. No cloud scan. No upload. No tracking.</div>
-  <div id="scanStatus" class="scan-note" style="display:none;color:#39ff14;">Initializing scan...</div>
-</section>
-
-<section class="results">
-  <h2>CLEAR. INSTANT. ACTIONABLE.</h2>
-  <div class="results-sub">Sense explains the pattern so the user learns what to watch for next time.</div>
-  <div class="metrics-grid" id="metricsGrid">
-    <div class="metric"><div>RISK LEVEL</div><strong>LOW</strong></div>
-    <div class="metric"><div>SIGNAL STRENGTH</div><strong>--</strong></div>
-    <div class="metric"><div>ANALYSIS TIME</div><strong>-- ms</strong></div>
-    <div class="metric"><div>SOURCE</div><strong>LOCAL</strong></div>
-  </div>
-  <div class="verdict-card" id="badgeBox">
-    <div class="status-box status-safe">
-      <h3>SAFE</h3>
-      <p>No scan has been run yet.</p>
-      <ul><li>Enter a URL or select an example to begin.</li></ul>
+  <main id="sense" class="section active">
+    <div class="scanbar">
+      <div class="inputwrap"><input id="scanInput" value="https://paypal-login-secure-verify-update-check-account-now-security-alert-login.net" placeholder="Enter suspicious URL/domain/text"><button class="clear" onclick="clearInput()">×</button></div>
+      <button id="scanButton" class="scanBtn" onclick="runScan()">SCAN NOW</button>
     </div>
-  </div>
-  <div id="explanationBox" class="explain-box">Human-readable analysis will appear here after each scan.</div>
-
-  <div id="intelligencePanel" class="intel-panel">
-    <div class="intel-title">PROXUMA SENSE INTELLIGENCE LAYER</div>
-    <div id="intelligenceBox">
-      <div class="intel-summary-grid">
-        <div class="intel-summary-card"><strong>Behavior Classification</strong><small>Waiting for scan.</small></div>
-        <div class="intel-summary-card"><strong>Signal Strength</strong><small>Waiting for scan.</small></div>
-        <div class="intel-summary-card"><strong>Detected Patterns</strong><small>Waiting for scan.</small></div>
-        <div class="intel-summary-card"><strong>Visible Signals</strong><small>Waiting for scan.</small></div>
-      </div>
-      <div class="intel-detail-feed">
-        <div class="detail-card"><strong>Recommended Actions</strong><p>Run a scan to generate practical next steps.</p></div>
-        <div class="detail-card"><strong>How This Works</strong><p>Sense uses local signals and pattern explanations to help the user understand why something may be risky.</p></div>
-      </div>
+    <div class="samples"><span>Try a sample:</span>
+      <button class="chip" onclick="loadSample('https://www.rbcroyalbank.com')">Safe Link</button>
+      <button class="chip" onclick="loadSample('https://secure-update-account.com/login-help')">Suspicious Login</button>
+      <button class="chip" onclick="loadSample('https://bit.ly/free-prize-claim')">Short URL</button>
+      <button class="chip" onclick="loadSample('http://185.22.91.14/update-login')">IP Attack</button>
+      <button class="chip" onclick="loadSample('https://toronto-parking-pay.net/secure-payment?verify=card')">QR Scam</button>
+      <button class="chip" onclick="loadSample('https://secure-login-paypal.ru/account-verify')">Phishing Redirect</button>
     </div>
-  </div>
-</section>
 
-<div class="history-toggle" onclick="toggleHistory()">VIEW HISTORY</div>
-<div id="historyPanel" class="history-panel"><div id="historyBox"></div></div>
-
-<section class="split">
-  <div>
-    <h3>WHAT IS PROXUMA SENSE?</h3>
-    <p>Proxuma Sense is the clarity layer. It explains why a digital input may be suspicious without becoming a full Shield-level intelligence dashboard.</p>
-  </div>
-  <div>
-    <h3>WHY PROXUMA SENSE?</h3>
-    <ul>
-      <li>100% offline analysis.</li>
-      <li>Human-readable explanation.</li>
-      <li>Pattern learning for real-world scams.</li>
-      <li>Privacy before power.</li>
-    </ul>
-  </div>
-</section>
-
-<section class="trust">
-  <h3>BUILT ON TRUST</h3>
-  <div class="trust-grid">
-    <a class="trust-badge" href="privacy.html"><div class="badge-icon">🔒</div><div class="badge-title">PRIVACY FIRST</div><div class="badge-desc">No tracking. No uploads.</div></a>
-    <div class="trust-badge"><div class="badge-icon">📴</div><div class="badge-title">FULLY OFFLINE</div><div class="badge-desc">Local reasoning only.</div></div>
-    <a class="trust-badge" href="transparency.html"><div class="badge-icon">👁️</div><div class="badge-title">TRANSPARENT</div><div class="badge-desc">Every signal visible.</div></a>
-    <div class="trust-badge"><div class="badge-icon">🎛️</div><div class="badge-title">YOU CONTROL</div><div class="badge-desc">Your input stays with you.</div></div>
-  </div>
-</section>
-
-<footer>
-  <div>PROXUMA — Privacy is your right.</div>
-  <div>© 2026 Proxuma</div>
-
-        
-        
-
-        <div style="text-align:center;margin:22px 0;">
-            <a href="https://scar197124.github.io/PROXUMA/"
-               style="text-decoration:none;color:#d8ffe9;border:2px solid #39ff14;
-               padding:12px 18px;border-radius:8px;
-               box-shadow:0 0 8px rgba(57,255,20,.35);">
-               Return to Proxuma Home
-            </a>
+    <div class="grid">
+      <section class="card result">
+        <h3 style="margin-top:0">SCAN RESULT</h3>
+        <div class="resultTop">
+          <svg class="shield" viewBox="0 0 100 110"><path d="M50 5 C65 18 82 20 94 22 L94 52 C94 80 75 98 50 108 C25 98 6 80 6 52 L6 22 C18 20 35 18 50 5Z" fill="rgba(255,59,47,.12)" stroke="#ff3b2f" stroke-width="4"/><text x="50" y="77" text-anchor="middle" font-size="62" fill="#ff3b2f" font-weight="900">!</text></svg>
+          <div class="status"><h2>STATUS: <span id="statusWord" class="word">RISKY</span></h2><div class="subline">CLASSIFICATION: <b id="classWord" style="color:var(--red)">RISKY</b></div><p id="mainExplain">This link shows multiple strong indicators of a potential phishing or scam attempt.</p></div>
+          <div><div class="scoreLabel">RISK SCORE</div><div class="scoreNum"><span id="scoreNum">60</span> <span>/100</span></div></div>
         </div>
-        
-</footer>
-</div>
-
-<script>
-let scanHistory = JSON.parse(localStorage.getItem("proxuma_sense_history")) || [];
-
-function generateAdvice(status){
-  if(status === "SAFE") return "Looks clean. No major risk signals detected.";
-  if(status === "CAUTION") return "Some risk signals found. Verify before interacting.";
-  return "High risk. Do not proceed or share information.";
-}
-
-function getSignalStrength(score){
-  if(score >= 45) return "STRONG";
-  if(score >= 20) return "MODERATE";
-  if(score >= 8) return "WEAK";
-  return "MINIMAL";
-}
-
-function classifyPatterns(result){
-  if(result.patterns && result.patterns.length){
-    return result.patterns.map(p => p.name);
-  }
-  return ["No major threat pattern detected"];
-}
-
-function generateActions(result){
-  if(result.status === "SAFE"){
-    return ["Proceed normally, but stay alert for login or payment requests.", "Confirm the destination matches what you expected."];
-  }
-  if(result.status === "CAUTION"){
-    return ["Verify the sender or source before clicking.", "Avoid entering passwords, wallet details, banking information, or payment details.", "Open the official site manually instead of trusting the link."];
-  }
-  return ["Do not open this link or follow the destination.", "Do not enter personal, financial, wallet, account, or payment information.", "Delete, report, or verify through a trusted official channel.", "If this came from a QR code, compare the printed destination with the official provider before paying."];
-}
-
-function generateLearning(result){
-  if(result.status === "SAFE"){
-    return "A clean result means Proxuma Sense did not detect strong local risk signals. It does not guarantee future safety; context still matters.";
-  }
-  if(result.status === "CAUTION"){
-    return "Caution means one or more signals resemble common scam behavior, but the evidence is not strong enough to classify it as high risk. Verification is the best move.";
-  }
-  return "Risky results usually combine stronger indicators such as deceptive structure, suspicious keywords, redirect behavior, unsafe formatting, direct IP addresses, or masked destinations.";
-}
-
-function escapeHTML(str){
-  return String(str).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
-}
-
-function buildIntelligence(result){
-  const patterns = classifyPatterns(result);
-  const actions = generateActions(result);
-  const flagSummary = result.signals && result.signals.length
-    ? result.signals.slice(0,8).map(s => `<span class="intel-pill" title="${escapeHTML(s.detail)}">${escapeHTML(s.name)}</span>`).join("")
-    : '<span class="intel-pill">No major flags</span>';
-
-  const reasoning = result.signals && result.signals.length
-    ? result.signals.map(s => `<li><strong>${escapeHTML(s.category)}</strong>: ${escapeHTML(s.name)} <em>(+${s.weight})</em><br><small>${escapeHTML(s.detail)}</small></li>`).join("")
-    : "<li>No weighted signals triggered.</li>";
-
-  const patternReasoning = result.patterns && result.patterns.length
-    ? result.patterns.map(p => `<li><strong>${escapeHTML(p.name)}</strong>: ${escapeHTML(p.why)} <em>(+${p.weight})</em></li>`).join("")
-    : "<li>No pattern boost applied.</li>";
-
-  const memoryNotes = result.memory && result.memory.notes.length
-    ? result.memory.notes.map(n=>`<li>${escapeHTML(n)}</li>`).join("")
-    : "<li>No memory-based risk adjustment applied.</li>";
-
-  const behavior = result.status === "SAFE" ? "CLEAN / LOW SIGNAL" : result.status === "CAUTION" ? "SUSPICIOUS / VERIFY FIRST" : "LIKELY DECEPTION / DO NOT PROCEED";
-
-  return `
-    <div class="intel-summary-grid">
-      <div class="intel-summary-card"><strong>Behavior Classification</strong><div>${behavior}</div></div>
-      <div class="intel-summary-card"><strong>Signal Strength</strong><div class="signal-strength">${result.signalStrength}</div><small>Score: ${result.score} | Base: ${result.rawScore} | Pattern: +${result.patternBoost}</small></div>
-      <div class="intel-summary-card"><strong>Detected Patterns</strong><div>${patterns.map(escapeHTML).join("<br>")}</div></div>
-      <div class="intel-summary-card"><strong>Visible Signals</strong><div>${flagSummary}</div></div>
+        <div class="cols">
+          <div class="signals"><h3>DETECTED SIGNALS</h3><ul id="signalsList"></ul></div>
+          <div class="actions"><h3>RECOMMENDED ACTIONS</h3><ul id="actionsList"></ul></div>
+        </div>
+        <div class="riskBox"><span id="whyRisky">Why it’s risky: This link uses brand impersonation, urgency language, and multiple lure keywords to trick you into thinking it’s legitimate.</span><button class="explainBtn" onclick="toggleExplain()">SEE EXPLANATION ›</button></div>
+        <p id="expandedExplain" class="hidden" style="line-height:1.6;color:#ddd">Sense checks visible link behavior locally: lure words, suspicious structure, direct IPs, shorteners, risky extensions, and brand impersonation patterns. No scan data leaves this device.</p>
+      </section>
+      <aside class="right">
+        <section class="card radarCard"><h3>LIVE THREAT RADAR</h3><div class="radarBox"><div class="radarCircle"><div class="sweep"></div><span class="dot d1"></span><span class="dot d2"></span><span class="dot d3"></span><span class="dot d4"></span></div></div><div class="level">Threat Level: <b id="threatLevel">ELEVATED</b> <span style="display:inline-block;width:13px;height:13px;background:var(--red);border-radius:50%;box-shadow:0 0 12px var(--red);margin-left:8px"></span></div></section>
+        <section class="card findings" style="margin-top:14px"><h3>TECHNICAL FINDINGS</h3><ul id="technicalList"></ul><p class="note" id="techNote">Technical check did not find infrastructure-level issues, but content and behavior signals remain high risk.</p></section>
+      </aside>
     </div>
-    <div class="intel-detail-feed">
-      <div class="detail-card"><strong>Recommended Actions</strong><ul class="action-list">${actions.map(a => `<li>${escapeHTML(a)}</li>`).join("")}</ul></div>
-      <div class="detail-card"><strong>How This Works</strong><p>${escapeHTML(generateLearning(result))}</p></div>
-      <div class="detail-card"><strong>Signal Reasoning</strong><ul class="action-list">${reasoning}</ul></div>
-      <div class="detail-card"><strong>Pattern Reasoning</strong><ul class="action-list">${patternReasoning}</ul></div>
-      <div class="detail-card"><strong>Memory Awareness</strong><ul class="action-list">${memoryNotes}</ul></div>
-    </div>`;
-}
+    <section class="card think"><div class="brain"><div class="brainIcon">🧠</div><div><h3>WHAT PROXUMA SENSE THINKS</h3><p id="senseThinks">This link is trying to look like a trusted brand but uses multiple lure words and a long, unnatural domain.</p></div></div><div class="stats"><div class="stat">Threat Level<div id="statLevel" class="bad">High</div></div><div class="stat">Confidence<div id="statConf">High</div></div><div class="stat">Signals Found<div id="statSignals" class="bad">4</div></div><div class="stat">Scan Type<div>Local</div></div></div></section>
+  </main>
 
-function pushSignal(signals, type, name, weight, category, detail, severity){
-  signals.push({type, name, weight, category, detail: detail || name, severity: severity || (weight >= 25 ? "high" : weight >= 12 ? "medium" : "low")});
+  <section id="home" class="section"><div class="card pagePanel"><h1>PROXUMA ECOSYSTEM</h1><p>Lite, Sense, and Shield stay in their lanes. Sense is the clarity layer: it explains suspicious patterns without sending your scan anywhere.</p></div></section>
+  <section id="privacy" class="section"><div class="card pagePanel"><h1>Privacy</h1><p>Every scan runs locally in your browser. No APIs. No internet calls. No tracking. No scan data leaves your device.</p><ul><li>No hidden telemetry</li><li>No account required</li><li>No cloud dependency</li><li>Local scan memory only</li></ul></div></section>
+  <section id="transparency" class="section"><div class="card pagePanel"><h1>Transparency</h1><p>Proxuma Sense shows why a link is flagged. No black-box verdicts, no fake magic, just visible reasoning.</p></div></section>
+</div>
+<footer class="bottom"><div>🛡️ All scans are performed locally on your device. Your data never leaves your device.</div><div><button onclick="clearHistory()">🗑 Clear Scan Memory</button> <button onclick="showHistory()">View Recent Scans⌄</button></div></footer>
+<script>
+const knownBrands={
+  paypal:['paypal.com','paypal.ca'], apple:['apple.com'], amazon:['amazon.com','amazon.ca'], google:['google.com'],
+  microsoft:['microsoft.com','live.com','office.com'], rbc:['rbcroyalbank.com','rbc.com'], netflix:['netflix.com'],
+  facebook:['facebook.com'], instagram:['instagram.com']
+};
+const shorteners=['bit.ly','tinyurl.com','t.co','goo.gl','is.gd','cutt.ly','ow.ly','buff.ly','rebrand.ly','shorturl.at','rb.gy','bitly.ws'];
+let scanHistory=JSON.parse(localStorage.getItem('proxuma_sense_history_v2')||'[]');
+function esc(s){return String(s).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));}
+function showPage(id,el){document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));el.classList.add('active');}
+function clearInput(){document.getElementById('scanInput').value='';}
+function loadSample(v){document.getElementById('scanInput').value=v;runScan();}
+function add(flags, actions, name, score, action, technical, tech){flags.push({name,score}); if(action) actions.push(action); if(tech) technical.push(tech); return score;}
+function cleanInput(raw){return String(raw||'').trim().replace(/[\u200B-\u200D\uFEFF]/g,'').replace(/[)\]}>.,;]+$/,'');}
+function parseTarget(raw){
+  const clean=cleanInput(raw).toLowerCase();
+  let host='', path='', validUrl=false;
+  try{
+    let candidate=clean;
+    if(!/^https?:\/\//i.test(candidate) && /[./]/.test(candidate) && !/\s/.test(candidate)) candidate='https://'+candidate;
+    const u=new URL(candidate);
+    host=u.hostname.replace(/^www\./,'');
+    path=(u.pathname+' '+u.search+' '+u.hash).toLowerCase();
+    validUrl=!!host;
+  }catch(e){}
+  return {clean,host,path,validUrl};
 }
-function hasCategory(signals, category){ return signals.some(s => s.category === category); }
+function analyze(raw){
+  const original=cleanInput(raw); const {clean,host,path,validUrl}=parseTarget(original);
+  let score=0, flags=[], actions=[], technical=[], malformed=false;
+  if(!clean){return {status:'INVALID',score:0,flags:[{name:'No input entered',score:0}],actions:['Enter a URL, domain, or suspicious text first.'],technical:['No scan performed.'],malformed:true,summary:'No scan target was provided.'};}
+  if(clean.length>2500){return {status:'INVALID',score:0,flags:[{name:'Input too large for local scan',score:0}],actions:['Shorten the sample before scanning locally.'],technical:['Scan blocked to protect browser performance.'],malformed:true,summary:'The input was too large for a safe local browser scan.'};}
+  const hasLure=/(login|verify|password|account|payment|bank|invoice|wallet|crypto|claim|prize|reward|winner|gift|airdrop|security|urgent|suspended|locked|update|confirm)/i.test(clean);
+  const officialHost = host && Object.values(knownBrands).some(list=>list.includes(host));
+  if(!validUrl && !/\s/.test(clean) && !hasLure){malformed=true; add(flags,actions,'Unrecognized format',0,'Use a valid URL, domain, or meaningful message sample.',technical,'Input is not a valid URL/domain or meaningful text sample.');}
 
-function detectIntelligencePatterns(signals, context){
-  const patterns = [];
-  if(hasCategory(signals,"credential-risk") && hasCategory(signals,"redirect")) patterns.push({name:"Credential lure plus redirect pattern", weight:22, why:"Sensitive account language appears together with a redirect or short-link signal.", severity:"high"});
-  if(hasCategory(signals,"credential-risk") && hasCategory(signals,"transport-risk")) patterns.push({name:"Credential request over weak transport", weight:18, why:"Login, banking, wallet, or password language appears with an unsecured connection.", severity:"high"});
-  if(hasCategory(signals,"deceptive-structure") && (hasCategory(signals,"credential-risk") || hasCategory(signals,"redirect"))) patterns.push({name:"Deceptive structure with trust pressure", weight:20, why:"Structural deception combines with pressure, redirect, or account language.", severity:"high"});
-  if(hasCategory(signals,"masked-destination")) patterns.push({name:"Direct destination masking pattern", weight:14, why:"Direct IP destinations can hide the real owner or brand behind the address.", severity:"medium"});
-  if(hasCategory(signals,"obfuscation") && signals.length >= 3) patterns.push({name:"Stacked obfuscation pattern", weight:16, why:"Multiple weak signals combine into a stronger concealment pattern.", severity:"medium"});
-  if(patterns.length === 0 && signals.length === 0) patterns.push({name:"No major threat pattern detected", weight:0, why:"No strong local indicators were found.", severity:"low"});
-  else if(patterns.length === 0) patterns.push({name:"Mixed caution signals detected", weight:5, why:"Some individual signals were found, but no strong combined pattern formed.", severity:"low"});
-  return patterns;
-}
+  if(clean.includes('http://')) score+=add(flags,actions,'Unsecured HTTP',15,'Avoid entering credentials on non-HTTPS sites.',technical,'Missing HTTPS encryption');
+  if(/(?:\d{1,3}\.){3}\d{1,3}/.test(clean)) score+=add(flags,actions,'Direct IP destination',30,'Do not trust direct IP links from messages or QR codes.',technical,'Direct IP routing detected');
+  if(clean.includes('xn--')) score+=add(flags,actions,'Punycode spoof indicator',25,'Treat punycode domains as suspicious unless you typed them yourself.',technical,'Punycode marker detected');
+  if(/%[0-9a-f]{2}/i.test(clean)) score+=add(flags,actions,'Encoded URL characters',10,'Be careful with links that hide characters through encoding.',technical,'Encoded URL characters detected');
+  if(clean.includes('@') && validUrl) score+=add(flags,actions,'User-info URL trick',22,'Avoid URLs using @ because they can hide the real destination.',technical,'@ symbol present in URL authority/path');
 
-function getMemoryProfile(currentResult){
-  const recent = (scanHistory || []).slice(0,5);
-  const repeatedRisk = recent.filter(item => item.status === "RISKY" || item.status === "CAUTION").length;
-  let adjustment = 0, notes = [];
-  if(repeatedRisk >= 3 && currentResult.status !== "SAFE"){
-    adjustment += 6;
-    notes.push("Recent scan history shows repeated caution/risk activity, so sensitivity was raised slightly.");
+  const combined=officialHost ? path : (host+' '+path+' '+clean);
+  const lureRules=[
+    [/login/i,'Login lure',15], [/verify|verification/i,'Verification lure',15], [/password/i,'Password lure',20],
+    [/account/i,'Account lure',15], [/secure-update|security|alert|urgent|suspend|locked|confirm/i,'Security or urgency manipulation',15],
+    [/payment|bank|invoice|wallet|card|billing/i,'Financial lure',15], [/crypto|airdrop/i,'Crypto lure',20],
+    [/claim|prize|reward|winner|gift|free/i,'Prize or reward lure',12]
+  ];
+  for(const [re,label,pts] of lureRules){ if(re.test(combined)) score+=add(flags,actions,label,pts,null,technical,null); }
+
+  if(host){
+    if(shorteners.includes(host)) score+=add(flags,actions,'Known shortened link',18,'Expand shortened links before clicking.',technical,'Known URL shortener detected');
+    const tld=(host.split('.').pop()||'');
+    const labels=host.split('.');
+    if(/\d/.test(tld)) score+=add(flags,actions,'Malformed or numeric TLD',22,'Do not trust domains with strange number-based endings.',technical,'Domain ending contains numbers');
+    if(labels.length>=3) score+=add(flags,actions,'Subdomain stacking',10,'Check the true root domain before trusting the link.',technical,'Multiple subdomain layers detected');
+    if((host.match(/-/g)||[]).length>=3) score+=add(flags,actions,'Hyphen-stacked domain',18,'Long hyphen chains are common in fake security/login pages.',technical,'Long hyphen chain detected');
+    if(host.length>45) score+=add(flags,actions,'Unusually long domain',10,null,technical,'Unusually long domain detected');
+    if(/\.ru$|\.tk$|\.zip$|\.mov$|\.top$|\.xyz$/.test(host)) score+=add(flags,actions,'Risky or abuse-prone domain extension',16,null,technical,'Risky or abuse-prone domain extension detected');
+    if(/^bi[tzs]?\.ly\d*$/.test(host) || /^biz\.ly\d*$/.test(host) || /(^|\.)ly\d+$/.test(host)){
+      score+=add(flags,actions,'Fake shortener mimic',24,'This resembles a shortened link but does not match a trusted shortener pattern.',technical,'Shortener imitation pattern detected');
+    }
+    if(/\.{2,}/.test(host) || /--/.test(host)) score+=add(flags,actions,'Abnormal domain punctuation',10,null,technical,'Abnormal domain punctuation detected');
+    for(const brand of Object.keys(knownBrands)){
+      if(host.includes(brand) && !knownBrands[brand].includes(host)){
+        score+=add(flags,actions,'Possible '+brand.charAt(0).toUpperCase()+brand.slice(1)+' impersonation',18,'Visit the official site manually instead of trusting this link.',technical,'Brand name appears outside its official root domain');
+      }
+    }
+  } else if(hasLure && !/\s/.test(clean)) {
+    score+=add(flags,actions,'Lure text without valid domain',8,'Paste the full link if available so Sense can inspect the domain.',technical,'Suspicious terms found, but no valid domain was parsed');
   }
-  if(!notes.length) notes.push("No memory-based risk adjustment applied.");
-  return {adjustment, notes, recentCount:recent.length};
+
+  const positive=flags.filter(f=>f.score>0).length;
+  if(positive>=3) score+=add(flags,actions,'Multi-signal threat stack',15,'Multiple independent warning signs were found together.',technical,null);
+  score=Math.min(100,score);
+  let status=malformed?'INVALID':score>=45?'RISKY':score>=20?'CAUTION':'SAFE';
+  if(!technical.length) technical.push('No major technical anomalies detected.');
+  if(status==='RISKY') actions.unshift('Do not click this link.','Do not enter personal or payment information.');
+  if(status==='CAUTION') actions.unshift('Pause before clicking and verify the destination manually.');
+  if(status==='SAFE' && !actions.length) actions.push('Proceed normally, but stay alert.');
+  actions=[...new Set(actions)];
+  let summary = status==='INVALID'?'Sense rejected this input instead of calling junk safe.':
+    status==='RISKY'?'This target combines multiple scam-style signals, so Sense treats it as high risk.':
+    status==='CAUTION'?'This target has warning signs that deserve caution, even if it is not a full high-risk match.':
+    'Sense did not detect strong visible scam patterns in this input.';
+  return {status,score,flags,actions,technical,malformed,summary,host};
 }
-
-function analyzeInput(rawInput){
-  const lower = rawInput.trim().toLowerCase();
-  const signals = [];
-  let context = "text";
-  if(lower.startsWith("http://") || lower.startsWith("https://") || lower.startsWith("www.")) context = "url";
-  if(/(\d{1,3}\.){3}\d{1,3}/.test(lower)) context = "ip";
-
-  const validDomain = /^(https?:\/\/)?(www\.)?[a-z0-9-]+\.[a-z]{2,}(\/.*)?$/i;
-  if(context === "url" && !validDomain.test(lower)) pushSignal(signals,"structure","Malformed domain",15,"deceptive-structure","URL/domain format does not match a clean domain pattern.");
-  if(lower.includes(",") || lower.includes(" ")) pushSignal(signals,"structure","Invalid characters",10,"obfuscation","Spaces or commas can indicate malformed or deceptive formatting.");
-  if(lower.includes("c0m") || lower.includes(".con") || lower.includes(",com")) pushSignal(signals,"structure","Deceptive pattern",25,"deceptive-structure","Common lookalike spelling or punctuation trick detected.","high");
-  if(lower.startsWith("http://")) pushSignal(signals,"transport","Unsecured connection",10,"transport-risk","HTTP is not encrypted like HTTPS.");
-
-  const keywordMap = {login:"credential-risk",verify:"credential-risk",bank:"credential-risk",secure:"credential-risk",account:"credential-risk",password:"credential-risk",wallet:"credential-risk",crypto:"credential-risk",payment:"credential-risk",card:"credential-risk",update:"urgency-pressure",free:"lure",win:"lure",claim:"lure",urgent:"urgency-pressure",parking:"payment-context"};
-  Object.keys(keywordMap).forEach(w=>{ if(lower.includes(w)) pushSignal(signals,"keyword","Sensitive keyword: " + w,8,keywordMap[w],"Keyword often used in social engineering, account-pressure, or payment scam messages."); });
-
-  [".ru",".tk",".ml",".ga",".cf",".xyz",".top"].forEach(tld=>{ if(lower.includes(tld)) pushSignal(signals,"domain","Risky domain extension: " + tld,18,"domain-risk","Domain extension has elevated abuse potential in local rules.","medium"); });
-  ["bit.ly","tinyurl","t.co","shorturl","share.google"].forEach(x=>{ if(lower.includes(x)) pushSignal(signals,"redirect","Redirect or short-link pattern: " + x,18,"redirect","Short links hide the final destination.","medium"); });
-  if(context === "ip") pushSignal(signals,"destination","Direct IP address detected",30,"masked-destination","Direct IP address bypasses normal domain identity.","high");
-  if(lower.length > 75) pushSignal(signals,"length","Unusually long input",5,"obfuscation","Long inputs can hide tracking, redirects, or encoded data.");
-  if((lower.match(/@/g)||[]).length > 0) pushSignal(signals,"symbol","@ symbol may indicate redirection",15,"deceptive-structure","The @ symbol can be used in misleading URL structures.","medium");
-  if(lower.includes("%2f") || lower.includes("%3a") || lower.includes("redirect=") || lower.includes("return=") || lower.includes("next=")) pushSignal(signals,"encoding","Encoded or redirect parameter detected",14,"redirect","Encoded redirects or next/return parameters can hide the real path.","medium");
-
-  const rawScore = signals.reduce((sum,s)=>sum + s.weight,0);
-  const patterns = detectIntelligencePatterns(signals, context);
-  const patternBoost = patterns.reduce((sum,p)=>sum + p.weight,0);
-  let score = rawScore + patternBoost;
-  let status = "SAFE";
-  if(score >= 55 || patterns.some(p=>p.severity === "high" && score >= 40)) status = "RISKY";
-  else if(score >= 20 || signals.some(s=>s.severity === "medium" || s.severity === "high")) status = "CAUTION";
-
-  let result = {input: rawInput, lower, context, rawScore, patternBoost, score, status, signals, patterns, flags: signals.map(s=>s.name), confidence: Math.max(70, 100 - Math.floor(score * 0.7)), signalStrength:getSignalStrength(score), memory:{adjustment:0,notes:[],recentCount:0}};
-  result.trust = Math.max(5, 100 - result.score);
-  const memory = getMemoryProfile(result);
-  if(memory.adjustment){
-    result.score += memory.adjustment;
-    result.trust = Math.max(5, 100 - result.score);
-    result.signalStrength = getSignalStrength(result.score);
-    if(result.status === "CAUTION" && result.score >= 55) result.status = "RISKY";
-  }
-  result.memory = memory;
-  return result;
+function colorFor(status){return status==='RISKY'?'var(--red)':status==='CAUTION'?'var(--orange)':status==='INVALID'?'#aaa':'var(--neon)';}
+function runScan(){
+  let raw=document.getElementById('scanInput').value;let r=analyze(raw);let risky=r.status==='RISKY',caution=r.status==='CAUTION',invalid=r.status==='INVALID';
+  const c=colorFor(r.status);
+  document.getElementById('statusWord').textContent=r.status;document.getElementById('statusWord').style.color=c;
+  document.getElementById('classWord').textContent=r.status;document.getElementById('classWord').style.color=c;
+  document.getElementById('scoreNum').textContent=r.score;document.getElementById('scoreNum').style.color=c;
+  document.getElementById('mainExplain').textContent= invalid?'This input does not appear to be a valid URL, domain, or meaningful suspicious text sample.': risky?'This link shows multiple strong indicators of a potential phishing or scam attempt.': caution?'This link contains caution signals that deserve attention.':'No major risk indicators were found by the local Sense scan.';
+  document.getElementById('signalsList').innerHTML=r.flags.map(f=>`<li>${esc(f.name)}</li>`).join('');
+  document.getElementById('actionsList').innerHTML=r.actions.map((a,i)=>`<li><span class="ico ${i===0&&risky?'red':i===1&&risky?'orange':''}">${i===0&&risky?'×':i===1&&risky?'!':'i'}</span><span>${esc(a)}</span></li>`).join('');
+  document.getElementById('technicalList').innerHTML=r.technical.map(t=>`<li><span class="${t.includes('No major')?'ok':'warn'}">${t.includes('No major')?'✓':'!'}</span>${esc(t)}</li>`).join('');
+  document.getElementById('techNote').textContent=risky?'Technical/content checks found enough local warning signals to treat this as high risk.':caution?'Some local warning signals were found. Verify before clicking.':invalid?'Sense rejected this input before scoring it as safe.':'Technical and content checks found no major warning signals.';
+  document.getElementById('whyRisky').textContent=risky?'Why it’s risky: '+r.flags.filter(f=>f.score>0).slice(0,4).map(f=>f.name.toLowerCase()).join(', ')+'.':invalid?'Why it matters: junk input should not be labeled safe; Sense separates invalid input from real safety results.':caution?'Why it needs caution: '+r.flags.filter(f=>f.score>0).map(f=>f.name.toLowerCase()).join(', ')+'.':'Why it appears safe: Sense did not detect common scam patterns in this input.';
+  document.getElementById('senseThinks').textContent=r.summary;
+  document.getElementById('threatLevel').textContent=risky?'ELEVATED':caution?'CAUTION':invalid?'INVALID':'LOW';
+  document.getElementById('statLevel').textContent=risky?'High':caution?'Medium':invalid?'Invalid':'Low';
+  document.getElementById('statLevel').style.color=c;
+  document.getElementById('statConf').textContent= r.flags.filter(f=>f.score>0).length>=3?'High':r.flags.filter(f=>f.score>0).length>=1?'Moderate':'Low';
+  document.getElementById('statSignals').textContent=r.flags.filter(f=>f.score>0).length;
+  document.querySelectorAll('.dot').forEach((d,i)=>d.classList.toggle('active', i<Math.max(1,Math.min(4,r.flags.filter(f=>f.score>0).length))));
+  if(!invalid){scanHistory.unshift({input:raw,status:r.status,score:r.score,time:new Date().toLocaleString()});scanHistory=scanHistory.slice(0,5);localStorage.setItem('proxuma_sense_history_v2',JSON.stringify(scanHistory));}
 }
-
-function generateExplanation(result){
-  if(result.status === "SAFE") return "This input appears safe based on the current local checks. No high-risk patterns or suspicious indicators were detected.";
-  if(result.status === "CAUTION"){
-    const reasonText = result.flags.length ? result.flags.slice(0,3).join(", ") : "minor risk patterns";
-    return `This input has caution signals: ${reasonText}. It may still be harmless, but Proxuma recommends verifying the source before clicking, logging in, or sharing information.`;
-  }
-  const reasons = result.flags.length ? result.flags.slice(0,4).join(", ") : "multiple high-risk indicators";
-  return `This input shows high-risk indicators, including: ${reasons}. These patterns may be associated with deceptive links, unsafe redirects, payment traps, or suspicious destinations. Proxuma recommends that you do not open it.`;
-}
-
-function startScan(){
-  const input = document.getElementById("scanInput");
-  if(!input.value.trim()) return;
-  const status = document.getElementById("scanStatus");
-  status.style.display = "block";
-  status.innerText = "Analyzing structure...";
-  setTimeout(()=>{ status.innerText = "Checking risk signals..."; },250);
-  setTimeout(()=>{ status.innerText = "Preparing explanation..."; },550);
-  setTimeout(()=>{ status.style.display = "none"; scan(); },850);
-}
-
-function scan(){
-  const rawInput = document.getElementById("scanInput").value.trim();
-  if(!rawInput) return;
-  const start = performance.now();
-  const result = analyzeInput(rawInput);
-  const time = (performance.now() - start).toFixed(2);
-
-  document.getElementById("metricsGrid").innerHTML = `
-    <div class="metric"><div>RISK LEVEL</div><strong>${result.status}</strong></div>
-    <div class="metric"><div>SIGNAL STRENGTH</div><strong>${result.signalStrength}</strong></div>
-    <div class="metric"><div>ANALYSIS TIME</div><strong>${time} ms</strong></div>
-    <div class="metric"><div>SOURCE</div><strong>LOCAL</strong></div>`;
-
-  let statusClass = "status-safe";
-  if(result.status === "CAUTION") statusClass = "status-caution";
-  if(result.status === "RISKY") statusClass = "status-risky";
-
-  document.getElementById("badgeBox").innerHTML = `
-    <div class="status-box ${statusClass}">
-      <h3>${result.status}</h3>
-      <p>${generateAdvice(result.status)}</p>
-      <strong>Signal Confidence: ${result.confidence}%</strong>
-      <ul>${result.flags.map(f=>`<li>${escapeHTML(f)}</li>`).join("") || "<li>No issues found</li>"}</ul>
-    </div>`;
-
-  document.getElementById("explanationBox").innerText = generateExplanation(result);
-  document.getElementById("intelligenceBox").innerHTML = buildIntelligence(result);
-
-  scanHistory.unshift({input: rawInput, status: result.status});
-  scanHistory = scanHistory.slice(0,5);
-  localStorage.setItem("proxuma_sense_history", JSON.stringify(scanHistory));
-  renderHistory();
-}
-
-function renderHistory(){
-  const box = document.getElementById("historyBox");
-  if(!box) return;
-  box.innerHTML = scanHistory.map(item => `<div class="history-item"><strong>${escapeHTML(item.status)}</strong> — ${escapeHTML(item.input)}</div>`).join("") || '<div class="history-item">No scans yet.</div>';
-}
-function toggleHistory(){
-  const panel = document.getElementById("historyPanel");
-  if(!panel) return;
-  panel.style.display = panel.style.display === "block" ? "none" : "block";
-}
-document.querySelectorAll(".sample-chip").forEach(btn=>{
-  btn.addEventListener("click",()=>{
-    document.getElementById("scanInput").value = btn.dataset.sample;
-    document.getElementById("scanInput").focus();
-  });
-});
-renderHistory();
+function toggleExplain(){document.getElementById('expandedExplain').classList.toggle('hidden');}
+function clearHistory(){scanHistory=[];localStorage.removeItem('proxuma_sense_history_v2');alert('Local scan memory cleared.');}
+function showHistory(){alert(scanHistory.length?scanHistory.map(h=>`${h.status} ${h.score}/100 - ${h.input}`).join('\n\n'):'No recent scans.');}
+runScan();
 </script>
+
+
+<script id="proxuma-sense-home-wire">
+(function(){
+
+  function returnHome(e){
+    if(e){
+      e.preventDefault();
+      e.stopPropagation();
+    }
+
+    try{
+      if(window.parent && window.parent !== window && typeof window.parent.goHome === "function"){
+        window.parent.goHome();
+        return false;
+      }
+      window.location.href = "index.html";
+    } catch(err){
+      window.location.href = "index.html";
+    }
+
+    return false;
+  }
+
+  function wireSenseHomeButton(){
+    const buttons = Array.from(document.querySelectorAll("button,a"));
+
+    buttons.forEach(function(el){
+      const text = (el.textContent || "").trim().toLowerCase();
+
+      // ONLY patch exact Proxuma button
+      if(text === "proxuma"){
+        el.removeAttribute("target");
+        el.onclick = returnHome;
+        el.addEventListener("click", returnHome, true);
+      }
+    });
+  }
+
+  document.addEventListener("DOMContentLoaded", wireSenseHomeButton);
+  window.addEventListener("load", wireSenseHomeButton);
+
+})();
+</script>
+
 </body>
 </html>
+
+<script>
+document.addEventListener("DOMContentLoaded", function(){
+  document.querySelectorAll("a,button").forEach(el=>{
+    if(el.textContent.trim().toLowerCase()==="proxuma"){
+      el.addEventListener("click", function(e){
+        e.preventDefault();
+        window.parent.goHome();
+      });
+    }
+  });
+});
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const candidates = Array.from(document.querySelectorAll("a,button"));
+  candidates.forEach(el => {
+    const txt = (el.textContent || "").trim().toLowerCase();
+
+    const looksLikeProxuma =
+      txt === "proxuma" ||
+      txt === "back to proxuma" ||
+      el.className.toLowerCase().includes("core-button");
+
+    if (looksLikeProxuma) {
+      el.removeAttribute("target");
+      el.setAttribute("href","javascript:void(0)");
+      el.onclick = function(e){
+        e.preventDefault();
+        if(window.parent && typeof window.parent.goHome === "function"){
+          window.parent.goHome();
+        }
+      };
+    }
+  });
+});
+</script>
