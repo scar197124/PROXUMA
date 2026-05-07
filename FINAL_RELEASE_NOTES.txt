@@ -1,0 +1,17 @@
+PROXUMA FINAL UNIFIED BUNDLE
+
+Included:
+- Unified homepage
+- Unified about page
+- Lite UI restored
+- Sense UI preserved
+- Shield UI preserved
+- Mobile-friendly header
+- Logo consistency
+- Navigation consistency
+- Security scoring false-positive fix
+
+Scoring fix:
+Trusted domains are no longer aggressively flagged unless real malicious indicators exist.
+
+This is the full bundle replacement upload.

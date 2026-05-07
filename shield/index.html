@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Proxuma Shield — Heavy Hitter V3</title>
+<style>
+:root {
+  --bg:#040607; --panel:#0b1115; --panel2:#0f171d; --soft:#17222a;
+  --text:#f6fbff; --muted:#91a2ad; --green:#24ff72; --cyan:#25d8ff;
+  --amber:#ffc928; --purple:#a77cff; --blue:#35a7ff; --red:#ff4e57;
+  --line:rgba(255,255,255,.12);
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:radial-gradient(circle at 50% -20%,#10221a 0%,var(--bg) 42%,#010101 100%);color:var(--text);font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+body{min-height:100vh}
+header{position:sticky;top:0;z-index:10;background:rgba(4,6,7,.86);backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}
+.header-inner{max-width:1500px;margin:auto;padding:10px 20px;display:flex;flex-direction:column;gap:6px;align-items:center;justify-content:center}
+.logo-wrap{display:flex;align-items:center;justify-content:center;gap:12px}
+.logo-img{width:260px;max-width:100%;height:auto;object-fit:contain;filter:drop-shadow(0 0 18px rgba(36,255,114,.35))}
+.logo-fallback{font-weight:900;letter-spacing:.12em;font-size:22px}
+nav{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:-2px}
+nav button,.pill-btn{border:2px solid var(--green);background:#0b1115;color:#ffffff;border-radius:999px;padding:10px 22px;cursor:pointer;font-weight:700;letter-spacing:.02em;box-shadow:0 0 8px rgba(36,255,114,.12);transition:.2s ease}
+nav button.active{border-color:var(--green);box-shadow:0 0 18px rgba(36,255,114,.25);color:#fff;background:linear-gradient(180deg,rgba(36,255,114,.18),rgba(36,255,114,.06))}
+.theme{display:flex;gap:8px;align-items:center;border:1px solid var(--line);padding:6px 12px;border-radius:999px;color:var(--muted);font-size:12px}
+.dot{width:18px;height:18px;border-radius:50%;display:inline-block;border:2px solid currentColor}
+.green{color:var(--green)}.cyan{color:var(--cyan)}.amber{color:var(--amber)}.purple{color:var(--purple)}.blue{color:var(--blue)}.red{color:var(--red)}
+main{max-width:1500px;margin:auto;padding:22px}
+.page{display:none}.page.active{display:block}
+.hero{border:1px solid rgba(36,255,114,.28);border-radius:28px;padding:34px;background:linear-gradient(135deg,rgba(36,255,114,.12),rgba(37,216,255,.05),rgba(0,0,0,.28));position:relative;overflow:hidden;margin-bottom:20px}
+.hero:after{content:"";position:absolute;inset:auto -10% -80% -10%;height:260px;background:radial-gradient(circle,rgba(36,255,114,.18),transparent 65%);animation:pulse 3s infinite}
+@keyframes pulse{50%{opacity:.45;transform:scale(1.08)}}
+.hero h1{margin:0;font-size:clamp(34px,5vw,76px);line-height:.95;letter-spacing:-.04em}
+.hero p{max-width:760px;color:var(--muted);font-size:18px;line-height:1.55}
+.cta-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px}
+.btn{border:1px solid var(--line);border-radius:14px;background:#0d151b;color:#fff;padding:13px 16px;cursor:pointer;font-weight:800;width:100%}
+.btn.primary{background:linear-gradient(180deg,rgba(36,255,114,.52),rgba(14,132,53,.75));border-color:var(--green)}
+.btn.cyan{background:linear-gradient(180deg,rgba(37,216,255,.28),rgba(13,84,112,.7));border-color:var(--cyan)}
+.btn.amber{background:linear-gradient(180deg,rgba(255,201,40,.22),rgba(112,79,8,.7));border-color:var(--amber)}
+.btn.purple{background:linear-gradient(180deg,rgba(167,124,255,.28),rgba(60,39,112,.7));border-color:var(--purple)}
+.btn.blue{background:linear-gradient(180deg,rgba(53,167,255,.25),rgba(18,72,130,.72));border-color:var(--blue)}
+.btn.ghost{background:#10171c;color:var(--muted)}
+.btn.danger{background:linear-gradient(180deg,rgba(255,78,87,.2),rgba(105,22,27,.72));border-color:var(--red)}
+.grid{display:grid;grid-template-columns:1.1fr 1.35fr .9fr;gap:18px}
+.stack{display:grid;gap:18px}
+.card{background:linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.015));border:1px solid var(--line);border-radius:22px;padding:20px;box-shadow:0 16px 60px rgba(0,0,0,.35)}
+.card.green-border{border-color:rgba(36,255,114,.55)}.card.cyan-border{border-color:rgba(37,216,255,.55)}.card.amber-border{border-color:rgba(255,201,40,.55)}.card.purple-border{border-color:rgba(167,124,255,.55)}.card.blue-border{border-color:rgba(53,167,255,.55)}.card.red-border{border-color:rgba(255,78,87,.55)}
+.card h2{margin:0 0 8px;font-size:18px;text-transform:uppercase;letter-spacing:.05em}
+.desc{color:var(--muted);font-size:14px;line-height:1.45;margin:0 0 16px}
+input,textarea,select{width:100%;background:#081015;color:#fff;border:1px solid var(--line);border-radius:13px;padding:13px 14px;font:inherit;outline:none}
+input:focus,textarea:focus{border-color:var(--green)}
+textarea{min-height:82px;resize:vertical}
+.label{display:block;margin:12px 0 6px;color:#c7d5dd;font-size:13px;font-weight:700}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.camera-box{border:1px dashed rgba(37,216,255,.65);border-radius:16px;height:110px;display:grid;place-items:center;text-align:center;color:var(--cyan);margin:12px 0;background:rgba(37,216,255,.05)}
+.core{display:grid;grid-template-columns:270px 1fr;gap:18px;align-items:center}
+.score-ring{width:230px;height:230px;border-radius:50%;display:grid;place-items:center;margin:auto;background:conic-gradient(var(--amber) calc(var(--score)*1%),#202a31 0);position:relative;box-shadow:0 0 42px rgba(255,201,40,.17)}
+.score-ring:before{content:"";position:absolute;inset:20px;border-radius:50%;background:#071015;border:1px solid var(--line)}
+.score-content{position:relative;text-align:center}
+.score-number{font-size:66px;font-weight:900;color:var(--amber);line-height:1}
+.score-label{color:var(--muted);font-weight:700}
+.risk-pill{display:inline-block;margin-top:12px;border:1px solid var(--amber);color:var(--amber);border-radius:999px;padding:7px 13px;font-weight:900}
+.bar-row{display:grid;grid-template-columns:160px 1fr 58px;gap:10px;align-items:center;margin:13px 0;color:#dce6eb;font-size:14px}
+.bar{height:10px;border-radius:20px;background:#202b32;overflow:hidden}
+.fill{height:100%;border-radius:20px;background:linear-gradient(90deg,var(--green),var(--amber),var(--red));width:50%}
+.indicators{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
+.indicators ul{margin:8px 0 0;padding-left:20px;color:#d5dde2;line-height:1.75}
+.report-line{display:flex;justify-content:space-between;border-bottom:1px solid var(--line);padding:10px 0;color:var(--muted)}
+.privacy-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:18px}
+.privacy-item{border:1px solid rgba(36,255,114,.28);border-radius:18px;padding:16px;background:rgba(36,255,114,.04)}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.78);display:none;align-items:center;justify-content:center;padding:20px;z-index:50}
+.modal.open{display:flex}
+.modal-card{max-width:850px;width:100%;max-height:88vh;overflow:auto;background:#071015;border:1px solid var(--green);border-radius:24px;padding:24px;box-shadow:0 0 80px rgba(36,255,114,.18)}
+pre{white-space:pre-wrap;background:#030607;border:1px solid var(--line);border-radius:14px;padding:14px;color:#cde8d5}
+.footer{margin:22px 0 0;color:var(--muted);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:13px}
+@media(max-width:1050px){.header-inner{text-align:center}.logo-wrap,.theme{justify-content:center}.grid,.core,.indicators,.privacy-grid{grid-template-columns:1fr}.logo-img{margin:auto}}
+
+@media(max-width:768px){
+  .logo-img{width:190px}
+  nav{
+    gap:8px;
+    width:100%;
+    justify-content:center;
+  }
+  nav button{
+    padding:8px 16px;
+    font-size:14px;
+  }
+  .header-inner{
+    padding:8px 12px;
+    gap:4px;
+  }
+}
+
+</style>
+<script src="https://unpkg.com/html5-qrcode"></script>
+</head>
+<body>
+<header class="px-unified-header">
+  <img src="../assets/proxuma-logo.png" class="px-logo" onerror="this.src='../assets/logo.png'">
+  <nav class="px-nav">
+    <a href="../index.html">Home</a>
+    <a href="../about.html">About</a>
+    <a href="../lite/index.html">Lite</a>
+    <a href="../sense/index.html">Sense</a>
+    <a href="../shield/index.html">Shield</a>
+  </nav>
+</header>
+<style>
+.px-unified-header{text-align:center;border-bottom:2px solid #39ff14;padding:20px;background:#050505}
+.px-logo{max-width:240px;display:block;margin:0 auto 12px}
+.px-nav{display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
+.px-nav a{color:#39ff14;text-decoration:none;border:2px solid #39ff14;padding:10px 18px;border-radius:999px}
+.px-nav a:hover{background:#39ff14;color:#000}
+body{background:#050505!important;color:#fff!important}
+</style>
+
+
+
+<main>
+  <section id="home" class="page active">
+    <div class="hero">
+      <h1>Intelligence<br>Before You Click.</h1>
+      <p>Proxuma Shield is the heavyweight layer: link intelligence, QR destination analysis, threat classification, report export, and privacy-first local scanning.</p>
+      <div class="cta-row">
+        <button class="pill-btn" onclick="goPage('scanner')">Start Shield Scan</button>
+        <button class="pill-btn" onclick="openReport()">View Demo Threat Report</button>
+      </div>
+    </div>
+    <div class="privacy-grid">
+      <div class="privacy-item"><b class="green">100% Local</b><br><span class="desc">Analysis stays in your browser.</span></div>
+      <div class="privacy-item"><b class="cyan">QR Ready</b><br><span class="desc">Scan before opening unknown codes.</span></div>
+      <div class="privacy-item"><b class="amber">Threat Core</b><br><span class="desc">Risk scoring and explainers.</span></div>
+      <div class="privacy-item"><b class="blue">Exportable</b><br><span class="desc">Save a Shield report locally.</span></div>
+    </div>
+  </section>
+
+  <section id="scanner" class="page">
+    <div class="grid">
+      <div class="stack">
+        <div class="card green-border">
+          <h2><span class="green">1.</span> Link Intelligence</h2>
+          <p class="desc">Paste a URL. Shield checks suspicious words, domain tricks, encodings, login/payment traps, and risk signals.</p>
+          <label class="label">URL to analyze</label>
+          <input id="urlInput" placeholder="https://example.com/login">
+          <button class="btn primary" onclick="runScan()">Run Shield Scan</button>
+          <p class="desc" style="margin-top:12px">🛡 Local scan only. Nothing is sent to servers.</p>
+        </div>
+
+        <div class="card cyan-border">
+          <h2><span class="cyan">2.</span> QR Intelligence</h2>
+          <p class="desc">Use camera mode, upload/manual input, then sync QR content into Shield scan.</p>
+          <div class="split">
+            <button class="btn cyan" onclick="cameraOn()">Open Camera Scanner</button>
+            <button class="btn ghost" onclick="cameraOff()">Stop Camera</button>
+          </div>
+          <div id="cameraBox" class="camera-box"><div id="reader" style="width:100%;max-width:320px;margin:auto;"></div><div id="cameraStatus">Camera is OFF<br><small>Press Open Camera Scanner</small></div></div>
+          <label class="label">QR decoded destination / manual input</label>
+          <input id="qrInput" placeholder="QR content will appear here...">
+          <label class="label">Upload QR Image (fallback)</label>
+<input type="file" id="qrFile" accept="image/*">
+<button class="btn cyan" onclick="scanUploadedQR()">Scan Uploaded QR</button>
+<button class="btn cyan" onclick="syncQR()">Sync to Shield Scan</button>
+        </div>
+      </div>
+
+      <div class="stack">
+        <div class="card amber-border">
+          <h2><span class="amber">3.</span> Threat Intelligence Core</h2>
+          <p class="desc">The big-boy analysis panel. Simple result upfront, deeper report one click away.</p>
+          <div class="core">
+            <div>
+              <div id="scoreRing" class="score-ring" style="--score:24">
+                <div class="score-content">
+                  <div id="scoreNumber" class="score-number">24</div>
+                  <div class="score-label">/100 Risk</div>
+                  <div id="riskPill" class="risk-pill">LOW RISK</div>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div class="bar-row"><span>Domain Signals</span><div class="bar"><div id="b1" class="fill" style="width:20%"></div></div><span id="v1">20/100</span></div>
+              <div class="bar-row"><span>Security Signals</span><div class="bar"><div id="b2" class="fill" style="width:25%"></div></div><span id="v2">25/100</span></div>
+              <div class="bar-row"><span>Phishing Signals</span><div class="bar"><div id="b3" class="fill" style="width:15%"></div></div><span id="v3">15/100</span></div>
+              <div class="bar-row"><span>Redirect / QR Risk</span><div class="bar"><div id="b4" class="fill" style="width:35%"></div></div><span id="v4">35/100</span></div>
+            </div>
+          </div>
+          <div class="indicators">
+            <div class="card">
+              <b class="amber">Detected Indicators</b>
+              <ul id="indicators"><li>No scan yet.</li></ul>
+            </div>
+            <div class="card">
+              <b class="cyan">Explainer</b>
+              <p id="explainer" class="desc" style="margin-top:10px">Paste a link or QR destination and run Shield Scan.</p>
+              <button class="btn amber" onclick="openReport()">View Full Report</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="stack">
+        <div class="card purple-border">
+          <h2><span class="purple">4.</span> Action Center</h2>
+          <button class="btn purple" onclick="analyzeQR()">Analyze QR Destination</button>
+          <button class="btn blue" onclick="exportReport()">Export Shield Report</button>
+          <button class="btn ghost" onclick="clearInputs()">Clear Inputs</button>
+          <button class="btn danger" onclick="blockDomain()">Block Domain Locally</button>
+        </div>
+        <div class="card blue-border">
+          <h2><span class="blue">5.</span> Shield Report</h2>
+          <div class="report-line"><span>Report Status</span><b id="reportStatus">Ready</b></div>
+          <div class="report-line"><span>Last Scan</span><b id="lastScan">—</b></div>
+          <div class="report-line"><span>Source</span><b id="sourceType">—</b></div>
+          <button class="btn blue" onclick="openReport()">View Saved Report</button>
+          <p class="desc" style="margin-top:12px">Reports are generated locally on this device.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  
+<section id="about" class="page">
+  <div class="hero">
+    <h1>Shield is the Heavy Hitter.</h1>
+    <p>Lite scans fast. Sense explains clearly. Shield goes deeper. This is Proxuma’s flagship intelligence layer built for people who want stronger visibility before they click.</p>
+  </div>
+
+  <div class="privacy-grid">
+    <div class="privacy-item"><b>Link Intelligence</b><br><span class="desc">Analyze suspicious URLs before opening them.</span></div>
+    <div class="privacy-item"><b>QR Intelligence</b><br><span class="desc">Scan restaurant, parking, payment, and unknown QR codes safely.</span></div>
+    <div class="privacy-item"><b>Threat Core</b><br><span class="desc">Understand phishing, redirects, and hidden traps.</span></div>
+    <div class="privacy-item"><b>Export Reports</b><br><span class="desc">Save findings locally for later review.</span></div>
+  </div>
+
+  <div class="card amber-border" style="margin-top:20px;">
+    <h2>Why Shield Exists</h2>
+    <p class="desc">Modern scams are becoming faster, cleaner, and harder to detect. Shield gives everyday users intelligence tools that normally feel reserved for enterprise platforms—without overwhelming them.</p>
+  </div>
+</section>
+
+
+  
+<section id="privacy" class="page">
+  <div class="hero">
+    <h1>Your Privacy Comes First.</h1>
+    <p>Privacy is not an add-on in Proxuma. It’s the foundation.</p>
+  </div>
+
+  <div class="privacy-grid">
+    <div class="privacy-item"><b>No Server Uploads</b><br><span class="desc">Scans remain on your device.</span></div>
+    <div class="privacy-item"><b>No Third-Party Tracking</b><br><span class="desc">No hidden analytics scripts.</span></div>
+    <div class="privacy-item"><b>User Ownership</b><br><span class="desc">You control reports and scan history.</span></div>
+    <div class="privacy-item"><b>Optional Export Only</b><br><span class="desc">Nothing leaves unless you choose.</span></div>
+  </div>
+
+  <div class="card green-border" style="margin-top:20px;">
+    <h2>Offline First Philosophy</h2>
+    <p class="desc">Shield was designed to reduce unnecessary cloud dependency wherever possible and keep trust visible.</p>
+  </div>
+</section>
+
+
+  
+  
+<section id="transparency" class="page">
+  <div class="hero">
+    <h1>No Black Box Security.</h1>
+    <p>You deserve to know what Shield is doing when it analyzes something.</p>
+  </div>
+
+  <div class="privacy-grid">
+    <div class="privacy-item"><b>Visible Risk Logic</b><br><span class="desc">You can see why something was flagged.</span></div>
+    <div class="privacy-item"><b>Readable Threat Reports</b><br><span class="desc">No confusing jargon-only outputs.</span></div>
+    <div class="privacy-item"><b>Clear Controls</b><br><span class="desc">Block, export, clear, or ignore.</span></div>
+    <div class="privacy-item"><b>Built in Public View</b><br><span class="desc">Proxuma grows openly and transparently.</span></div>
+  </div>
+
+  <div class="card cyan-border" style="margin-top:20px;">
+    <h2>Trust Through Clarity</h2>
+    <p class="desc">If security tools feel secretive, people stop trusting them. Shield is built to be powerful and understandable at the same time.</p>
+  </div>
+</section>
+
+
+
+  <div class="footer"><span>© 2026 Proxuma Shield</span><span>RazorPrime Heavy Hitter V3</span><span class="green">System Secure</span></div>
+</main>
+
+<div id="modal" class="modal" onclick="closeReport(event)">
+  <div class="modal-card">
+    <h2 class="green">Full Shield Report</h2>
+    <p class="desc">This report is generated locally from the current scan state.</p>
+    <pre id="reportText">No scan yet. Run Shield Scan first.</pre>
+    <button class="btn ghost" onclick="document.getElementById('modal').classList.remove('open')">Close</button>
+  </div>
+</div>
+
+<script>
+let lastReport = "No scan yet. Run Shield Scan first.";
+function goPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('.nav').forEach(b=>b.classList.toggle('active', b.dataset.page===id));
+}
+document.querySelectorAll('.nav').forEach(b=>b.addEventListener('click',()=>goPage(b.dataset.page)));
+
+function scoreUrl(raw){
+  const url = (raw || "").trim().toLowerCase();
+  let score = 12, indicators = [];
+  if(!url) return {score:0, indicators:["No URL entered."], explain:"Enter a link or QR destination to analyze."};
+  if(!url.startsWith("https://")) {score+=18; indicators.push("Connection may not use HTTPS.");}
+  if(url.includes("bit.ly")||url.includes("tinyurl")||url.includes("t.co")||url.includes("short")) {score+=22; indicators.push("Shortened or masked URL detected.");}
+  if(url.includes("login")||url.includes("verify")||url.includes("account")||url.includes("password")) {score+=18; indicators.push("Credential or account-access wording detected.");}
+  if(url.includes("payment")||url.includes("wallet")||url.includes("crypto")||url.includes("bank")) {score+=20; indicators.push("Financial or wallet-related wording detected.");}
+  if(url.includes("@")||url.includes("%")||url.includes("xn--")) {score+=18; indicators.push("Encoding/lookalike domain pattern detected.");}
+  if((url.match(/\./g)||[]).length>3) {score+=10; indicators.push("Many subdomains detected.");}
+  if(indicators.length===0) indicators.push("No major local heuristic warnings detected.");
+  score = Math.min(100, score);
+  let explain = score < 35 ? "This appears low risk based on local heuristics, but still verify before entering personal data." :
+                score < 70 ? "This has caution signals. Review the destination and avoid sensitive input unless you trust it." :
+                "This has high-risk signals. Avoid entering passwords, payment details, or downloading files.";
+  return {score, indicators, explain};
+}
+function setScore(score){
+  document.getElementById("scoreRing").style.setProperty("--score", score);
+  document.getElementById("scoreNumber").textContent = score;
+  const pill = document.getElementById("riskPill");
+  pill.textContent = score < 35 ? "LOW RISK" : score < 70 ? "MEDIUM RISK" : "HIGH RISK";
+  pill.style.borderColor = score < 35 ? "var(--green)" : score < 70 ? "var(--amber)" : "var(--red)";
+  pill.style.color = score < 35 ? "var(--green)" : score < 70 ? "var(--amber)" : "var(--red)";
+  const vals = [Math.min(100,score+8), Math.max(5,score-5), Math.min(100,score+14), Math.min(100,score+22)];
+  ["b1","b2","b3","b4"].forEach((id,i)=>document.getElementById(id).style.width = vals[i]+"%");
+  ["v1","v2","v3","v4"].forEach((id,i)=>document.getElementById(id).textContent = vals[i]+"/100");
+}
+function runScan(source="Link"){
+  const raw = document.getElementById("urlInput").value;
+  const res = scoreUrl(raw);
+  setScore(res.score);
+  document.getElementById("indicators").innerHTML = res.indicators.map(x=>`<li>${x}</li>`).join("");
+  document.getElementById("explainer").textContent = res.explain;
+  document.getElementById("lastScan").textContent = new Date().toLocaleString();
+  document.getElementById("sourceType").textContent = source;
+  document.getElementById("reportStatus").textContent = "Generated";
+  lastReport = `PROXUMA SHIELD REPORT\n\nSource: ${source}\nTarget: ${raw || "(empty)"}\nRisk Score: ${res.score}/100\nClassification: ${document.getElementById("riskPill").textContent}\n\nIndicators:\n- ${res.indicators.join("\n- ")}\n\nExplainer:\n${res.explain}\n\nPrivacy: Generated locally in browser.`;
+  document.getElementById("reportText").textContent = lastReport;
+}
+
+let qrScanner = null;
+let scannerRunning = false;
+
+function cameraOn(){
+  const status = document.getElementById("cameraStatus");
+  status.innerHTML = "Starting camera...";
+
+  if(scannerRunning){
+    status.innerHTML = "Camera already running.";
+    return;
+  }
+
+  qrScanner = new Html5Qrcode("reader");
+
+  qrScanner.start(
+    { facingMode: "environment" },
+    {
+      fps: 10,
+      qrbox: { width: 220, height: 220 }
+    },
+    (decodedText) => {
+      document.getElementById("qrInput").value = decodedText;
+      status.innerHTML = "QR Detected ✓";
+      scannerRunning = true;
+    },
+    (errorMessage) => {
+      // silent scan loop errors
+    }
+  ).then(() => {
+    scannerRunning = true;
+    status.innerHTML = "Camera Active — scan a QR code";
+  }).catch(err => {
+    status.innerHTML = "Camera access failed. Check browser permissions.";
+  });
+}
+
+function cameraOff(){
+  const status = document.getElementById("cameraStatus");
+
+  if(qrScanner && scannerRunning){
+    qrScanner.stop().then(() => {
+      qrScanner.clear();
+      scannerRunning = false;
+      status.innerHTML = "Camera stopped.";
+    }).catch(() => {
+      status.innerHTML = "Unable to stop camera cleanly.";
+    });
+  } else {
+    status.innerHTML = "Camera already off.";
+  }
+}
+
+function syncQR(){document.getElementById("urlInput").value = document.getElementById("qrInput").value; goPage("scanner");}
+function analyzeQR(){syncQR(); runScan("QR Destination");}
+function clearInputs(){["urlInput","qrInput"].forEach(id=>document.getElementById(id).value=""); setScore(0); document.getElementById("indicators").innerHTML="<li>No scan yet.</li>"; document.getElementById("explainer").textContent="Paste a link or QR destination and run Shield Scan.";}
+function blockDomain(){alert("Domain added to local blocklist simulation. Full persistent blocklist can be wired next.");}
+function openReport(){document.getElementById("reportText").textContent = lastReport; document.getElementById("modal").classList.add("open");}
+function closeReport(e){if(e.target.id==="modal") e.target.classList.remove("open");}
+
+function scanUploadedQR(){
+  const fileInput = document.getElementById("qrFile");
+  const file = fileInput.files[0];
+
+  if(!file){
+    alert("Upload a QR image first.");
+    return;
+  }
+
+  const tempScanner = new Html5Qrcode("reader");
+  tempScanner.scanFile(file, true)
+    .then(decodedText => {
+      document.getElementById("qrInput").value = decodedText;
+      document.getElementById("cameraStatus").innerHTML = "Uploaded QR decoded ✓";
+    })
+    .catch(() => {
+      alert("Could not detect a QR code in this image.");
+    });
+}
+
+function exportReport(){
+  const blob = new Blob([lastReport], {type:"text/plain"});
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "proxuma-shield-report.txt";
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+</script>
+</body>
+</html>
