@@ -1,0 +1,5 @@
+Proxuma Lite logic swap patch
+- Imported Sense exact-domain trust logic
+- Leaves UI untouched
+- Leaves navigation untouched
+- Targets RBC false positive only
