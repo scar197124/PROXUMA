@@ -1,0 +1,6 @@
+Proxuma Sense navigation cleanup patch
+
+Removed only the Proxuma Sense header Scanner button from 03_PROXUMA_SENSE_REPO/index.html.
+Preserved the main Sense scanner/input section and SCAN NOW button.
+No Lite or Shield files were changed.
+showPage() was made slightly safer by guarding el before adding the active class.

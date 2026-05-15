@@ -1,0 +1,26 @@
+Proxuma v12.8 Emergency Single-Repo Recovery
+
+Purpose:
+This package is designed for immediate GitHub Pages recovery when separate-repo links caused 404 errors.
+
+Upload the CONTENTS of this folder to the canonical/main Proxuma repo root.
+Do not upload the outer folder itself.
+
+Expected root structure after upload:
+index.html
+styles.css
+proxuma.engine.js
+lite/index.html
+sense/index.html
+shield/index.html
+shared/...
+assets/...
+99_DOCUMENTATION/...
+
+Links are patched for one-repo deployment:
+Canonical -> ./lite/index.html
+Canonical -> ./sense/index.html
+Canonical -> ./shield/index.html
+Lite/Sense/Shield Home -> ../index.html
+
+Offline status is preserved.

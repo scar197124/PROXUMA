@@ -1,0 +1,12 @@
+Proxuma Sense Mobile Real-Estate Patch v12.3
+
+Scope: 03_PROXUMA_SENSE_REPO/index.html only.
+
+Changes:
+- Reduced Live Threat Radar height/visual footprint so it no longer wastes large space.
+- Removed forced minimum height from collapsed Technical Findings card.
+- Kept Technical Findings expandable/collapsible and preserved findings list logic.
+- Fixed mobile stat grid so Threat Level / Confidence / Signals Found / Scan Type stay inside the UI.
+- Preserved Proxuma offline patch, Sense navigation cleanup, input field, Scan Now button, engine logic, Lite, and Shield.
+
+No engine, routing, scanner, or offline dependency changes were made.

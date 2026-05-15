@@ -1,0 +1,16 @@
+PROXUMA v12.7 DEPLOY SHARED FOLDER GUIDE
+
+Purpose:
+This patch makes the app folders safer for separate GitHub repository deployment.
+
+Rule:
+- Canonical repo gets canonical files and 99_DOCUMENTATION.
+- Lite repo gets everything inside 02_PROXUMA_LITE_REPO, including its shared folder.
+- Sense repo gets everything inside 03_PROXUMA_SENSE_REPO.
+- Shield repo gets everything inside 04_PROXUMA_SHIELD_REPO, including its shared folder.
+
+Why:
+Lite uses ../shared from lite/index.html, so the Lite repo must keep shared at the repo root beside the lite folder.
+Shield is a root index.html in its own repo, so Shield now uses ./shared/html5-qrcode.local.js and includes its own shared folder.
+
+Do not upload one global shared folder to all repos unless a repo actually references it. Keep each repo self-contained for offline truthfulness.

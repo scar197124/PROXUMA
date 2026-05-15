@@ -1,0 +1,54 @@
+PROXUMA LOCKED BACKUP v12.1
+Date: 2026-05-14
+
+STATUS
+- User confirmed live system is working.
+- Canonical homepage loads.
+- Lite loads with consistent header and UI.
+- Sense loads with consistent header, no preloaded URL.
+- Shield loads with consistent header and updated landing page.
+- Home navigation returns to canonical page.
+
+LOCKED FAMILY HEADER STANDARD
+- Family green: #24ff72
+- Header nav order: Home / About / Scanner / Privacy / Transparency
+- Header style: Proxuma Shield reference style; compact pill buttons, black/dark background, white text, green border.
+- Sticky header removed/avoided for mobile friendliness.
+
+FILES TO KEEP AS BACKUP
+1) 01_CANONICAL_PROXUMA_REPO/
+   Upload to main PROXUMA repo root if restoring canonical page.
+   Includes: index.html, styles.css, proxuma.engine.js
+
+2) 02_PROXUMA_LITE_REPO/lite/index.html
+   Restore to Proxuma-lite/lite/index.html
+   Final fix: removes old Lite/Sense/Shield internal buttons and keeps Lite header as Home/About/Scanner/Privacy/Transparency.
+
+3) 03_PROXUMA_SENSE_REPO/index.html
+   Restore to Proxuma-sense/index.html
+   Final fix: no preloaded suspicious URL; intro card removed; header consistent.
+
+4) 04_PROXUMA_SHIELD_REPO/index.html
+   Restore to Proxuma-Shield/index.html
+   Final fix: landing page filled; duplicate scanner button removed; sticky behavior removed.
+
+DO NOT UPLOAD LOCAL PREVIEW FOLDERS
+This backup intentionally excludes local preview folders. The folders here are restore/upload targets only.
+
+FINAL LIVE TEST CONFIRMED BY USER
+- Canonical -> Enter Lite: works; Lite UI loads; buttons consistent.
+- Lite -> Home: returns to canonical page.
+- Canonical -> Enter Sense: works; buttons consistent; no preloaded URLs.
+- Sense -> Home: returns to canonical page.
+- Canonical -> Enter Shield: works; Shield UI loads.
+
+NEXT DEVELOPMENT RULE
+Do not add new features unless directly tied to engine upgrades. Current lock is consistency, navigation, header/button/color discipline, and stable app flow.
+
+SHA-256 CHECKSUMS
+20d7dcabf65ded57704b68e285eb598a5851688e025ccfd6ccf7a4bcb5b77976  01_CANONICAL_PROXUMA_REPO/index.html  (6666 bytes)
+b7c05d0fa1df3a50c913346aeea8bae0b1074942d32adf5357fe31ae5f451056  01_CANONICAL_PROXUMA_REPO/proxuma.engine.js  (8722 bytes)
+46c09de4e8ed1bcd01a96bb5a0c8f872ad728b2c299e31eb9532353d0f275afd  01_CANONICAL_PROXUMA_REPO/styles.css  (14116 bytes)
+b675315718848f4792b75f7603487d2bb69567118dbed0dfbca80f635d84a731  02_PROXUMA_LITE_REPO/lite/index.html  (186622 bytes)
+4a7fcee7cbaf1c57f7e3c7e43e5b96e464603bdf25831ae87ea6bef51860b6d1  03_PROXUMA_SENSE_REPO/index.html  (195865 bytes)
+acd457ad1d3cb9d31b6a3ee5226d009ab1de437b7f02c0d011d3a0986ce138c3  04_PROXUMA_SHIELD_REPO/index.html  (194286 bytes)
