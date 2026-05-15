@@ -1,0 +1,26 @@
+PROXUMA LOCKED BACKUP v12.1 — OFFLINE PATCH
+
+Source of truth: Proxuma_LOCKED_BACKUP_v12_1.
+Purpose: preserve locked navigation/header cleanup and remove online runtime dependencies.
+
+Applied:
+- Replaced html5-qrcode CDN with local shared/html5-qrcode.local.js bridge.
+- Patched Home/Proxuma links to local canonical page.
+- Patched canonical product cards to local Lite/Sense/Shield pages.
+- Added local placeholder shared files required by Lite path references, so offline/local opening does not hit missing shared files.
+- Added root index.html launcher to open canonical package cleanly.
+
+Navigation preserved:
+- Lite: Home / About / Scanner / Privacy / Transparency. No Sense/Shield app-switch buttons added.
+- Sense: Home / About / Scanner / Privacy / Transparency. No Lite/Shield app-switch buttons added.
+- Shield: Proxuma return + Home / About / Scanner / Privacy / Transparency. No Lite/Sense app-switch buttons added.
+
+Offline truth note:
+- Manual paste/link scanning is fully local.
+- QR camera/file decoding is CDN-free and uses native browser BarcodeDetector where available. If a browser does not support it, Proxuma remains offline via manual paste scanning.
+
+External src/href findings after patch:
+- None
+
+Missing local src/href findings after patch:
+- None

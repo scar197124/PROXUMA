@@ -1,0 +1,13 @@
+Proxuma Trajectory Lanes — v12.6
+
+Purpose: keep each Proxuma app in its own lane while the system grows.
+
+Lite lane: quick local scanner. Fast answer, simple score, simple explanation.
+
+Sense lane: interpretation and clarity. Sense explains visible local signals already produced by the local scan. Sense does not block, quarantine, defend, or become Shield.
+
+Shield lane: stronger protection posture. Shield owns higher-alert defensive language and protection framing.
+
+Intel / IT / Scout future lane: optional online intelligence companion after the offline system is locked. Intel may gather online reputation signals only in its own separate app/lane. Offline Proxuma remains offline-first.
+
+v12.6 patch rule: Local Signal Map is a Sense explanation polish only. No new external dependencies. No engine scoring changes. No routing changes. No Shield behavior added to Sense.

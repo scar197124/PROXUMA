@@ -1,0 +1,15 @@
+Proxuma v12.5 — Lite Example Button Style Patch
+
+Scope:
+- Proxuma Lite only.
+- Updated scanner example buttons to match the Proxuma navbar / Shield-style pill buttons.
+- Affected examples: Safe Example, Caution Example, Phishing Redirect, URL Shortener, Raw IP Attack, Punycode Attack.
+
+Preserved:
+- Offline QR/local dependency patch.
+- Lite scanner logic and sample data attributes.
+- Sense visual/mobile cleanup.
+- Shield UI and engine.
+- Canonical navigation and local paths.
+
+No engine, routing, or scanner behavior changes were made.

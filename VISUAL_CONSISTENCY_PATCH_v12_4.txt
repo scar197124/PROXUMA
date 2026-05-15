@@ -1,0 +1,15 @@
+Proxuma v12.4 Visual Consistency Patch
+
+Scope: visual-only. No engine or routing changes.
+
+Changes:
+1. Restored Proxuma Lite shared CSS/JS bundle from the neon dark UI source so Lite no longer falls back to plain white/black browser styling.
+2. Kept the local offline QR bridge in place.
+3. Updated Proxuma Sense sample/example buttons to match the Shield-family pill navigation style: dark background, neon green border, white text, rounded equal buttons, hover glow.
+4. Preserved the removed Sense Scanner nav button.
+5. Preserved offline-first status.
+
+Test focus:
+- Open Lite and confirm dark/neon Proxuma UI returns.
+- Open Sense and confirm sample/example buttons look like the nav button family.
+- Confirm manual scans still run offline.

@@ -1,0 +1,15 @@
+Proxuma Sense Signal Map Patch — v12.6
+
+Changed only: 03_PROXUMA_SENSE_REPO/index.html
+
+Patch summary:
+- Converted the decorative Live Threat Radar area into a Local Signal Map.
+- Kept the radar identity, but reduced wasted space.
+- Added top signal, local signal chips, and a plain-English interpretation line.
+- Uses the existing local scan result data only.
+- No engine scoring changes.
+- No external dependencies added.
+- No Lite or Shield UI/logic changes.
+
+Lane discipline:
+Sense explains. Shield protects. Lite scans quickly. Intel/Scout comes later as a separate optional online intelligence lane.
