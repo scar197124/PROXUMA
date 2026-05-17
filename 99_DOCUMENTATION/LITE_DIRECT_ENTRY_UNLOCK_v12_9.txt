@@ -1,0 +1,19 @@
+PROXUMA v12.9 — LITE DIRECT-ENTRY UNLOCK
+
+Purpose:
+Fixes the black-and-white/plain-styled Lite page when Proxuma Lite is entered directly rather than through the main Proxuma homepage.
+
+Cause:
+Lite depended on ../shared CSS/JS. If Lite is opened through a separate repo/subpath or partial deployment, those parent shared files may not resolve, so the browser shows default styling.
+
+Patch:
+- Bundled shared CSS/JS into lite/shared/.
+- Bundled assets into lite/assets/.
+- Updated lite/index.html to load ./shared/proxuma.theme.core.css, ./shared/style.css, and local JS files.
+- Left root shared/ and parent navigation intact for the main single-repo deployment.
+
+Expected result:
+- Direct /lite/index.html entry loads full UI.
+- Homepage -> Lite still loads full UI.
+- Lite -> Home still returns to ../index.html in the integrated repo.
+- No external dependencies added.
