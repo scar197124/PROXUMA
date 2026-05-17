@@ -38,3 +38,6 @@ V7 LIVE APP LINKS
 This version wires the homepage Enter Here buttons to live GitHub Pages app URLs instead of repository/code pages.
 
 V8 correction: Lite button now points to the confirmed live Lite UI subpath: https://scar197124.github.io/Proxuma-lite/lite/
+
+
+Vercel trigger commit: refreshed deployment handshake for project-nykjl.
