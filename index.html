@@ -1,93 +1,125 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Proxuma | Privacy. Security. Peace of Mind.</title>
-  <meta name="description" content="Proxuma is a privacy-first phishing protection ecosystem with Lite, Sense, and Shield layers." />
-  <link rel="stylesheet" href="styles.css" />
+<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Proxuma</title>
+<style>
+body{margin:0;background:#050505;color:#fff;font-family:Arial,sans-serif;line-height:1.5}
+.px-unified-header{
+ text-align:center;border-bottom:2px solid #39ff14;padding:10px 14px;background:#050505;
+}
+.px-logo{max-width:205px;display:block;margin:0 auto 4px auto}
+.px-nav{display:flex;justify-content:center;align-items:center;gap:8px;flex-wrap:wrap}
+.px-nav a{
+ color:#39ff14;text-decoration:none;border:2px solid #39ff14;
+ padding:8px 14px;border-radius:999px;font-size:14px;
+}
+.px-nav a:hover{background:#39ff14;color:#000}
+.hero{max-width:1120px;margin:42px auto 24px;text-align:center;padding:20px}
+.hero h1{color:#39ff14;font-size:44px;margin:0 0 12px}
+.hero p{font-size:18px;max-width:760px;margin:0 auto 12px;color:#e9ffe9}
+.tagline{color:#39ff14;font-weight:bold;letter-spacing:.04em;text-transform:uppercase;font-size:13px}
+.section{max-width:1120px;margin:20px auto;padding:0 20px;text-align:center}
+.section h2{color:#39ff14;margin:28px 0 14px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(245px,1fr));gap:20px;margin-top:18px}
+.card{
+ border:2px solid #39ff14;border-radius:16px;padding:24px;background:rgba(0,0,0,.58);
+ box-shadow:0 0 18px rgba(57,255,20,.14);text-align:left;
+}
+.card h3{color:#39ff14;margin-top:0;text-align:center}
+.card p{color:#f4fff4}
+.card ul{padding-left:20px;color:#f4fff4}
+.card li{margin:7px 0}
+.statement{
+ border:2px solid #39ff14;border-radius:18px;max-width:950px;margin:30px auto;padding:24px;
+ background:radial-gradient(circle at top,rgba(57,255,20,.10),rgba(0,0,0,.6));
+}
+.footer{text-align:center;padding:36px 20px;color:#39ff14}
+@media(max-width:768px){
+ .px-logo{max-width:165px}
+ .px-nav a{padding:7px 11px;font-size:13px}
+ .hero{margin-top:28px}
+ .hero h1{font-size:30px}
+ .hero p{font-size:16px}
+ .card{text-align:center}
+ .card ul{text-align:left}
+}
+</style>
 </head>
 <body>
-  <div class="orb orb-a"></div>
-  <div class="orb orb-b"></div>
-  <header class="site-header">
-    <a class="brand" href="#home" aria-label="Proxuma home">
-      <span class="brand-mark" aria-hidden="true">
-        <svg viewBox="0 0 64 64"><path d="M32 4 55 13v17c0 15.5-9.5 24.5-23 30C18.5 54.5 9 45.5 9 30V13L32 4Z"/><path d="M23 44V20h14c7 0 11 4 11 10s-4 10-11 10h-5v-8h5c2.2 0 3.8-1 3.8-3S39.2 26 37 26h-7v18h-7Z"/><path d="M20 19h-4v8"/></svg>
-      </span>
-      <span><strong>PROXUMA</strong><em>Privacy. Security. Peace of Mind.</em></span>
-    </a>
-    <nav class="main-nav" aria-label="Main navigation">
-      <a class="active" href="#home">Home</a>
-      <a href="#products">Products</a>
-      <a href="#how">How It Works</a>
-      <a href="#about">About</a>
-    </nav>
-  </header>
 
-  <main id="home">
-    <section class="hero">
-      <div class="hero-copy">
-        <div class="trust-pill"><span>🔒 100% PRIVATE</span><span>•</span><span>📶 OFFLINE READY</span><span>•</span><span>🍁 BUILT IN CANADA</span></div>
-        <h1>Phishing Protection<br/>That Puts<br/><span>You First.</span></h1>
-        <p class="hero-text">Three powerful layers of protection working together to keep you safe from scams, phishing, and online threats.</p>
-        <div class="hero-actions">
-          <a class="primary" href="#products">Explore Protection <span>→</span></a>
-          <a class="secondary" href="#how">▷ See How It Works</a>
-        </div>
-        <div class="feature-row">
-          <div><b>🔐 100% Private</b><small>No data collected</small></div>
-          <div><b>📡 Offline Ready</b><small>Works anywhere</small></div>
-          <div><b>🛡️ Built in Canada</b><small>Proudly protected</small></div>
-          <div><b>👨‍👩‍👧 Family Focused</b><small>Protect what matters</small></div>
-        </div>
-      </div>
-      <div class="hero-visual" aria-hidden="true">
-        <div class="world-grid"></div>
-        <div class="radar-ring r1"></div>
-        <div class="radar-ring r2"></div>
-        <div class="radar-ring r3"></div>
-        <div class="shield-large">
-          <svg viewBox="0 0 240 280"><defs><linearGradient id="g" x1="0" x2="1"><stop offset="0" stop-color="#73ffcf"/><stop offset="1" stop-color="#04c9b7"/></linearGradient></defs><path class="outer" d="M120 9 222 49v81c0 72-43 116-102 141C61 246 18 202 18 130V49L120 9Z"/><path class="inner" d="M120 30 200 62v66c0 58-33 94-80 116-47-22-80-58-80-116V62l80-32Z"/><path class="p" d="M76 206V82h63c34 0 56 20 56 51 0 32-22 52-56 52h-29v-39h29c12 0 20-5 20-15 0-9-8-14-20-14H113v89H76Z" fill="url(#g)"/></svg>
-        </div>
-        <div class="glow-pad"></div>
-      </div>
-    </section>
+<header class="px-unified-header">
+<img src="assets/proxuma-logo.png" class="px-logo" onerror="this.src='assets/logo.png'">
+<nav class="px-nav">
+<a href="index.html">Home</a>
+<a href="about.html">About</a>
+<a href="lite/index.html">Lite</a>
+<a href="sense/index.html">Sense</a>
+<a href="shield/index.html">Shield</a>
+</nav>
+</header>
 
-    <section id="products" class="products">
-      <div class="section-title"><span></span><h2>Three Layers. One Mission. <em>Your Safety Online.</em></h2><span></span></div>
-      <div class="cards">
-        <article class="product-card lite"><div class="icon">↗</div><p>PROXUMA LITE</p><h3>Scan Instantly</h3><p class="body">Check suspicious links, secure destinations, QR codes, and lookalike domains.</p><p class="privacy-note">Private by default. Built for fast everyday link checks.</p><a class="enter-link" href="./lite/index.html">Enter Here →</a></article>
-        <article class="product-card sense"><div class="icon">🧠</div><p>PROXUMA SENSE</p><h3>Understand the Threat</h3><p class="body">Understand patterns, context, and risk signals before you click.</p><p class="privacy-note">Designed to explain danger clearly without exposing your data.</p><a class="enter-link" href="./sense/index.html">Enter Here →</a></article>
-        <article class="product-card shield"><div class="icon">⌂</div><p>PROXUMA SHIELD</p><h3>Advanced Protection</h3><p class="body">Advanced protection for phishing, typo-squatting, and enterprise-style threats.</p><p class="privacy-note">Deeper defense while keeping the user in control.</p><a class="enter-link" href="./shield/index.html">Enter Here →</a></article>
-      </div>
-    </section>
 
-    <section id="how" class="how-strip" aria-labelledby="how-title">
-      <p class="eyebrow">HOW PROXUMA WORKS</p>
-      <h2 id="how-title">Scan. Understand. Protect.</h2>
-      <p class="how-intro">Proxuma is built as three clean layers: quick checking, clear explanation, and deeper protection when the risk is higher.</p>
-      <div class="how-steps">
-        <article><span>01</span><b>Proxuma Lite</b><small>Checks suspicious links, QR destinations, and lookalike domains quickly and privately.</small></article>
-        <article><span>02</span><b>Proxuma Sense</b><small>Explains what looks risky in plain language so users understand the threat before they click.</small></article>
-        <article><span>03</span><b>Proxuma Shield</b><small>Provides deeper review for high-risk links, typo-squatting patterns, and advanced threat signals.</small></article>
-      </div>
-    </section>
+<section class="hero">
+<div class="tagline">Private by design · Transparent by purpose</div>
+<h1>Privacy First Threat Detection</h1>
+<p>Proxuma helps you inspect suspicious links, understand warning signs, and choose the right depth of protection without turning your browsing into someone else’s data stream.</p>
+</section>
 
-    <section id="about" class="mission-strip">
-      <div class="mini-brand"><svg viewBox="0 0 64 64"><path d="M32 4 55 13v17c0 15.5-9.5 24.5-23 30C18.5 54.5 9 45.5 9 30V13L32 4Z"/><path d="M23 44V20h14c7 0 11 4 11 10s-4 10-11 10h-5v-8h5c2.2 0 3.8-1 3.8-3S39.2 26 37 26h-7v18h-7Z"/></svg></div>
-      <div><b>Our Mission</b><small>To protect individuals and families with privacy-first security tools that are simple, powerful, and accessible to all.</small></div>
-      <div><b>🔒 Privacy First</b><small>We never collect or store your data.</small></div>
-      <div><b>📈 Always Improving</b><small>Continuously updated to stay ahead of threats.</small></div>
-      <div><b>👥 Community Driven</b><small>Built with care, driven by trust.</small></div>
-      <div><b>🍁 Proudly Canadian</b><small>Designed and built in Canada.</small></div>
-    </section>
-  </main>
+<section class="section statement">
+<h2>What Proxuma Stands For</h2>
+<p><strong style="color:#39ff14">Privacy</strong> means your scan should not become a tracking event.</p>
+<p><strong style="color:#39ff14">Transparency</strong> means a warning should explain itself, not hide behind a mystery score.</p>
+<p><strong style="color:#39ff14">Protection</strong> means the tool should help you make a safer decision before you click.</p>
+</section>
 
-  <footer>
-    <b>© <span id="year"></span> Proxuma.</b> Privacy-first protection, offline by default.
-    <small>Proxuma helps identify suspicious links and online risks. No tool can guarantee complete protection, but Proxuma is built to improve awareness, privacy, and safer browsing.</small>
-  </footer>
-  <script src="proxuma.engine.js"></script>
-</body>
-</html>
+<section class="section">
+<h2>Core Principles</h2>
+<div class="grid">
+<div class="card">
+<h3>Privacy</h3>
+<p>Your scans stay yours. Proxuma is built around offline-first analysis wherever possible, reducing unnecessary exposure of the links you check.</p>
+</div>
+<div class="card">
+<h3>Transparency</h3>
+<p>Threat detection should be explainable. Proxuma shows signals, patterns, and reasoning so users understand the verdict.</p>
+</div>
+<div class="card">
+<h3>Protection</h3>
+<p>Proxuma is designed to slow down risky clicks, reveal suspicious behavior, and give users a clearer path before acting.</p>
+</div>
+</div>
+</section>
+
+<section class="section">
+<h2>Choose Your Layer</h2>
+<div class="grid">
+<div class="card">
+<h3>Proxuma Lite</h3>
+<ul>
+<li>Fast URL scanning</li>
+<li>QR link checks</li>
+<li>Simple risk verdicts</li>
+<li>Everyday gateway protection</li>
+</ul>
+</div>
+<div class="card">
+<h3>Proxuma Sense</h3>
+<ul>
+<li>Explains why something feels risky</li>
+<li>Human-readable threat reasoning</li>
+<li>Education-focused clarity</li>
+<li>Built for understanding, not overload</li>
+</ul>
+</div>
+<div class="card">
+<h3>Proxuma Shield</h3>
+<ul>
+<li>Deep inspection layer</li>
+<li>Advanced threat breakdowns</li>
+<li>Reporting and intelligence workflow</li>
+<li>For users who need the full picture</li>
+</ul>
+</div>
+</div>
+</section>
+
+<div class="footer">Built for users — not surveillance.</div>
+</body></html>

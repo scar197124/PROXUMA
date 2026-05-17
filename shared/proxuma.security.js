@@ -195,9 +195,9 @@
   }
 
   function analyze(urlInput, sourceContext) {
-    let findings = [];
+    const findings = [];
     const suggestions = [];
-    let explanation = [];
+    const explanation = [];
 
     const categories = { domain: 0, protocol: 0, path: 0, redirect: 0, encoding: 0 };
     const threatFlags = { phishing:false, credentialHarvest:false, malwareDownload:false, prizeScam:false, redirectAbuse:false, qrSuspicion:false, obfuscation:false, domainObfuscation:false };
@@ -452,43 +452,36 @@
     }
 
     
-// === Legitimate brand domain allowlist ===
-const LEGIT_BRAND_DOMAINS = [
-  "rbcroyalbank.com",
-  "royalbank.com",
-  "google.com",
-  "amazon.com",
-  "apple.com",
-  "paypal.com",
-  "microsoft.com",
-  "td.com",
-  "cibc.com",
-  "bmo.com",
-  "scotiabank.com"
-];
+    // === Trusted domain false-positive guardrail ===
+    const TRUSTED_DOMAINS = [
+      "google.com","amazon.com","apple.com","microsoft.com","paypal.com",
+      "royalbank.com","rbcroyalbank.com","rbc.com","td.com","cibc.com",
+      "bmo.com","scotiabank.com","chase.com","bankofamerica.com"
+    ];
 
-const normalizedHost = hostname.replace(/^www\./i, "").toLowerCase();
-const isLegitBrandDomain = LEGIT_BRAND_DOMAINS.some(domain =>
-  normalizedHost === domain || normalizedHost.endsWith("." + domain)
-);
+    const registeredDomain = getRegisteredDomain(hostname);
 
-// Prevent false brand impersonation flags on legitimate domains
-if (isLegitBrandDomain) {
-  findings = findings.filter(
-    f => !String(f).toLowerCase().includes("impersonat")
-  );
+    if (
+      TRUSTED_DOMAINS.includes(registeredDomain) &&
+      !threatFlags.redirectAbuse &&
+      !threatFlags.malwareDownload &&
+      !threatFlags.credentialHarvest &&
+      !threatFlags.domainObfuscation &&
+      !threatFlags.obfuscation
+    ) {
+      riskScore = Math.min(riskScore, 18);
 
-  explanation = explanation.filter(
-    e => !String(e).toLowerCase().includes("impersonat")
-  );
+      explanation.push(
+        "Trusted domain guardrail applied: recognized legitimate domain with no major phishing or malware indicators."
+      );
 
-  threatFlags.brandImpersonation = false;
-
-  riskScore = Math.max(0, riskScore - 45);
-}
+      findings.push(
+        "Domain appears structurally legitimate and matched a known trusted domain pattern."
+      );
+    }
 
 
-const riskLevel = riskScore >= 85 ? "critical" : riskScore >= 60 ? "high" : riskScore >= 35 ? "medium" : riskScore >= 15 ? "low" : "safe";
+    const riskLevel = riskScore >= 85 ? "critical" : riskScore >= 60 ? "high" : riskScore >= 35 ? "medium" : riskScore >= 15 ? "low" : "safe";
 
     const threatBadges = [];
     if (threatFlags.credentialHarvest) threatBadges.push("Credential Theft / Phishing");
