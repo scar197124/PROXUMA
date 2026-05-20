@@ -49,9 +49,61 @@
   <link rel="icon" href="../assets/favicon.ico" />
   <link rel="stylesheet" href="../shared/proxuma.theme.core.css?v=2" />
   <link rel="stylesheet" href="../shared/style.css?v=2" />
+
+<!-- PROXUMA LITE VERCEL HARD DARK LOCK: prevents fresh Vercel/localStorage from forcing light cards -->
+<script>
+try { localStorage.setItem("proxuma-theme", "dark"); } catch (e) {}
+</script>
+<style>
+  html, body.proxuma-lite, body.proxuma-lite.theme-light, body.proxuma-lite.theme-dark {
+    background:#050505 !important;
+    color:#e6ffe6 !important;
+  }
+  body.proxuma-lite {
+    --px-bg:#050505 !important;
+    --px-text:#e6ffe6 !important;
+    --px-text-soft:#e6ffe6 !important;
+    --px-border:#24ff72 !important;
+    --px-surface:#050505 !important;
+    --px-surface-soft:#07100b !important;
+    --px-muted-surface:rgba(255,255,255,.06) !important;
+    --px-accent:#24ff72 !important;
+    --px-accent-soft:#72ff9a !important;
+  }
+  body.proxuma-lite .app-shell,
+  body.proxuma-lite main {
+    background:radial-gradient(circle at top left,rgba(36,255,114,.10),transparent 32%), #050505 !important;
+    color:#e6ffe6 !important;
+  }
+  body.proxuma-lite .glass,
+  body.proxuma-lite .hero-card,
+  body.proxuma-lite .feature-card,
+  body.proxuma-lite .section-card,
+  body.proxuma-lite .scan-card,
+  body.proxuma-lite .mini-stat,
+  body.proxuma-lite .glass-inner,
+  body.proxuma-lite .primary-concern,
+  body.proxuma-lite .summary-block,
+  body.proxuma-lite .findings-block,
+  body.proxuma-lite .technical-details,
+  body.proxuma-lite .confidence-row,
+  body.proxuma-lite .risk-grid {
+    background:rgba(5,10,7,.88) !important;
+    color:#e6ffe6 !important;
+    border-color:rgba(36,255,114,.32) !important;
+    box-shadow:0 18px 45px rgba(0,0,0,.38), 0 0 18px rgba(36,255,114,.10) !important;
+  }
+  body.proxuma-lite input,
+  body.proxuma-lite textarea,
+  body.proxuma-lite select {
+    background:#050505 !important;
+    color:#e6ffe6 !important;
+    border-color:rgba(36,255,114,.55) !important;
+  }
+</style>
 <script src="../shared/html5-qrcode.local.js"></script>
 </head>
-<body class="theme-dark">
+<body class="theme-dark proxuma-lite">
 <header class="px-unified-header">
   <div class="px-header-inner">
     <div class="px-logo-wrap">

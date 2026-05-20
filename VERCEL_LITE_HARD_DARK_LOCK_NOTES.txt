@@ -1,0 +1,19 @@
+PROXUMA LITE VERCEL HARD DARK LOCK
+
+Purpose:
+This patch is limited to lite/index.html and prevents Vercel from showing white/interior light cards on Proxuma Lite.
+
+What changed:
+1. Lite body class changed from: theme-dark
+   to: theme-dark proxuma-lite
+2. A small early script sets localStorage proxuma-theme to dark for the Lite page.
+3. A Lite-only inline CSS hard lock forces inner Lite cards, glass panels, scan cards, result cards, inputs, and app shell to dark surfaces.
+
+Why:
+GitHub renders correctly, but Vercel can keep or initialize a light theme state. This patch stops Lite from depending on stored theme state for its card interiors.
+
+Upload target:
+Push these files to the PROXUMA repo main branch used by Vercel. At minimum replace lite/index.html.
+
+Test:
+After Vercel redeploys, test /lite/ in a private/incognito window.
