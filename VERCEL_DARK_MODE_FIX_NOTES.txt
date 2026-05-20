@@ -1,0 +1,15 @@
+Proxuma Lite Vercel Dark Mode Fix
+
+Finding:
+- inex.html exists at project root, but no app file links to it and Vercel will not use it as the default entry file.
+- The white-card regression is caused by shared/proxuma.ui.js defaulting initTheme() to "light" when localStorage is empty.
+- GitHub looked okay because the browser likely already had proxuma-theme=dark saved for that domain.
+- Vercel is a new domain, so localStorage starts empty and the script switched <body class="theme-dark"> into theme-light.
+
+Fix applied:
+- shared/proxuma.ui.js now respects the HTML body's existing theme first.
+- Since lite/index.html already has <body class="theme-dark">, the default stays dark on a fresh Vercel deploy.
+- A saved user theme in localStorage still works if the user toggles it.
+
+Optional cleanup:
+- inex.html appears to be an old/typo root file for Sense. It is not the main culprit, but can be removed later to reduce confusion.
