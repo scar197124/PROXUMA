@@ -1,0 +1,19 @@
+PROXUMA Sense Technical Findings Alignment v12.11
+
+Purpose:
+- Fixes the UI contradiction where a scan could show high-risk local signals such as direct IP, unsecured HTTP, login/account lure, and multi-signal threat stack, while Technical Findings still said: No major technical anomalies detected.
+
+Files changed:
+- sense/index.html
+- inex.html
+
+Patch behavior:
+- SAFE results may still say no major technical anomalies detected.
+- RISKY or CAUTION results no longer use that safe-sounding fallback when no lower-level technical string exists.
+- Instead, Technical Findings now summarizes the local visible signals supporting the score.
+
+Deployment note:
+- This is a focused tweak against the live GitHub repo package provided by the user.
+- No folders were renamed.
+- No repo deletion is required.
+- Upload/replace the repo files normally, then redeploy Vercel from GitHub.

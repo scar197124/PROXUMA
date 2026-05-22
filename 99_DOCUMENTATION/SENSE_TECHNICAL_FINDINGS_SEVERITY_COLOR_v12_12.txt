@@ -1,0 +1,20 @@
+PROXUMA SENSE TECHNICAL FINDINGS SEVERITY COLOR PATCH v12.12
+
+Purpose:
+Align the Technical Findings card color with the actual scan severity.
+
+Changed files:
+- sense/index.html
+- inex.html
+
+What changed:
+- Technical Findings no longer stays green during RISKY/CAUTION results.
+- The card header now reads READY, SAFE, CAUTION, DANGER, CRITICAL, or INVALID.
+- Green is reserved for truly safe/ready states.
+- Orange is used for caution.
+- Red is used for danger/risky.
+- Stronger red/critical styling appears for high-risk scores of 75+.
+- Technical note wording was tightened so it agrees with the rest of the UI.
+
+Safe push notes:
+This is a small UI/logic alignment patch only. It preserves the existing repo structure and does not touch Lite, Shield, routing, assets, or shared engine files.

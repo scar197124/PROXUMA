@@ -1,0 +1,16 @@
+PROXUMA SENSE v12.13 — SHORTENER MIMIC GUARD
+
+Purpose:
+During final round-trip testing, the known bit.ly shortener sample was correctly treated as risky because of lure language and shortened-link behavior, but it was also being given the “Fake shortener mimic” technical finding.
+
+Fix:
+- Real known shorteners remain flagged as Known shortened link.
+- Fake shortener mimic only applies when the host is NOT already in the trusted local shortener list.
+- No network calls, APIs, tracking, routing, Lite, Shield, shared engine files, or homepage files were changed.
+
+Files changed:
+- sense/index.html
+- inex.html
+
+Files added:
+- 99_DOCUMENTATION/SENSE_SHORTENER_MIMIC_GUARD_v12_13.txt
