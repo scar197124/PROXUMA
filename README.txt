@@ -38,3 +38,8 @@ V7 LIVE APP LINKS
 This version wires the homepage Enter Here buttons to live GitHub Pages app URLs instead of repository/code pages.
 
 V8 correction: Lite button now points to the confirmed live Lite UI subpath: https://scar197124.github.io/Proxuma-lite/lite/
+
+
+---
+QR Safari Compatibility Patch v12.9
+Applied the Proxuma IT v2.70.1 QR compatibility pattern to the shared Proxuma QR bridge. Native BarcodeDetector remains preferred when supported; Safari/unsupported browsers can use a jsQR compatibility decoder path. Camera access remains user-triggered, decoded payloads remain browser-local, and no threat-intelligence API calls were added.
