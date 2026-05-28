@@ -1,0 +1,16 @@
+Proxuma Sense v12.14 Compact Controls Patch
+
+Purpose:
+- Reduce the oversized visual footprint of the Sense scan input, Scan Now button, and sample buttons.
+- Preserve all existing local scan engine behavior and navigation.
+
+Changes made in sense/index.html only:
+- Capped the scan bar at 1180px and centered it.
+- Reduced scan button column from 230px to 184px.
+- Reduced input font size from 21px visual default to 18px through a late CSS override.
+- Reduced input padding and clear button size.
+- Reduced sample chip padding/font size while keeping long labels readable.
+- Added mobile-specific compact overrides for smaller screens.
+
+Engine impact:
+- None. No JavaScript scan logic changed.

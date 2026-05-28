@@ -1,0 +1,21 @@
+PROXUMA v12.19 — Homepage Card Body Balance + Aligned Entry Buttons
+
+Purpose:
+- Extend the text inside the homepage Proxuma Lite, Sense, Shield, and IT cards so each product explains itself more clearly.
+- Align the card entry buttons so the user sees a cleaner, more professional row of calls to action.
+
+Changes:
+- Expanded Lite card copy to mention suspicious links, QR destinations, short URLs, lookalike domains, and file-delivery traps.
+- Expanded Sense card copy to explain redirect/login-lure/shortener risk explanation.
+- Expanded Shield card copy to cover deeper phishing, typo-squatting, QR, and file-delivery review.
+- Refined IT Coming Soon copy to emphasize offline-first deeper investigation with optional online context.
+- Added flex card layout so buttons sit at the bottom of each card on desktop.
+- Added desktop min-height balancing while keeping tablet/mobile flexible.
+
+Preserved:
+- v12.14 Sense compact controls.
+- v12.15 Shield mobile Action Center order.
+- v12.16 ecosystem file-delivery intelligence.
+- v12.17 homepage entry button visibility.
+- v12.18 IT offline/online signal mark.
+- No engine or scan logic changes.

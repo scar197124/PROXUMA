@@ -129,6 +129,70 @@ details.card.findings[open]{min-height:0!important;}
 @media(max-width:768px){.samples{margin-left:0;align-items:stretch}.samples .chip{flex:1 1 150px;padding:9px 14px!important}}
 
 @media (max-width:760px){.signalMap{grid-template-columns:1fr}.radarBox{height:118px}.radarCircle{width:108px;height:108px}.sweep{width:54px;height:34px}.signalChips{gap:6px}.signalChip{font-size:12px;padding:7px 9px}.signalReason{font-size:13px}}
+
+
+/* v12.14 Sense compact controls patch: trims oversized scan input, scan button, and sample chips without touching engine logic. */
+.scanbar{
+  max-width:1180px;
+  margin:18px auto 0;
+  grid-template-columns:minmax(0,1fr) 184px;
+  gap:14px;
+  padding:10px 12px;
+}
+input{
+  font-size:18px;
+  padding:14px 48px 14px 13px;
+}
+.clear{
+  width:30px;
+  height:30px;
+  right:10px;
+}
+.scanBtn{
+  min-height:50px;
+  font-size:16px;
+  letter-spacing:.02em;
+}
+.samples{
+  max-width:1180px;
+  margin:13px auto 16px;
+  gap:8px;
+}
+.chip{
+  padding:8px 15px!important;
+  font-size:14px!important;
+  line-height:1.1;
+  white-space:nowrap;
+}
+@media(max-width:600px){
+  .scanbar{
+    max-width:100%;
+    margin-top:14px;
+    padding:10px;
+    gap:10px;
+  }
+  input{
+    font-size:15px;
+    padding:12px 42px 12px 11px;
+  }
+  .clear{
+    width:28px;
+    height:28px;
+  }
+  .scanBtn{
+    min-height:46px;
+    font-size:15px;
+  }
+  .samples{
+    margin:11px 0 14px;
+    gap:7px;
+  }
+  .chip{
+    padding:7px 11px!important;
+    font-size:13px!important;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -201,6 +265,61 @@ function clearInput(){document.getElementById('scanInput').value='';}
 function loadSample(v){document.getElementById('scanInput').value=v;runScan();}
 function add(flags, actions, name, score, action, technical, tech){flags.push({name,score}); if(action) actions.push(action); if(tech) technical.push(tech); return score;}
 function cleanInput(raw){return String(raw||'').trim().replace(/[\u200B-\u200D\uFEFF]/g,'').replace(/[)\]}>.,;]+$/,'');}
+
+function detectFileDeliveryRisk(input){
+  const text = String(input || '').trim().toLowerCase();
+  let target = text;
+  try {
+    const candidate = /^[a-z][a-z0-9+.-]*:\/\//i.test(text) ? text : 'https://' + text;
+    const u = new URL(candidate);
+    target = (u.pathname || '') + (u.search || '') + (u.hash || '');
+  } catch(e) {}
+  const decoded = (()=>{ try { return decodeURIComponent(target); } catch(e) { return target; } })();
+  const scan = decoded.replace(/\\/g,'/');
+  const dangerousExt = ['exe','msi','scr','bat','cmd','pif','vbs','vbe','js','jse','wsf','hta','jar','ps1','reg','lnk','apk','dmg','pkg','deb','rpm','sh','py'];
+  const rawExt = ['raw','bin','iso','img'];
+  const archiveExt = ['zip','rar','7z','gz','tar'];
+  const docExt = ['pdf','doc','docx','xls','xlsx','ppt','pptx','txt','jpg','jpeg','png','gif','html','htm'];
+  const extGroup = dangerousExt.concat(rawExt, archiveExt).join('|');
+  const escapedExt = extGroup.replace(/\|/g,'|');
+  const fileNameRe = new RegExp('(?:^|[\\/=&?#])[^\\s\\/=&?#]+\\.(' + escapedExt + ')(?=$|[?#&;])','i');
+  const doubleRe = new RegExp('\\.(' + docExt.join('|') + ')\\.(' + dangerousExt.concat(rawExt).join('|') + ')(?=$|[?#&;\\s])','i');
+  const queryFileRe = new RegExp('(?:file|download|payload|attachment|update|setup|installer|package|path|url|target|src|source)=([^&#]*\\.(' + escapedExt + '))(?=$|[&#])','i');
+  const directMatch = scan.match(fileNameRe);
+  const doubleMatch = scan.match(doubleRe);
+  const queryMatch = scan.match(queryFileRe);
+  const installerWords = /(download|setup|install|installer|update|security[-_ ]?update|patch|driver|codec|viewer|open[-_ ]?file)/i.test(scan);
+  const findings = [];
+  let score = 0;
+  let hard = false;
+  if(doubleMatch){
+    score += 42; hard = true;
+    findings.push('Double-extension file trap detected (example: document.pdf.exe style).');
+  }
+  if(directMatch){
+    const ext = directMatch[1].toLowerCase();
+    if(dangerousExt.includes(ext)){
+      score += 36; hard = true;
+      findings.push('Executable or script file delivery detected: .' + ext + '.');
+    } else if(rawExt.includes(ext)){
+      score += 28;
+      findings.push('Raw disk/image-style file delivery detected: .' + ext + '.');
+    } else if(archiveExt.includes(ext)){
+      score += 16;
+      findings.push('Compressed download package detected: .' + ext + '.');
+    }
+  }
+  if(queryMatch){
+    score += 26;
+    findings.push('Downloadable file reference hidden inside a URL parameter.');
+  }
+  if(installerWords && (directMatch || queryMatch)){
+    score += 10;
+    findings.push('Installer/update wording appears together with file delivery.');
+  }
+  return {score: Math.min(100, score), findings:[...new Set(findings)], hard};
+}
+
 function parseTarget(raw){
   const clean=cleanInput(raw).toLowerCase();
   let host='', path='', validUrl=false;
@@ -222,6 +341,17 @@ function analyze(raw){
   const hasLure=/(login|verify|password|account|payment|bank|invoice|wallet|crypto|claim|prize|reward|winner|gift|airdrop|security|urgent|suspended|locked|update|confirm)/i.test(clean);
   const officialHost = host && Object.values(knownBrands).some(list=>list.includes(host));
   if(!validUrl && !/\s/.test(clean) && !hasLure){malformed=true; add(flags,actions,'Unrecognized format',0,'Use a valid URL, domain, or meaningful message sample.',technical,'Input is not a valid URL/domain or meaningful text sample.');}
+
+  const fileIntel=detectFileDeliveryRisk(clean);
+  if(fileIntel.score){
+    score+=fileIntel.score;
+    for(const finding of fileIntel.findings){
+      flags.push({name:finding,score:0});
+      technical.push(finding);
+    }
+    actions.push('Do not download or open this file unless you fully trust the source.');
+    if(fileIntel.hard) actions.push('Treat executable installers and double-extension files as high risk.');
+  }
 
   if(clean.includes('http://')) score+=add(flags,actions,'Unsecured HTTP',15,'Avoid entering credentials on non-HTTPS sites.',technical,'Missing HTTPS encryption');
   if(/(?:\d{1,3}\.){3}\d{1,3}/.test(clean)) score+=add(flags,actions,'Direct IP destination',30,'Do not trust direct IP links from messages or QR codes.',technical,'Direct IP routing detected');

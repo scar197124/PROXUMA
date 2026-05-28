@@ -15,7 +15,7 @@
   ];
 
   const DANGEROUS_EXT = [
-    ".exe",".scr",".bat",".cmd",".vbs",".js",".jar",".msi",".ps1",".apk"
+    ".exe",".scr",".bat",".cmd",".vbs",".vbe",".js",".jse",".wsf",".hta",".jar",".msi",".ps1",".reg",".lnk",".apk",".dmg",".pkg",".deb",".rpm",".sh",".py",".raw",".bin",".iso",".img"
   ];
 
   const URL_SHORTENERS = [
@@ -26,7 +26,7 @@
   const BRAND_PROFILES = [
     "google","rbc","td","cibc","bmo","scotiabank","paypal","amazon","apple",
     "microsoft","outlook","office","facebook","instagram","whatsapp","twitter",
-    "x","binance","coinbase","kraken","metamask","netflix","spotify","chase",
+    "binance","coinbase","kraken","metamask","netflix","spotify","chase",
     "wellsfargo","bankofamerica","hsbc","santander","cbc","gmail","yahoo","bbc"
   ];
 
@@ -93,7 +93,7 @@
   function hasDoubleExtension(pathname) {
     if (!pathname) return false;
     const lower = pathname.toLowerCase();
-    return /(\.txt|\.pdf|\.docx?|\.jpe?g|\.png|\.gif)\.(exe|scr|bat|cmd|vbs|js|jar|msi|apk)$/.test(lower);
+    return /(\.txt|\.pdf|\.docx?|\.xlsx?|\.pptx?|\.jpe?g|\.png|\.gif|\.html?)\.(exe|scr|bat|cmd|vbs|vbe|js|jse|wsf|hta|jar|msi|ps1|reg|lnk|apk|dmg|pkg|deb|rpm|sh|py|raw|bin|iso|img)$/.test(lower);
   }
 
   function isLikelyBase64(str) {
@@ -298,8 +298,10 @@
 
     const dangerousExt = hasDangerousExtension(pathname);
     const doubleExt = hasDoubleExtension(pathname);
+    const queryFileDelivery = /(?:file|download|payload|attachment|update|setup|installer|package|path|url|target|src|source)=[^&#]*\.(exe|msi|scr|bat|cmd|vbs|vbe|js|jse|wsf|hta|jar|ps1|reg|lnk|apk|dmg|pkg|deb|rpm|sh|py|raw|bin|iso|img|zip|rar|7z)(?:$|[&#])/i.test(search);
     if (dangerousExt) { categories.path += 20; risk += 30; signalCount++; threatFlags.malwareDownload = true; findings.push("URL points to a potentially dangerous file type (" + dangerousExt + ")."); }
     if (doubleExt) { categories.path += 26; risk += 36; signalCount++; threatFlags.malwareDownload = true; findings.push("URL uses a double extension (e.g. .pdf.exe). Classic malware pattern."); }
+    if (queryFileDelivery) { categories.path += 20; risk += 28; signalCount++; threatFlags.malwareDownload = true; findings.push("URL hides executable, installer, archive, or raw-file delivery inside a query parameter."); }
 
     const encRatio = percentEncodedRatio(fullPath);
     if (encRatio > 0.3) { categories.encoding += 16; risk += 24; signalCount++; threatFlags.obfuscation = true; findings.push("URL path/query is heavily percent-encoded, which can hide payloads or redirects."); }

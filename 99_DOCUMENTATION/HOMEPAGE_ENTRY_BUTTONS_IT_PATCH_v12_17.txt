@@ -1,0 +1,18 @@
+PROXUMA v12.17 — Homepage Entry Button Visibility + Proxuma IT Coming-Soon Gateway
+
+Purpose:
+- Make the Lite, Sense, and Shield Enter buttons visually obvious on desktop and mobile.
+- Add a Proxuma IT coming-soon gateway card without creating a broken link.
+
+Changes:
+- Strengthened .enter-link globally with visible border, pill shape, contrast background, shadow, hover, and focus-visible states.
+- Kept each product button color-matched to its card accent.
+- Added Proxuma IT as a fourth coming-soon product card on the homepage.
+- Added Proxuma IT as step 04 in the How Proxuma Works section.
+- Updated homepage wording from strict three-layer framing to protection-layer framing so the IT teaser fits cleanly.
+
+Safety:
+- No engine logic changed.
+- No scanner logic changed.
+- Proxuma IT card is disabled/coming-soon and does not point to a missing folder, avoiding a broken link.
+- Preserves v12.14 Sense compact controls, v12.15 Shield mobile action order, and v12.16 file-delivery intelligence.

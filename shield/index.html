@@ -91,6 +91,11 @@ pre{white-space:pre-wrap;background:#030607;border:1px solid var(--line);border-
     padding:8px 12px;
     gap:4px;
   }
+
+  /* v12.15 mobile Shield flow: keep action controls directly after Link + QR Intelligence. */
+  #scanner .grid > .stack:nth-child(1){order:1}
+  #scanner .grid > .stack:nth-child(3){order:2}
+  #scanner .grid > .stack:nth-child(2){order:3}
 }
 
 
@@ -354,6 +359,61 @@ function goPage(id){
 }
 document.querySelectorAll('.nav').forEach(b=>b.addEventListener('click',()=>goPage(b.dataset.page)));
 
+
+function detectFileDeliveryRisk(input){
+  const text = String(input || '').trim().toLowerCase();
+  let target = text;
+  try {
+    const candidate = /^[a-z][a-z0-9+.-]*:\/\//i.test(text) ? text : 'https://' + text;
+    const u = new URL(candidate);
+    target = (u.pathname || '') + (u.search || '') + (u.hash || '');
+  } catch(e) {}
+  const decoded = (()=>{ try { return decodeURIComponent(target); } catch(e) { return target; } })();
+  const scan = decoded.replace(/\\/g,'/');
+  const dangerousExt = ['exe','msi','scr','bat','cmd','pif','vbs','vbe','js','jse','wsf','hta','jar','ps1','reg','lnk','apk','dmg','pkg','deb','rpm','sh','py'];
+  const rawExt = ['raw','bin','iso','img'];
+  const archiveExt = ['zip','rar','7z','gz','tar'];
+  const docExt = ['pdf','doc','docx','xls','xlsx','ppt','pptx','txt','jpg','jpeg','png','gif','html','htm'];
+  const extGroup = dangerousExt.concat(rawExt, archiveExt).join('|');
+  const escapedExt = extGroup.replace(/\|/g,'|');
+  const fileNameRe = new RegExp('(?:^|[\\/=&?#])[^\\s\\/=&?#]+\\.(' + escapedExt + ')(?=$|[?#&;])','i');
+  const doubleRe = new RegExp('\\.(' + docExt.join('|') + ')\\.(' + dangerousExt.concat(rawExt).join('|') + ')(?=$|[?#&;\\s])','i');
+  const queryFileRe = new RegExp('(?:file|download|payload|attachment|update|setup|installer|package|path|url|target|src|source)=([^&#]*\\.(' + escapedExt + '))(?=$|[&#])','i');
+  const directMatch = scan.match(fileNameRe);
+  const doubleMatch = scan.match(doubleRe);
+  const queryMatch = scan.match(queryFileRe);
+  const installerWords = /(download|setup|install|installer|update|security[-_ ]?update|patch|driver|codec|viewer|open[-_ ]?file)/i.test(scan);
+  const findings = [];
+  let score = 0;
+  let hard = false;
+  if(doubleMatch){
+    score += 42; hard = true;
+    findings.push('Double-extension file trap detected (example: document.pdf.exe style).');
+  }
+  if(directMatch){
+    const ext = directMatch[1].toLowerCase();
+    if(dangerousExt.includes(ext)){
+      score += 36; hard = true;
+      findings.push('Executable or script file delivery detected: .' + ext + '.');
+    } else if(rawExt.includes(ext)){
+      score += 28;
+      findings.push('Raw disk/image-style file delivery detected: .' + ext + '.');
+    } else if(archiveExt.includes(ext)){
+      score += 16;
+      findings.push('Compressed download package detected: .' + ext + '.');
+    }
+  }
+  if(queryMatch){
+    score += 26;
+    findings.push('Downloadable file reference hidden inside a URL parameter.');
+  }
+  if(installerWords && (directMatch || queryMatch)){
+    score += 10;
+    findings.push('Installer/update wording appears together with file delivery.');
+  }
+  return {score: Math.min(100, score), findings:[...new Set(findings)], hard};
+}
+
 function scoreUrl(raw){
   const url = (raw || "").trim().toLowerCase();
   let score = 12, indicators = [];
@@ -363,12 +423,19 @@ function scoreUrl(raw){
   if(url.includes("login")||url.includes("verify")||url.includes("account")||url.includes("password")) {score+=18; indicators.push("Credential or account-access wording detected.");}
   if(url.includes("payment")||url.includes("wallet")||url.includes("crypto")||url.includes("bank")) {score+=20; indicators.push("Financial or wallet-related wording detected.");}
   if(url.includes("@")||url.includes("%")||url.includes("xn--")) {score+=18; indicators.push("Encoding/lookalike domain pattern detected.");}
+
+  const fileIntel = detectFileDeliveryRisk(url);
+  if(fileIntel.score){
+    score += fileIntel.score;
+    indicators = indicators.concat(fileIntel.findings);
+  }
   if((url.match(/\./g)||[]).length>3) {score+=10; indicators.push("Many subdomains detected.");}
   if(indicators.length===0) indicators.push("No major local heuristic warnings detected.");
   score = Math.min(100, score);
   let explain = score < 35 ? "This appears low risk based on local heuristics, but still verify before entering personal data." :
                 score < 70 ? "This has caution signals. Review the destination and avoid sensitive input unless you trust it." :
                 "This has high-risk signals. Avoid entering passwords, payment details, or downloading files.";
+  if(fileIntel && fileIntel.hard && score >= 70) explain = "This appears to involve executable/raw-file delivery or a double-extension trap. Avoid downloading or opening the file.";
   return {score, indicators, explain};
 }
 function setScore(score){

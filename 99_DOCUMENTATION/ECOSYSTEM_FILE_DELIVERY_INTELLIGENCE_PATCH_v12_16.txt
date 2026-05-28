@@ -1,0 +1,27 @@
+Proxuma v12.16 — Ecosystem File Delivery Intelligence Patch
+
+Purpose:
+Bring the Proxuma IT executable/MSI/raw-file/download-trap intelligence into the current Lite/Sense/Shield ecosystem package.
+
+Scope:
+- Shield: added local executable, MSI, script, installer, archive, and raw disk/image file detection to the Shield scoring path.
+- Sense: added the same file-delivery intelligence to the Sense analyzer and action guidance.
+- Canonical engine: added file-delivery signals to proxuma.engine.js.
+- Shared security engine: expanded dangerous file detection and added query-parameter file delivery detection.
+
+Signals covered:
+- Direct executable/script/app/package files: .exe, .msi, .scr, .bat, .cmd, .vbs, .js, .jar, .ps1, .apk, .dmg, .pkg, .deb, .rpm, etc.
+- Double-extension traps such as invoice.pdf.exe.
+- Raw/disk-image style delivery such as .raw, .bin, .iso, .img.
+- Compressed delivery packages: .zip, .rar, .7z, .gz, .tar.
+- File references hidden inside query parameters such as ?file=setup.exe or ?payload=image.raw.
+
+Guardrail:
+.com is not treated as a dangerous executable extension in the shared ecosystem engine to avoid false positives on normal .com domains.
+
+Privacy:
+All checks remain local/offline. No API calls, telemetry, or cloud lookup added.
+
+Preserved from previous package:
+- Sense compact controls v12.14.
+- Shield mobile Action Center order v12.15.

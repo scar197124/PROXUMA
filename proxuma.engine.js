@@ -57,12 +57,68 @@ function normalizeHost(raw){let input=(raw||'').trim().toLowerCase(); if(!input)
 function skeleton(s){return s.toLowerCase().split('').map(c=>HOMO[c]||c).join('').replace(/[^a-z0-9]/g,'')}
 function lev(a,b){const m=[]; for(let i=0;i<=b.length;i++)m[i]=[i]; for(let j=0;j<=a.length;j++)m[0][j]=j; for(let i=1;i<=b.length;i++){for(let j=1;j<=a.length;j++){m[i][j]=b.charAt(i-1)===a.charAt(j-1)?m[i-1][j-1]:Math.min(m[i-1][j-1]+1,Math.min(m[i][j-1]+1,m[i-1][j]+1));}} return m[b.length][a.length]}
 function registered(host){const parts=host.split('.'); if(parts.length<=2)return host; const last2=parts.slice(-2).join('.'); const last3=parts.slice(-3).join('.'); if(/\.(co|com|net|org|gov)\.(uk|ca|au|nz)$/.test('.'+last3)) return last3; return last2}
+
+function detectFileDeliveryRisk(input){
+  const text = String(input || '').trim().toLowerCase();
+  let target = text;
+  try {
+    const candidate = /^[a-z][a-z0-9+.-]*:\/\//i.test(text) ? text : 'https://' + text;
+    const u = new URL(candidate);
+    target = (u.pathname || '') + (u.search || '') + (u.hash || '');
+  } catch(e) {}
+  const decoded = (()=>{ try { return decodeURIComponent(target); } catch(e) { return target; } })();
+  const scan = decoded.replace(/\\/g,'/');
+  const dangerousExt = ['exe','msi','scr','bat','cmd','pif','vbs','vbe','js','jse','wsf','hta','jar','ps1','reg','lnk','apk','dmg','pkg','deb','rpm','sh','py'];
+  const rawExt = ['raw','bin','iso','img'];
+  const archiveExt = ['zip','rar','7z','gz','tar'];
+  const docExt = ['pdf','doc','docx','xls','xlsx','ppt','pptx','txt','jpg','jpeg','png','gif','html','htm'];
+  const extGroup = dangerousExt.concat(rawExt, archiveExt).join('|');
+  const escapedExt = extGroup.replace(/\|/g,'|');
+  const fileNameRe = new RegExp('(?:^|[\\/=&?#])[^\\s\\/=&?#]+\\.(' + escapedExt + ')(?=$|[?#&;])','i');
+  const doubleRe = new RegExp('\\.(' + docExt.join('|') + ')\\.(' + dangerousExt.concat(rawExt).join('|') + ')(?=$|[?#&;\\s])','i');
+  const queryFileRe = new RegExp('(?:file|download|payload|attachment|update|setup|installer|package|path|url|target|src|source)=([^&#]*\\.(' + escapedExt + '))(?=$|[&#])','i');
+  const directMatch = scan.match(fileNameRe);
+  const doubleMatch = scan.match(doubleRe);
+  const queryMatch = scan.match(queryFileRe);
+  const installerWords = /(download|setup|install|installer|update|security[-_ ]?update|patch|driver|codec|viewer|open[-_ ]?file)/i.test(scan);
+  const findings = [];
+  let score = 0;
+  let hard = false;
+  if(doubleMatch){
+    score += 42; hard = true;
+    findings.push('Double-extension file trap detected (example: document.pdf.exe style).');
+  }
+  if(directMatch){
+    const ext = directMatch[1].toLowerCase();
+    if(dangerousExt.includes(ext)){
+      score += 36; hard = true;
+      findings.push('Executable or script file delivery detected: .' + ext + '.');
+    } else if(rawExt.includes(ext)){
+      score += 28;
+      findings.push('Raw disk/image-style file delivery detected: .' + ext + '.');
+    } else if(archiveExt.includes(ext)){
+      score += 16;
+      findings.push('Compressed download package detected: .' + ext + '.');
+    }
+  }
+  if(queryMatch){
+    score += 26;
+    findings.push('Downloadable file reference hidden inside a URL parameter.');
+  }
+  if(installerWords && (directMatch || queryMatch)){
+    score += 10;
+    findings.push('Installer/update wording appears together with file delivery.');
+  }
+  return {score: Math.min(100, score), findings:[...new Set(findings)], hard};
+}
+
 function analyzeUrl(raw){const parsed=normalizeHost(raw); if(!parsed) return {level:'neutral', score:0, title:'Enter a valid URL.', details:['The input could not be read as a URL or domain.']};
  const {host,path}=parsed; const reg=registered(host); const domainName=reg.split('.')[0]; const tld=reg.split('.').pop(); let score=0; const findings=[];
  if(SUSPICIOUS_TLDS.has(tld)){score+=24; findings.push(`Suspicious or high-abuse TLD detected: .${tld}`)}
  if(host.includes('xn--')){score+=30; findings.push('Punycode / internationalized lookalike domain detected.')}
  if((host.match(/-/g)||[]).length>=2){score+=10; findings.push('Multiple hyphens can indicate separator-based spoofing.')}
  if(SENSITIVE_PATHS.test(path)){score+=14; findings.push('Sensitive login, verification, refund, tax, or account path detected.')}
+ const fileIntel=detectFileDeliveryRisk(raw); if(fileIntel.score){score+=fileIntel.score; findings.push(...fileIntel.findings);}
  for(const profile of BRAND_PROFILES){const official=profile.domains.includes(reg); const skel=skeleton(domainName); const brandHits=profile.keywords.filter(k=>skel.includes(skeleton(k))||lev(skel,skeleton(k))<=2);
    const wrapped=profile.domains.some(d=>host.includes(d+'.')||host.includes(d.replace('.','')+'.'));
    if(official){findings.push(`Official known domain match for ${profile.brand}.`); score=Math.max(0,score-10); continue;}

@@ -1,0 +1,32 @@
+PROXUMA SHIELD MOBILE ACTION ORDER PATCH — v12.15
+
+Purpose:
+On mobile, Proxuma Shield previously stacked cards in DOM order:
+1. Link Intelligence
+2. QR Intelligence
+3. Threat Intelligence Core
+4. Action Center
+5. Shield Report
+
+That meant a user scanning/pasting a link had to scroll past the Threat Intelligence Core before reaching the Action Center.
+
+Change Applied:
+A mobile-only CSS order patch was added inside shield/index.html at max-width:768px.
+The desktop three-column layout remains unchanged.
+
+Mobile scanner flow is now:
+1. Link Intelligence
+2. QR Intelligence
+3. Action Center
+4. Shield Report
+5. Threat Intelligence Core
+
+Why:
+This places the immediate user controls directly after QR/link entry so mobile users can analyze, export, clear, or block without unnecessary scrolling.
+
+Safety:
+- CSS-only patch.
+- No scan engine changes.
+- No QR logic changes.
+- No report/export logic changes.
+- Sense v12.14 compact-control patch preserved.

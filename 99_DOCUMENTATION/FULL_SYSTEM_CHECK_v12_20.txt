@@ -1,0 +1,34 @@
+Proxuma v12.20 Full System Check + Engine Guardrail
+
+Purpose:
+- Run release-readiness checks after v12.19 homepage card balancing.
+- Preserve all recent UI and engine patches.
+- Correct one engine false-positive discovered during the sweep.
+
+Checks completed:
+- ZIP structure inspected.
+- Root, Lite, Sense, Shield, shared engine, and documentation files confirmed present.
+- External JavaScript syntax checks passed.
+- Inline JavaScript syntax checks passed, excluding JSON-LD schema block which is data, not executable JS.
+- Local href/src references checked.
+- No external network/CDN references found in HTML link/src scan.
+- ProxumaSecurity engine smoke tests run for direct executable, MSI, double extension, raw payload query, shortener, and phishing-login patterns.
+
+Patch applied during system check:
+- Removed single-letter brand token "x" from shared ProxumaSecurity brand-profile heuristics.
+- Reason: the token caused example.com to be falsely interpreted as brand impersonation because the letter x appears inside ordinary domains.
+- This does not remove protection for Twitter/X-style abuse from other structural signals, but prevents broad false positives on normal .com domains.
+
+Preserved:
+- v12.14 Sense compact controls.
+- v12.15 Shield mobile Action Center order.
+- v12.16 ecosystem file-delivery intelligence.
+- v12.17 homepage entry button visibility and IT gateway.
+- v12.18 IT offline/online signal.
+- v12.19 homepage card body balance and aligned entry buttons.
+
+Release note:
+- v12.20 is the cleaner GitHub-ready candidate from this inspection pass.
+
+Additional cleanup:
+- Updated legacy root inex.html logo path from proxuma-logo.png to assets/proxuma-logo.png so the local asset check is clean, even though no active app route links to inex.html.

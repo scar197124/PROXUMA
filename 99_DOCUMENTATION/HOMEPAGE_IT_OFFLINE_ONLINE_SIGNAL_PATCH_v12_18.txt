@@ -1,0 +1,16 @@
+PROXUMA v12.18 — Homepage IT Offline/Online Signal Patch
+
+Purpose:
+- Replace the plain “IT” logo/badge on the Proxuma IT Coming Soon card with a visual symbol representing offline-first protection and optional online intelligence.
+
+Changes:
+- Updated the Proxuma IT card icon from text-only “IT” to an offline/online signal badge.
+- Added copy: “Offline First. Online Intelligence Next.”
+- Clarified that Proxuma IT will remain private by default while adding optional online context when users choose it.
+- Updated the hero and How Proxuma Works copy to align with this direction.
+
+Safety / stability:
+- Homepage-only UI/copy patch.
+- No engine changes.
+- No links added to missing IT folders.
+- Preserves v12.14, v12.15, v12.16, and v12.17 patches.
