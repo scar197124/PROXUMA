@@ -210,6 +210,44 @@ try { localStorage.setItem("proxuma-theme", "dark"); } catch (e) {}
   .px-header-inner{padding:8px 12px;gap:4px;}
 }
 
+
+
+/* PROXUMA v12.24 — Button Lubrication Pass */
+:where(button,a,.btn,.chip,.pill-btn,.scanBtn,.clear,.explainBtn,.action-btn,.nav button){
+  -webkit-tap-highlight-color:rgba(36,255,114,.20);
+}
+:where(button,.btn,.chip,.pill-btn,.scanBtn,.clear,.explainBtn,.action-btn,.nav button){
+  cursor:pointer;
+  touch-action:manipulation;
+  user-select:none;
+  transition:transform .16s ease,box-shadow .16s ease,border-color .16s ease,background .16s ease,color .16s ease,opacity .16s ease;
+}
+:where(button,.btn,.chip,.pill-btn,.scanBtn,.clear,.explainBtn,.action-btn,.nav button):hover:not(:disabled){
+  transform:translateY(-1px);
+  box-shadow:0 0 0 1px rgba(36,255,114,.18),0 8px 20px rgba(0,0,0,.26),0 0 16px rgba(36,255,114,.12);
+}
+:where(button,.btn,.chip,.pill-btn,.scanBtn,.clear,.explainBtn,.action-btn,.nav button):active:not(:disabled){
+  transform:translateY(1px) scale(.985);
+  box-shadow:0 0 0 1px rgba(36,255,114,.12),0 4px 12px rgba(0,0,0,.24);
+}
+:where(a,button,input,textarea,select):focus-visible{
+  outline:3px solid rgba(36,255,114,.82);
+  outline-offset:3px;
+  box-shadow:0 0 0 5px rgba(36,255,114,.14);
+}
+:where(button,.btn,.chip,.pill-btn,.scanBtn,.clear,.explainBtn,.action-btn,.nav button):disabled{
+  opacity:.55;
+  cursor:not-allowed;
+  transform:none!important;
+}
+@media(max-width:720px){
+  :where(button,.btn,.chip,.pill-btn,.scanBtn,.clear,.explainBtn,.action-btn,.nav button){min-height:44px;}
+}
+@media(prefers-reduced-motion:reduce){
+  :where(button,.btn,.chip,.pill-btn,.scanBtn,.clear,.explainBtn,.action-btn,.nav button){transition:none!important;}
+  :where(button,.btn,.chip,.pill-btn,.scanBtn,.clear,.explainBtn,.action-btn,.nav button):hover,
+  :where(button,.btn,.chip,.pill-btn,.scanBtn,.clear,.explainBtn,.action-btn,.nav button):active{transform:none!important;}
+}
 </style>
 
   <div class="app-shell">

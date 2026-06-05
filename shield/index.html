@@ -111,6 +111,44 @@ pre{white-space:pre-wrap;background:#030607;border:1px solid var(--line);border-
 .shield-landing-panels .btn{margin-top:10px}
 @media(max-width:1050px){.shield-home-hero,.shield-landing-panels{grid-template-columns:1fr}.shield-hero-panel{min-height:auto}.shield-home-hero{gap:16px}}
 
+
+
+/* PROXUMA v12.24 — Button Lubrication Pass */
+:where(button,a,.btn,.chip,.pill-btn,.scanBtn,.clear,.explainBtn,.action-btn,.nav button){
+  -webkit-tap-highlight-color:rgba(36,255,114,.20);
+}
+:where(button,.btn,.chip,.pill-btn,.scanBtn,.clear,.explainBtn,.action-btn,.nav button){
+  cursor:pointer;
+  touch-action:manipulation;
+  user-select:none;
+  transition:transform .16s ease,box-shadow .16s ease,border-color .16s ease,background .16s ease,color .16s ease,opacity .16s ease;
+}
+:where(button,.btn,.chip,.pill-btn,.scanBtn,.clear,.explainBtn,.action-btn,.nav button):hover:not(:disabled){
+  transform:translateY(-1px);
+  box-shadow:0 0 0 1px rgba(36,255,114,.18),0 8px 20px rgba(0,0,0,.26),0 0 16px rgba(36,255,114,.12);
+}
+:where(button,.btn,.chip,.pill-btn,.scanBtn,.clear,.explainBtn,.action-btn,.nav button):active:not(:disabled){
+  transform:translateY(1px) scale(.985);
+  box-shadow:0 0 0 1px rgba(36,255,114,.12),0 4px 12px rgba(0,0,0,.24);
+}
+:where(a,button,input,textarea,select):focus-visible{
+  outline:3px solid rgba(36,255,114,.82);
+  outline-offset:3px;
+  box-shadow:0 0 0 5px rgba(36,255,114,.14);
+}
+:where(button,.btn,.chip,.pill-btn,.scanBtn,.clear,.explainBtn,.action-btn,.nav button):disabled{
+  opacity:.55;
+  cursor:not-allowed;
+  transform:none!important;
+}
+@media(max-width:720px){
+  :where(button,.btn,.chip,.pill-btn,.scanBtn,.clear,.explainBtn,.action-btn,.nav button){min-height:44px;}
+}
+@media(prefers-reduced-motion:reduce){
+  :where(button,.btn,.chip,.pill-btn,.scanBtn,.clear,.explainBtn,.action-btn,.nav button){transition:none!important;}
+  :where(button,.btn,.chip,.pill-btn,.scanBtn,.clear,.explainBtn,.action-btn,.nav button):hover,
+  :where(button,.btn,.chip,.pill-btn,.scanBtn,.clear,.explainBtn,.action-btn,.nav button):active{transform:none!important;}
+}
 </style>
 <script src="./shared/html5-qrcode.local.js"></script>
 </head>
@@ -224,19 +262,19 @@ pre{white-space:pre-wrap;background:#030607;border:1px solid var(--line);border-
           <p class="desc">The big-boy analysis panel. Simple result upfront, deeper report one click away.</p>
           <div class="core">
             <div>
-              <div id="scoreRing" class="score-ring" style="--score:24">
+              <div id="scoreRing" class="score-ring" style="--score:0">
                 <div class="score-content">
-                  <div id="scoreNumber" class="score-number">24</div>
+                  <div id="scoreNumber" class="score-number">0</div>
                   <div class="score-label">/100 Risk</div>
-                  <div id="riskPill" class="risk-pill">LOW RISK</div>
+                  <div id="riskPill" class="risk-pill">NO SCAN YET</div>
                 </div>
               </div>
             </div>
             <div>
-              <div class="bar-row"><span>Domain Signals</span><div class="bar"><div id="b1" class="fill" style="width:20%"></div></div><span id="v1">20/100</span></div>
-              <div class="bar-row"><span>Security Signals</span><div class="bar"><div id="b2" class="fill" style="width:25%"></div></div><span id="v2">25/100</span></div>
-              <div class="bar-row"><span>Phishing Signals</span><div class="bar"><div id="b3" class="fill" style="width:15%"></div></div><span id="v3">15/100</span></div>
-              <div class="bar-row"><span>Redirect / QR Risk</span><div class="bar"><div id="b4" class="fill" style="width:35%"></div></div><span id="v4">35/100</span></div>
+              <div class="bar-row"><span>Domain Signals</span><div class="bar"><div id="b1" class="fill" style="width:0%"></div></div><span id="v1">0/100</span></div>
+              <div class="bar-row"><span>Security Signals</span><div class="bar"><div id="b2" class="fill" style="width:0%"></div></div><span id="v2">0/100</span></div>
+              <div class="bar-row"><span>Phishing Signals</span><div class="bar"><div id="b3" class="fill" style="width:0%"></div></div><span id="v3">0/100</span></div>
+              <div class="bar-row"><span>Redirect / QR Risk</span><div class="bar"><div id="b4" class="fill" style="width:0%"></div></div><span id="v4">0/100</span></div>
             </div>
           </div>
           <div class="indicators">
@@ -438,10 +476,18 @@ function scoreUrl(raw){
   if(fileIntel && fileIntel.hard && score >= 70) explain = "This appears to involve executable/raw-file delivery or a double-extension trap. Avoid downloading or opening the file.";
   return {score, indicators, explain};
 }
-function setScore(score){
+function setScore(score, noScan=false){
   document.getElementById("scoreRing").style.setProperty("--score", score);
   document.getElementById("scoreNumber").textContent = score;
   const pill = document.getElementById("riskPill");
+  if(noScan){
+    pill.textContent = "NO SCAN YET";
+    pill.style.borderColor = "var(--muted)";
+    pill.style.color = "var(--muted)";
+    ["b1","b2","b3","b4"].forEach(id=>document.getElementById(id).style.width = "0%");
+    ["v1","v2","v3","v4"].forEach(id=>document.getElementById(id).textContent = "0/100");
+    return;
+  }
   pill.textContent = score < 35 ? "LOW RISK" : score < 70 ? "MEDIUM RISK" : "HIGH RISK";
   pill.style.borderColor = score < 35 ? "var(--green)" : score < 70 ? "var(--amber)" : "var(--red)";
   pill.style.color = score < 35 ? "var(--green)" : score < 70 ? "var(--amber)" : "var(--red)";
@@ -452,7 +498,7 @@ function setScore(score){
 function runScan(source="Link"){
   const raw = document.getElementById("urlInput").value;
   const res = scoreUrl(raw);
-  setScore(res.score);
+  setScore(res.score, !String(raw||"").trim());
   document.getElementById("indicators").innerHTML = res.indicators.map(x=>`<li>${x}</li>`).join("");
   document.getElementById("explainer").textContent = res.explain;
   document.getElementById("lastScan").textContent = new Date().toLocaleString();
@@ -516,7 +562,7 @@ function cameraOff(){
 
 function syncQR(){document.getElementById("urlInput").value = document.getElementById("qrInput").value; goPage("scanner");}
 function analyzeQR(){syncQR(); runScan("QR Destination");}
-function clearInputs(){["urlInput","qrInput"].forEach(id=>document.getElementById(id).value=""); setScore(0); document.getElementById("indicators").innerHTML="<li>No scan yet.</li>"; document.getElementById("explainer").textContent="Paste a link or QR destination and run Shield Scan.";}
+function clearInputs(){["urlInput","qrInput"].forEach(id=>document.getElementById(id).value=""); setScore(0, true); document.getElementById("indicators").innerHTML="<li>No scan yet.</li>"; document.getElementById("explainer").textContent="Paste a link or QR destination and run Shield Scan."; document.getElementById("lastScan").textContent="—"; document.getElementById("sourceType").textContent="—"; document.getElementById("reportStatus").textContent="Ready"; lastReport="No scan yet. Run Shield Scan first.";}
 function blockDomain(){alert("Domain added to local blocklist simulation. Full persistent blocklist can be wired next.");}
 function openReport(){document.getElementById("reportText").textContent = lastReport; document.getElementById("modal").classList.add("open");}
 function closeReport(e){if(e.target.id==="modal") e.target.classList.remove("open");}

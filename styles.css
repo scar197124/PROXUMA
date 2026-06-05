@@ -176,3 +176,48 @@ a,button{min-height:44px}
 @media(max-width:900px){
   .product-card{min-height:auto}
 }
+
+
+/* PROXUMA v12.24 — Button Lubrication Pass
+   Purpose: make buttons/links feel smoother, clearer, and easier to tap without changing app logic. */
+:where(a, button, .enter-link, .primary, .secondary, .protect-btn, .quick-tests button, .input-row button){
+  -webkit-tap-highlight-color: rgba(36,255,114,.20);
+}
+:where(button, .enter-link, .primary, .secondary, .protect-btn, .quick-tests button, .input-row button){
+  cursor:pointer;
+  touch-action:manipulation;
+  user-select:none;
+  transition:
+    transform .16s ease,
+    box-shadow .16s ease,
+    border-color .16s ease,
+    background .16s ease,
+    color .16s ease,
+    opacity .16s ease;
+}
+:where(.enter-link, .primary, .secondary, .protect-btn, .quick-tests button, .input-row button):hover{
+  transform:translateY(-1px);
+  box-shadow:0 0 0 1px rgba(36,255,114,.20),0 10px 24px rgba(0,0,0,.28),0 0 18px rgba(36,255,114,.16);
+}
+:where(.enter-link, .primary, .secondary, .protect-btn, .quick-tests button, .input-row button):active{
+  transform:translateY(1px) scale(.985);
+  box-shadow:0 0 0 1px rgba(36,255,114,.16),0 4px 12px rgba(0,0,0,.26);
+}
+:where(a,button,input):focus-visible{
+  outline:3px solid rgba(36,255,114,.82);
+  outline-offset:3px;
+  box-shadow:0 0 0 5px rgba(36,255,114,.16);
+}
+.enter-link{display:inline-flex;align-items:center;gap:8px;border-radius:10px;padding:10px 12px;margin-left:-12px;min-height:42px;line-height:1.15;}
+.enter-link:hover{text-decoration:none;}
+.product-card:hover{border-color:rgba(36,255,114,.42);box-shadow:0 24px 64px rgba(0,0,0,.30),0 0 24px rgba(36,255,114,.08);}
+@media (max-width:720px){
+  .hero-actions a,.protect-btn,.enter-link,.input-row button{min-height:44px;}
+  .main-nav a{min-height:42px;display:inline-flex;align-items:center;}
+  .enter-link{padding:11px 12px;}
+}
+@media (prefers-reduced-motion:reduce){
+  :where(button, .enter-link, .primary, .secondary, .protect-btn, .quick-tests button, .input-row button){transition:none!important;}
+  :where(.enter-link, .primary, .secondary, .protect-btn, .quick-tests button, .input-row button):hover,
+  :where(.enter-link, .primary, .secondary, .protect-btn, .quick-tests button, .input-row button):active{transform:none!important;}
+}
