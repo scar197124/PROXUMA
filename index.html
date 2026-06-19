@@ -1,95 +1,724 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Proxuma | Privacy. Security. Peace of Mind.</title>
-  <meta name="description" content="Proxuma is a privacy-first phishing protection ecosystem with Lite, Sense, and Shield layers." />
-  <link rel="stylesheet" href="styles.css" />
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Proxuma IT | Offline Link Intelligence Before You Click</title>
+<!-- Compatibility markers: Proxuma IT v2.76.0 / Proxuma IT v2.75.0 / Proxuma IT v2.74.0 / Proxuma IT v2.73.0 / Proxuma IT v2.72.1 / Proxuma IT v2.71.0 / Proxuma IT v2.70.1 -->
+<meta content="#070a0d" name="theme-color"/>
+<meta content="dark" name="color-scheme"/>
+<meta content="Proxuma IT explains suspicious links, QR payloads, downloads, and message targets in plain language before you trust them." name="description"/>
+<link href="styles.css" rel="stylesheet"/>
+<meta content="v3.47.5-mobile-selected-panel-visibility" name="proxuma-build"/>
 </head>
-<body>
-  <div class="orb orb-a"></div>
-  <div class="orb orb-b"></div>
-  <header class="site-header">
-    <a class="brand" href="#home" aria-label="Proxuma home">
-      <span class="brand-mark" aria-hidden="true">
-        <svg viewBox="0 0 64 64"><path d="M32 4 55 13v17c0 15.5-9.5 24.5-23 30C18.5 54.5 9 45.5 9 30V13L32 4Z"/><path d="M23 44V20h14c7 0 11 4 11 10s-4 10-11 10h-5v-8h5c2.2 0 3.8-1 3.8-3S39.2 26 37 26h-7v18h-7Z"/><path d="M20 19h-4v8"/></svg>
-      </span>
-      <span><strong>PROXUMA</strong><em>Privacy. Security. Peace of Mind.</em></span>
-    </a>
-    <nav class="main-nav" aria-label="Main navigation">
-      <a class="active" href="#home">Home</a>
-      <a href="#products">Products</a>
-      <a href="#how">How It Works</a>
-      <a href="#about">About</a>
-    </nav>
-  </header>
+<body class="simple-ui product-simplified">
+<div aria-hidden="true" class="ambient-grid"></div>
+<header class="site-header compact-site-header">
+<a aria-label="Proxuma IT home" class="compact-brand" href="#top">
+<span aria-hidden="true" class="compact-brand-mark"></span>
+<span class="compact-brand-copy"><strong>Proxuma IT</strong><small>Offline link intelligence</small></span>
+</a>
+<span aria-label="Local preview, private by default" class="compact-header-status compact-trust-status">Local preview · Private by default</span>
+</header>
+<main class="page" id="top">
+<section class="hero hero-framed compact-centered-hero" aria-labelledby="hero-title">
+<div class="hero-frame-inner">
+<p class="eyebrow hero-product-mark">Proxuma ID</p>
+<h1 id="hero-title">Check the link before you trust it.</h1>
+<p class="lead">Scan a QR code, paste a message, or inspect a URL locally before opening it.</p>
+<div class="hero-action-row">
+<a class="hero-scan-cta" href="#scan">Start a Scan</a>
+<span class="hero-privacy-note">Analyzed locally · Nothing is uploaded</span>
+</div>
+<div aria-label="Core promises" class="proof-row">
+<span class="proof-pill proof-local pill-status">Local analysis</span>
+<span class="proof-pill proof-balanced pill-status">No account required</span>
+<span class="proof-pill proof-consent pill-status">Works offline</span>
+</div>
+</div>
+</section>
+<!-- Compatibility text retained for regression continuity:
+      Camera QR scanning is optional and browser-dependent.
+      No telemetry
+      No hidden lookups
+      Paste a URL, IP, QR payload, message, or text snippet
+      One input handles links, domains, IPs, decoded QR text, copied SMS/email content, and raw suspicious snippets.
+    -->
+<!-- Compatibility marker for v2.89.0 label test: Scan Center · Scan Report · Deep Analysis · Case File -->
+<!-- Compatibility marker for v2.77.6 test: <section id="explain" class="explain-page card" -->
+<section aria-label="Explain Proxuma IT cards" class="explain-page card collapsible-card" data-collapse-key="proxuma-it-explain-guide-collapsed-v1" data-default-collapsed="true" id="explain">
+<div class="section-head explain-head collapsible-card-head">
+<div>
+<p class="eyebrow">App Guide</p>
+<h2>Card-by-card help</h2>
+<p class="subtle">A short map of the main workspace. Open only when you need orientation.</p>
+<p class="collapsed-hint">Guide hidden to keep the scanner clean.</p>
+</div>
+<button aria-controls="explainGuideBody" aria-expanded="true" class="collapse-toggle unified-control-button" data-collapsed-label="Open" data-expanded-label="Close" type="button">
+<span aria-hidden="true" class="toggle-dot"></span>
+<span class="toggle-copy">Close</span>
+<small>Guide Controls</small>
+</button>
+</div>
+<div class="collapsible-card-body" id="explainGuideBody">
+<div class="explain-grid compact-guide-grid">
+<article class="explain-card">
+<span class="card-kicker">1</span>
+<h3>Scan</h3>
+<p>Paste a link, message, QR result, or copied email text, then choose Analyze.</p>
+</article>
+<article class="explain-card">
+<span class="card-kicker">2</span>
+<h3>Review</h3>
+<p>Read the result first, then use Scan Details or Investigation only when more context is needed.</p>
+</article>
+<article class="explain-card">
+<span class="card-kicker">3</span>
+<h3>Save or export</h3>
+<p>Use Review &amp; Trust to track status, preserve a session, explain the result, or export a report.</p>
+</article>
+</div>
+</div>
+</section>
+<section aria-label="Proxuma unified workspace" class="unified-workspace card">
+<section class="workbench unified-stack" id="scan">
+<article class="scanner-panel card unified-section unified-scan-section">
+<div class="section-head">
+<p class="eyebrow">Step 1 · Scan</p>
+<h2>Paste, scan, or inspect</h2>
+<p class="subtle">One local workspace for links, messages, and QR payloads.</p>
+</div>
+<div class="input-label-row">
+<label class="input-label" for="targetInput">Universal scanner input</label>
+<span aria-live="polite" class="detected-input-type" id="detectedInputType">Detected: waiting for input</span>
+</div>
+<div class="input-row">
+<input autocomplete="off" id="targetInput" placeholder="Paste a suspicious link, message, QR result, or copied email text" spellcheck="false" type="text"/>
+<button id="scanButton" type="button"><span>Analyze</span><small>Safely</small></button>
+</div>
+<p class="unified-input-note">Paste the full message when possible. Context helps Proxuma explain the safest next move.</p>
+<div aria-label="Accepted input types" class="input-type-chips">
+<span>URL</span>
+<span>IP</span>
+<span>QR text</span>
+<span>Message</span>
+<span>Snippet</span>
+</div>
+<section aria-label="Visible scan examples" class="visible-scan-examples">
+<div class="visible-examples-head">
+<strong>Try a scan example</strong>
+<span class="examples-desktop-note">Loads the sample into the scanner — nothing is sent online.</span><span class="examples-mobile-note" aria-hidden="true">Swipe to explore</span>
+</div>
+<div aria-label="Example targets" class="quick-tests">
+<button class="example-pill example-trusted pill-action" data-example="https://www.rbcroyalbank.com/" type="button"><span class="example-label-desktop">Trusted bank</span><span class="example-label-mobile" aria-hidden="true">Trusted</span></button>
+<button class="example-pill example-danger pill-action" data-example="https://secure-l0gin-rbc.verify-account.example/login" type="button"><span class="example-label-desktop">Leetspeak phish</span><span class="example-label-mobile" aria-hidden="true">Leetspeak</span></button>
+<button class="example-pill example-danger pill-action" data-example="https://www.rbcr0yalbank.com/" type="button"><span class="example-label-desktop">Lookalike bank</span><span class="example-label-mobile" aria-hidden="true">Lookalike</span></button>
+<button class="example-pill example-danger pill-action" data-example="javascript:alert(1)" type="button"><span class="example-label-desktop">Script payload</span><span class="example-label-mobile" aria-hidden="true">Script</span></button>
+<button class="example-pill example-review pill-action" data-example="https://example.com/l%30gin" type="button"><span class="example-label-desktop">Encoded login</span><span class="example-label-mobile" aria-hidden="true">Encoded</span></button>
+<button class="example-pill example-review pill-action" data-example="072890000224" type="button"><span class="example-label-desktop">QR payload</span><span class="example-label-mobile" aria-hidden="true">QR payload</span></button>
+</div>
+</section>
+<div aria-label="Privacy promise" class="privacy-strip" data-compact="true">
+<span>Analyzed locally</span>
+<span>Nothing is uploaded</span>
+<span>Online checks remain off unless chosen</span>
+</div>
+<section aria-label="Primary QR scanner" class="primary-qr-tool">
+<div aria-label="Browser QR scanner" class="qr-slot qr-scanner-ready">
+<div class="qr-copy">
+<strong>QR Scanner</strong>
+<p id="qrStatus">Camera ready when you choose it. Processing stays on this device.</p>
+</div>
+<div class="qr-actions">
+<button class="ghost-button" id="qrStartButton" type="button">Start QR Scan</button>
+<button class="ghost-button qr-stop" hidden="" id="qrStopButton" type="button">Stop</button>
+</div>
+<div class="qr-camera-panel" hidden="" id="qrCameraPanel">
+<video autoplay="" class="qr-video" id="qrVideo" muted="" playsinline=""></video>
+</div>
+</div>
+</section>
+<details class="simple-disclosure optional-tools unified-control-section">
+<summary aria-label="Toggle Optional Tools">
+<span><strong>Optional tools</strong><small>Scan modes and learning aids</small></span>
+<span aria-hidden="true" class="disclosure-action unified-disclosure-toggle unified-control-button"><span aria-hidden="true" class="toggle-dot"></span><span class="toggle-copy">Open</span></span>
+</summary>
+<div class="simple-disclosure-body">
+<div aria-label="Teaching mode guidance" class="teaching-card">
+<strong>Learning Mode</strong>
+<p>Proxuma explains the strongest signal and safest next move in plain language.</p>
+</div>
+<div class="mode-card">
+<div class="mini-head">
+<strong>Scan Mode</strong>
+<span class="local-badge pill-status">Local only</span>
+</div>
+<div aria-label="Current scan capabilities" class="scan-mode-row scan-capability-row" role="list">
+<span class="mode-pill mode-quick active mode-status" role="listitem"><span aria-hidden="true" class="mode-status-dot"></span>Local Scan Active</span>
+<span class="mode-pill mode-deep mode-status" role="listitem">Deep Scan Planned</span>
+<span class="mode-pill mode-online mode-status" role="listitem">Online Checks Optional</span>
+</div>
+<p class="quiet-note">Every scan currently uses the same local analysis engine. Deep mode is planned. Online checks remain separate, consent-gated, and user-triggered.</p>
+</div>
+<div class="micro-list">
+<span class="pill-signal">True target</span>
+<span class="pill-signal">Shortener check</span>
+<span class="pill-signal">Brand lookalike</span>
+<span class="pill-signal">Pressure words</span>
+<span class="pill-signal">Risky file types</span>
+<span class="pill-signal">IP / port clues</span>
+<span class="pill-signal">Lookalike words</span>
+<span class="pill-signal">Institution aliases</span>
+</div>
+</div>
+</details>
+</article>
+<article aria-live="polite" class="report-panel card unified-section unified-report-section" id="report">
+<div class="report-top">
+<div>
+<p class="eyebrow">Step 2 · Result</p>
+<h2 id="riskLabel">Ready to scan</h2>
+</div>
+<div class="score-ring">
+<span id="scoreValue">--</span>
+<small>risk score</small>
+</div>
+</div>
+<p class="report-summary" id="summaryText">Enter a target to generate a readable explanation, evidence signals, and a safe next step.</p>
+<div aria-label="Intel heat bar" class="heat-zone">
+<div class="heat-meta">
+<span>Risk Heat</span>
+<strong id="heatLabel">Standby</strong>
+</div>
+<div aria-valuemax="100" aria-valuemin="0" aria-valuenow="0" class="heat-bar" role="meter">
+<span id="heatFill"></span>
+</div>
+</div>
+<div aria-label="Compact report snapshot" class="report-snapshot-card">
+<div class="snapshot-next-step">
+<small>Next Step</small>
+<strong id="nextStep">Scan first</strong>
+</div>
+<div aria-label="Report quick facts" class="snapshot-grid">
+<div>
+<small>Signals</small>
+<strong id="signalCount">0</strong>
+</div>
+<div>
+<small>Input</small>
+<strong id="inputTypeLabel">Standby</strong>
+</div>
+<div>
+<small>Trigger</small>
+<strong id="primaryTrigger">Waiting</strong>
+</div>
+<div>
+<small>Time</small>
+<strong id="reportTimestamp">Not scanned</strong>
+</div>
+</div>
+</div>
+<details class="simple-disclosure report-details-disclosure unified-control-section">
+<summary aria-label="Toggle More Report Details">
+<span><strong>More report details</strong><small>Link anatomy, report views, copying, and evidence export</small></span>
+<span aria-hidden="true" class="disclosure-action unified-disclosure-toggle unified-control-button"><span aria-hidden="true" class="toggle-dot"></span><span class="toggle-copy">Open</span></span>
+</summary>
+<div class="simple-disclosure-body">
+<div aria-label="Link anatomy breakdown" class="link-anatomy-card">
+<div class="link-anatomy-head">
+<div>
+<small>Link Anatomy</small>
+<strong id="anatomyStatus">Waiting for input</strong>
+</div>
+<span class="anatomy-badge">Structure view</span>
+</div>
+<div class="link-anatomy-grid">
+<div class="anatomy-row"><span>Protocol</span><strong id="anatomyProtocol">—</strong></div>
+<div class="anatomy-row"><span>Host</span><strong id="anatomyHost">—</strong></div>
+<div class="anatomy-row"><span>Root Domain</span><strong id="anatomyRoot">—</strong></div>
+<div class="anatomy-row anatomy-wide"><span>Path</span><strong id="anatomyPath">—</strong></div>
+<div class="anatomy-row anatomy-wide"><span>Query</span><strong id="anatomyQuery">—</strong></div>
+<div class="anatomy-row anatomy-wide"><span>Risk Tokens</span><strong id="anatomyTokens">—</strong></div>
+</div>
+<p class="quiet-note" id="anatomyNote">Proxuma will break the target into readable parts after a scan.</p>
+</div>
+<div aria-label="Report view and copy actions" class="report-tools">
+<div aria-label="Report view selector" class="audience-switch report-meta-card">
+<small>Report View</small>
+<div aria-label="Choose report depth" class="audience-toggle-row" role="group">
+<button aria-pressed="true" class="audience-toggle active" id="userViewButton" type="button">User View</button>
+<button aria-pressed="false" class="audience-toggle" id="analystViewButton" type="button">Analyst View</button>
+</div>
+<strong id="activeAudienceMode">User View</strong>
+<p class="quiet-note" id="reportDepthNote">Plain-language verdict and next move first.</p>
+</div>
+<div aria-label="Simple case controls" class="report-copy-actions simple-case-controls">
+<button class="ghost-button compact-copy primary-copy" id="copySummaryButton" type="button">Copy Simple Report</button>
+<button class="ghost-button compact-copy" id="copyReportButton" type="button">Copy Full Report</button>
+<button class="ghost-button compact-copy" id="explainVerdictButton" type="button">Verdict Summary</button>
+<div class="technical-notes-label">Deeper Evidence / Technical Notes</div>
+<details class="advanced-evidence-tools">
+<summary>Signal Evidence</summary>
+<div class="advanced-evidence-actions">
+<button class="ghost-button compact-copy" id="copyCasePacketButton" type="button">Copy Case Packet</button>
+<button class="ghost-button compact-copy" id="downloadCaseTextButton" type="button">Download TXT</button>
+<button class="ghost-button compact-copy" id="downloadCasePacketButton" type="button">Download JSON</button>
+</div>
+<p class="quiet-note">For analyst review, support tickets, saved evidence, or future Proxuma imports. Download TXT for a readable case report; Download JSON for structured local evidence.</p>
+</details>
+</div>
+<p aria-live="polite" class="copy-status" id="copyStatus">Run a scan, then use Copy Simple Report for the easy version. Deeper evidence and technical notes stay tucked away.</p>
+</div>
+</div>
+</details>
+<div aria-label="Action guidance drawer" class="action-guidance guidance-drawer">
+<div aria-label="Choose guidance detail" class="guidance-switch" role="tablist">
+<button aria-controls="guidanceNextPanel" aria-selected="true" class="guidance-tab guidance-tab-next active" data-guidance-target="guidanceNextPanel" id="guidanceNextTab" role="tab" type="button">Next Move</button>
+<button aria-controls="guidanceWhyPanel" aria-selected="false" class="guidance-tab guidance-tab-why" data-guidance-target="guidanceWhyPanel" id="guidanceWhyTab" role="tab" type="button">Why This Matters</button>
+<button aria-controls="guidanceSafetyPanel" aria-selected="false" class="guidance-tab guidance-tab-safety" data-guidance-target="guidanceSafetyPanel" id="guidanceSafetyTab" role="tab" type="button">Safety Reminder</button>
+</div>
+<div aria-labelledby="guidanceNextTab" class="guidance-card guidance-panel guidance-next active" id="guidanceNextPanel" role="tabpanel">
+<span class="card-kicker">Next Move</span>
+<strong id="actionTitle">Scan first</strong>
+<p id="actionText">Run a local scan to receive a clear next step.</p>
+</div>
+<div aria-labelledby="guidanceWhyTab" class="guidance-card guidance-panel guidance-why" hidden="" id="guidanceWhyPanel" role="tabpanel">
+<span class="card-kicker">Why This Matters</span>
+<strong id="whyMatterTitle">Pattern lesson</strong>
+<p id="whyMatterText">Proxuma will explain the strongest warning sign in plain language.</p>
+</div>
+<div aria-labelledby="guidanceSafetyTab" class="guidance-card guidance-panel guidance-reminder" hidden="" id="guidanceSafetyPanel" role="tabpanel">
+<span class="card-kicker">Safety Reminder</span>
+<strong id="safetyTitle">Stay aware</strong>
+<p id="safetyText">Never enter passwords, banking details, or verification codes unless you are certain you are on the official site.</p>
+</div>
+</div>
+<section aria-labelledby="scanDetailSelectorTitle" class="scan-details-workspace card" id="scan-detail-workspace">
+<div class="scan-details-header" id="scan-detail-controls">
+<div class="panel-selector-copy">
+<p class="eyebrow">Step 3 · Scan Details</p>
+<h2 id="scanDetailSelectorTitle">Choose the detail view</h2>
+</div>
+<div class="grouped-panel-selector" data-panel-group="scan-details">
+<button aria-expanded="false" aria-haspopup="menu" class="grouped-selector-trigger unified-control-button" type="button">
+<span aria-hidden="true" class="toggle-dot"></span>
+<span class="grouped-selector-label">Scan Metrics</span>
+<span aria-hidden="true" class="selector-chevron">▾</span>
+</button>
+<div class="grouped-selector-menu" hidden="" role="menu">
+<button aria-checked="true" data-target-panel="scanMetricsPanel" role="menuitemradio" type="button">Scan Metrics</button>
+<button aria-checked="false" data-target-panel="supportingEvidencePanel" role="menuitemradio" type="button">Supporting Evidence</button>
+</div>
+</div>
+</div>
+<div class="grouped-panel-managed scan-details-view" data-panel-group="scan-details" id="scanMetricsPanel">
+<div aria-label="Scan metrics content" class="grouped-panel-scroll-body" role="region" tabindex="0">
+<div class="memory-strip scan-metrics-list">
+<span><b>Signal Mix:</b> <span class="severity-breakdown" id="severityMix"><em class="sev-high">0 high</em><em class="sev-medium">0 medium</em><em class="sev-low">0 low</em></span></span>
+<span><b>Evidence Strength:</b> <span id="evidenceStrength">Waiting</span></span>
+<span><b>Last Scan:</b> <span id="scanMemory">No previous scan</span></span>
+</div>
+</div>
+</div>
+<div class="grouped-panel-managed scan-details-view" data-panel-group="scan-details" hidden="" id="supportingEvidencePanel">
+<div aria-label="Supporting evidence content" class="grouped-panel-scroll-body" role="region" tabindex="0">
+<section aria-label="Core intelligence cards" class="intelligence-grid evidence-list">
+<article class="intel-card intel-identity">
+<span class="card-kicker">01 · Identity</span>
+<h3>True Target</h3>
+<strong id="trueTarget">Waiting</strong>
+<p><b>Root domain:</b> <span id="rootDomain">Waiting</span></p>
+<p class="muted" id="rootDomainNote">The root is the part attackers try to hide.</p>
+</article>
+<article class="intel-card intel-confidence">
+<span class="card-kicker">02 · Confidence</span>
+<h3>Local Read</h3>
+<strong id="confidenceLabel">Not measured</strong>
+<p id="confidenceNote">Confidence improves when the target structure is readable.</p>
+<p><b>Confidence brief:</b> <span id="confidenceBrief">Waiting</span></p>
+</article>
+<article class="intel-card intel-behavior">
+<span class="card-kicker">03 · Behavior + Intent</span>
+<h3>What stood out</h3>
+<strong id="whyScore">Waiting for local evidence.</strong>
+<p><b>Lane:</b> <span id="laneQuality">Standby</span></p>
+</article>
+<article class="intel-card intel-online">
+<span class="card-kicker">04 · Online Expansion</span>
+<h3>Age, Reputation, Certificate</h3>
+<strong id="scanMode">Offline-first</strong>
+<p id="scanModeNote">This front surface stays honest: full domain age, live certificate details, and reputation checks appear only when the optional online layer is enabled by the user.</p>
+<p class="muted">Current build shows only what the local engine can truly support.</p>
+</article>
+</section>
+</div>
+</div>
+</section>
+<section class="investigation-workspace" id="investigation-workspace">
+<section aria-labelledby="investigationSelectorTitle" class="panel-selector-card" id="investigation-controls">
+<div class="panel-selector-copy">
+<p class="eyebrow">Step 4 · Investigation</p>
+<h2 id="investigationSelectorTitle">Choose the investigation view</h2>
+<p class="investigation-helper">Move between the full analysis workspace and the saved local case record.</p>
+</div>
+<div class="grouped-panel-selector" data-panel-group="investigation">
+<button aria-expanded="false" aria-haspopup="menu" class="grouped-selector-trigger unified-control-button" type="button">
+<span aria-hidden="true" class="toggle-dot"></span>
+<span class="grouped-selector-label">Deep Analysis</span>
+<span aria-hidden="true" class="selector-chevron">▾</span>
+</button>
+<div class="grouped-selector-menu" hidden="" role="menu">
+<button aria-checked="true" data-target-panel="details" role="menuitemradio" type="button">Deep Analysis</button>
+<button aria-checked="false" data-target-panel="casefile" role="menuitemradio" type="button">Case File</button>
+</div>
+</div>
+</section>
+<div class="investigation-summary" id="investigation-summary" aria-live="polite">
+  <div class="investigation-summary-item">
+    <span>Risk score</span>
+    <strong id="investigationSummaryScore">--</strong>
+  </div>
+  <div class="investigation-summary-item">
+    <span>Confidence</span>
+    <strong id="investigationSummaryConfidence">Not measured</strong>
+  </div>
+  <div class="investigation-summary-item investigation-summary-wide">
+    <span>Main concern</span>
+    <strong id="investigationSummaryConcern">Run a scan to identify the main concern.</strong>
+  </div>
+  <div class="investigation-summary-item investigation-summary-wide">
+    <span>Recommended action</span>
+    <strong id="investigationSummaryAction">Run a local scan to receive a clear next step.</strong>
+  </div>
+</div>
+<section aria-label="Deep Analysis" class="intelligence-drawer card unified-section grouped-panel-managed grouped-content-card" data-panel-group="investigation" id="details">
 
-  <main id="home">
-    <section class="hero">
-      <div class="hero-copy">
-        <div class="trust-pill"><span>🔒 100% PRIVATE</span><span>•</span><span>📶 OFFLINE READY</span><span>•</span><span>🍁 BUILT IN CANADA</span></div>
-        <h1>Phishing Protection<br/>That Puts<br/><span>You First.</span></h1>
-        <p class="hero-text">Three core protection layers working together now, with Proxuma IT linked as the dedicated offline-first intelligence workspace for deeper URL, QR, and message review.</p>
-        <div class="hero-actions">
-          <a class="primary" href="#products">Explore Protection <span>→</span></a>
-          <a class="secondary" href="#how">▷ See How It Works</a>
-        </div>
-        <div class="feature-row">
-          <div><b>🔐 100% Private</b><small>No data collected</small></div>
-          <div><b>📡 Offline Ready</b><small>Works anywhere</small></div>
-          <div><b>🛡️ Built in Canada</b><small>Proudly protected</small></div>
-          <div><b>👨‍👩‍👧 Family Focused</b><small>Protect what matters</small></div>
-        </div>
-      </div>
-      <div class="hero-visual" aria-hidden="true">
-        <div class="world-grid"></div>
-        <div class="radar-ring r1"></div>
-        <div class="radar-ring r2"></div>
-        <div class="radar-ring r3"></div>
-        <div class="shield-large">
-          <svg viewBox="0 0 240 280"><defs><linearGradient id="g" x1="0" x2="1"><stop offset="0" stop-color="#73ffcf"/><stop offset="1" stop-color="#04c9b7"/></linearGradient></defs><path class="outer" d="M120 9 222 49v81c0 72-43 116-102 141C61 246 18 202 18 130V49L120 9Z"/><path class="inner" d="M120 30 200 62v66c0 58-33 94-80 116-47-22-80-58-80-116V62l80-32Z"/><path class="p" d="M76 206V82h63c34 0 56 20 56 51 0 32-22 52-56 52h-29v-39h29c12 0 20-5 20-15 0-9-8-14-20-14H113v89H76Z" fill="url(#g)"/></svg>
-        </div>
-        <div class="glow-pad"></div>
-      </div>
-    </section>
+<div aria-label="Deep analysis content" class="grouped-panel-scroll-body" id="intelligenceDrawerBody" role="region" tabindex="0">
+<div aria-label="Analysis layers" class="drawer-tabs" role="tablist">
+<button aria-selected="true" class="drawer-tab active pill-action" data-drawer-target="explainPanel" role="tab" type="button">Why This Score</button>
+<button aria-selected="false" class="drawer-tab pill-action" data-drawer-target="timelinePanel" role="tab" type="button">Trust Timeline</button>
+<button aria-selected="false" class="drawer-tab pill-action" data-drawer-target="threatPanel" role="tab" type="button">Threat Story</button>
+<button aria-selected="false" class="drawer-tab pill-action" data-drawer-target="decisionPanel" role="tab" type="button">Decision Guide</button>
+<button aria-selected="false" class="drawer-tab pill-action" data-drawer-target="learningPanel" role="tab" type="button">Learning Note</button>
+<button aria-selected="false" class="drawer-tab pill-action" data-drawer-target="analystBriefPanel" role="tab" type="button">Brief</button>
+<button aria-selected="false" class="drawer-tab pill-action analyst-only" data-drawer-target="technicalPanel" role="tab" type="button">Details</button>
+<button aria-selected="false" class="drawer-tab pill-action" data-drawer-target="memoryPanel" role="tab" type="button">Scan Memory</button>
+<button aria-selected="false" class="drawer-tab pill-action" data-drawer-target="onlinePanel" role="tab" type="button">Online Intel</button>
+<button aria-selected="false" class="drawer-tab pill-action internal-only" data-drawer-target="browserTestPanel" hidden="" role="tab" type="button">Browser Check</button>
+</div>
+<div class="drawer-stage">
+<article class="drawer-panel active" id="explainPanel" role="tabpanel">
+<div class="drawer-panel-head" data-tone="green">
+<div>
+<p class="eyebrow">Plain-language reason</p>
+<h3>Why this score</h3>
+</div>
+<span class="status-pill" id="explainStatus">Awaiting scan</span>
+</div>
+<p class="card-summary" id="explainSummary">Run a scan to see the plain-language reason behind the score.</p>
+<ul id="evidenceList"></ul>
+</article>
+<article class="drawer-panel" hidden="" id="timelinePanel" role="tabpanel">
+<div class="drawer-panel-head" data-tone="green">
+<div>
+<p class="eyebrow">Timeline</p>
+<h3>Trust + decision lane</h3>
+</div>
+<span class="status-pill" id="timelineStatus">0 steps</span>
+</div>
+<p><b id="trustStatus">Local only</b></p>
+<ul id="trustTrail"></ul>
+<hr/>
+<p><b>Timeline</b></p>
+<ol id="timelineList"></ol>
+</article>
+<article class="drawer-panel" hidden="" id="threatPanel" role="tabpanel">
+<div class="drawer-panel-head" data-tone="red">
+<div>
+<p class="eyebrow">Scenario</p>
+<h3>What might be happening</h3>
+</div>
+<span class="status-pill" id="threatStatus">Standby</span>
+</div>
+<p class="card-summary" id="threatStory">Paste a target and Proxuma IT will explain what could be happening without overloading the main report.</p>
+</article>
+<article class="drawer-panel" hidden="" id="decisionPanel" role="tabpanel">
+<div class="drawer-panel-head" data-tone="orange">
+<div>
+<p class="eyebrow">Next Move</p>
+<h3>Safe next move</h3>
+</div>
+<span class="status-pill" id="decisionStatus">Standby</span>
+</div>
+<p class="card-summary" id="severityNote">No signal mix yet.</p>
+<ol id="decisionList"></ol>
+</article>
+<article class="drawer-panel" hidden="" id="learningPanel" role="tabpanel">
+<div class="drawer-panel-head" data-tone="green">
+<div>
+<p class="eyebrow">Learning Note</p>
+<h3>Pattern memory</h3>
+</div>
+<span class="status-pill" id="learningStatus">Training ready</span>
+</div>
+<p class="card-summary" id="learningText">The learning note will show what to look for next time.</p>
+</article>
+<article class="drawer-panel" hidden="" id="analystBriefPanel" role="tabpanel">
+<div class="drawer-panel-head" data-tone="green">
+<div>
+<p class="eyebrow">View Brief</p>
+<h3>User safety / analyst triage</h3>
+</div>
+<span class="status-pill" id="analystBriefStatus">Standby</span>
+</div>
+<ul id="analystBriefList"></ul>
+</article>
+<article class="drawer-panel analyst-only" hidden="" id="technicalPanel" role="tabpanel">
+<div class="drawer-panel-head" data-tone="green">
+<div>
+<p class="eyebrow">Details</p>
+<h3>Technical signals</h3>
+</div>
+<span class="status-pill">Local engine</span>
+</div>
+<ul id="technicalList"></ul>
+</article>
+<article class="drawer-panel" hidden="" id="memoryPanel" role="tabpanel">
+<div class="drawer-panel-head" data-tone="green">
+<div>
+<p class="eyebrow">Scan Memory</p>
+<h3>Local memory dashboard</h3>
+</div>
+<span class="status-pill" id="memoryDashboardStatus">Local only</span>
+</div>
+<p><b>Compare last scan:</b> <span id="compareLast">Waiting for the first scan.</span></p>
+<p><b>Safe move:</b> <span id="safeMove">Scan first</span></p>
+<p class="muted" id="safeMoveNote">Proxuma explains the safest next step after analysis.</p>
+<div aria-label="Local pattern memory dashboard" class="memory-dashboard">
+<div class="memory-stat-grid">
+<div class="memory-stat">
+<span class="memory-stat-label">Total remembered scans</span>
+<strong id="memoryTotalScans">0</strong>
+</div>
+<div class="memory-stat">
+<span class="memory-stat-label">Remembered roots</span>
+<strong id="memoryRootCount">0</strong>
+</div>
+<div class="memory-stat">
+<span class="memory-stat-label">Pattern families</span>
+<strong id="memoryFamilyCount">0</strong>
+</div>
+</div>
+<div class="memory-columns">
+<div>
+<h4>Top remembered roots</h4>
+<ul class="memory-list" id="memoryRootList"><li>No roots remembered yet.</li></ul>
+</div>
+<div>
+<h4>Pattern families</h4>
+<ul class="memory-list" id="memoryFamilyList"><li>No pattern families remembered yet.</li></ul>
+</div>
+</div>
+<div class="memory-actions">
+<button class="ghost-button compact-copy" id="copyMemorySummaryButton" type="button">Copy Memory Summary</button>
+<button class="ghost-button compact-copy" id="downloadMemoryJsonButton" type="button">Export Local Notes</button>
+<button class="ghost-button compact-copy danger-action" id="clearPatternMemoryButton" type="button">Clear Pattern Memory</button>
+</div>
+<p class="muted" id="memoryDashboardNote">Memory stays in this browser only. It stores compact roots and signal families, not full browsing history.</p>
+</div>
+</article>
+<article class="drawer-panel" hidden="" id="onlinePanel" role="tabpanel">
+<div class="drawer-panel-head" data-tone="orange">
+<div>
+<p class="eyebrow">Optional Online Layer</p>
+<h3>Consent-first provider architecture</h3>
+</div>
+<span class="status-pill status-low" id="onlineConsentStatus">Offline locked</span>
+</div>
+<p class="card-summary status-low" id="onlinePreview">Offline result first. Provider slots are mapped and the serverless bridge blueprint is ready, but online intelligence is still consent-gated, user-opened only, and no hidden background requests run.</p>
+<div aria-label="Consent-first online controls" class="online-consent-card">
+<p class="muted" id="onlineConsentDetail">No online checks can run from this build. The scanner, memory, QR, case packet, and serverless bridge blueprint remain local documentation only.</p>
+<div class="online-actions">
+<button class="ghost-button compact-copy" id="enableOnlineConsentButton" type="button">Enable Online Preview</button>
+<button class="ghost-button compact-copy" id="onlineRunPreviewButton" type="button">View Online Boundaries</button>
+<button class="ghost-button compact-copy" id="onlineLookupLinksButton" type="button">Generate Lookup Links</button>
+<button class="ghost-button compact-copy" id="onlineRdapLookupButton" type="button">Run RDAP Lookup</button>
+<button class="ghost-button compact-copy danger-action" id="revokeOnlineConsentButton" type="button">Clear Online Choice</button>
+</div>
+<div aria-label="Online Intel readiness status" class="online-readiness-card">
+<div class="readiness-head">
+<h4>Online readiness</h4>
+<span class="status-pill status-low" id="onlineReadinessStatus">Offline / locked</span>
+</div>
+<ul class="memory-list online-readiness-list" id="onlineReadinessList">
+<li>Readiness checks load locally. No provider is contacted.</li>
+</ul>
+</div>
+<div aria-label="Consent-gated RDAP result" class="online-rdap-result">
+<div class="readiness-head">
+<h4>RDAP bridge result</h4>
+<span class="status-pill status-low" id="onlineRdapStatus">Not run</span>
+</div>
+<ul class="memory-list" id="onlineRdapResult"><li>No RDAP result saved for this scan yet.</li></ul>
+<p class="muted">Runs only after online consent is armed and the user clicks Run RDAP Lookup. If this page is on GitHub Pages or opened as a local file, RDAP will show a host-aware fallback. Deploy through Vercel for live bridge results.</p>
+</div>
+<div class="online-columns">
+<div>
+<h4>Online lookup launchpad</h4>
+<ul class="memory-list" id="onlineScopeList"><li>Arm consent and generate user-opened lookup links for the current scanned root.</li></ul>
+</div>
+<div>
+<h4>Privacy guardrails</h4>
+<ul class="memory-list" id="onlinePrivacyList"><li>Default mode stays offline-first.</li></ul>
+</div>
+<div>
+<h4>Provider slots</h4>
+<ul class="memory-list" id="onlineProviderSlotList"><li>Future provider slots are mapped but inactive.</li></ul>
+</div>
+</div>
+<div aria-label="Online Intel findings notes" class="online-findings-note">
+<label for="onlineFindingsNotes">Online findings notes</label>
+<textarea id="onlineFindingsNotes" maxlength="2000" placeholder="After opening a lookup link yourself, paste brief findings here: domain age, certificate clue, redirect note, reputation clue, or anything worth preserving in the case packet." rows="4"></textarea>
+<div class="online-actions online-note-actions">
+<button class="ghost-button compact-copy" id="saveOnlineFindingsButton" type="button">Save Findings Notes</button>
+<button class="ghost-button compact-copy danger-action" id="clearOnlineFindingsButton" type="button">Clear Findings Notes</button>
+<span class="status-pill status-low" id="onlineFindingsStatus">No online findings saved yet</span>
+</div>
+<p class="muted">Notes stay in this browser only and are included in TXT/JSON case exports. Proxuma does not verify or fetch these findings automatically.</p>
+</div>
+<p class="muted" id="onlineArchitectureNote">Optional online intelligence stays locked off until the user deliberately arms the explicit choice. External lookup links open only when the user clicks them; future automatic checks require the documented serverless bridge.</p>
+</div>
+</article>
+<article class="drawer-panel internal-only" hidden="" id="browserTestPanel" role="tabpanel">
+<div class="drawer-panel-head" data-tone="green">
+<div>
+<p class="eyebrow">Release Check</p>
+<h3>Browser and release check</h3>
+</div>
+<span class="status-pill" id="browserTestStatus">Ready to test</span>
+</div>
+<p class="card-summary" id="browserTestIntro">Use this checklist to confirm the public page works cleanly before release. v3.19 keeps the package clean, privacy-first, and honest about browser-dependent QR camera support.</p>
+<div aria-label="Browser check controls" class="browser-test-card">
+<div class="browser-test-actions">
+<button class="ghost-button compact-copy" id="copyBrowserChecklistButton" type="button">Copy Test Checklist</button>
+<button class="ghost-button compact-copy" id="downloadBrowserChecklistButton" type="button">Export Checklist</button>
+</div>
+<div class="online-columns">
+<div>
+<h4>Critical browser checks</h4>
+<ul class="memory-list" id="browserChecklistList"><li>Checklist loads after the app initializes.</li></ul>
+</div>
+<div>
+<h4>Pass rule</h4>
+<ul class="memory-list" id="browserPassRuleList"><li>Offline scans, QR fallback, memory, explicit choice, copy, and JSON export must all behave consistently before release.</li></ul>
+</div>
+</div>
+<p class="muted" id="browserTestNote">This panel does not run network tests. It gives a repeatable human test route so deployment issues are easier to catch, reproduce, and describe before public lock.</p>
+</div>
+</article>
+</div>
 
-    <section id="products" class="products">
-      <div class="section-title"><span></span><h2>Protection Layers. One Mission. <em>Your Safety Online.</em></h2><span></span></div>
-      <div class="cards">
-        <article class="product-card lite"><div class="icon">↗</div><p>PROXUMA LITE</p><h3>Scan Instantly</h3><p class="body">Run fast private checks on suspicious links, QR destinations, shortened URLs, lookalike domains, and file-delivery traps before you open them.</p><p class="privacy-note">Best for everyday link checks when you want a quick answer without sending your data anywhere.</p><a class="enter-link" href="./lite/index.html">Enter Here →</a></article>
-        <article class="product-card sense"><div class="icon">🧠</div><p>PROXUMA SENSE</p><h3>Understand the Threat</h3><p class="body">Break down suspicious links in plain language, showing patterns, redirects, login lures, shorteners, and risk signals before you click.</p><p class="privacy-note">Best for users who want to understand why something feels unsafe while staying private.</p><a class="enter-link" href="./sense/index.html">Enter Here →</a></article>
-        <article class="product-card shield"><div class="icon">⌂</div><p>PROXUMA SHIELD</p><h3>Advanced Protection</h3><p class="body">Use a stronger protection layer for phishing, typo-squatting, QR checks, file-delivery attacks, and higher-risk threat patterns.</p><p class="privacy-note">Best for deeper review when a link, message, or QR code needs more confidence before action.</p><a class="enter-link" href="./shield/index.html">Enter Here →</a></article>
-        <article class="product-card it"><div class="icon it-signal" aria-hidden="true"><span class="offline-dot">●</span><span class="signal-line">↔</span><span class="online-dot">●</span></div><p>PROXUMA IT</p><h3>Threat Intelligence Layer</h3><p class="body">Open the dedicated Proxuma IT scanner for deeper URL, QR payload, copied message, and evidence-style risk analysis.</p><p class="privacy-note">Runs as its own offline-first workspace. Online intelligence stays locked unless a user clearly chooses it in a future version.</p><a class="enter-link" href="https://scar197124.github.io/Proxuma_IT/" aria-label="Open Proxuma IT">Enter Proxuma IT →</a></article>
-      </div>
-    </section>
+</div>
+</section>
+<section class="casefile card unified-section grouped-panel-managed grouped-content-card" data-panel-group="investigation" hidden="" id="casefile">
 
-    <section id="how" class="how-strip" aria-labelledby="how-title">
-      <p class="eyebrow">HOW PROXUMA WORKS</p>
-      <h2 id="how-title">Scan. Understand. Protect.</h2>
-      <p class="how-intro">Proxuma is built as three clean layers: quick checking, clear explanation, and deeper protection when the risk is higher.</p>
-      <div class="how-steps">
-        <article><span>01</span><b>Proxuma Lite</b><small>Checks suspicious links, QR destinations, and lookalike domains quickly and privately.</small></article>
-        <article><span>02</span><b>Proxuma Sense</b><small>Explains what looks risky in plain language so users understand the threat before they click.</small></article>
-        <article><span>03</span><b>Proxuma Shield</b><small>Provides deeper review for high-risk links, typo-squatting patterns, and advanced threat signals.</small></article>
-        <article><span>04</span><b>Proxuma IT</b><small>Linked as the dedicated offline-first investigation layer for deeper URL, QR, message, and evidence review.</small></article>
-      </div>
-    </section>
+<div aria-label="Case file content" class="grouped-panel-scroll-body" id="caseFileBody" role="region" tabindex="0">
+<p class="quiet-note history-privacy-note">Recent scans are stored only in this browser on this device. Nothing is uploaded, synced, or sent to Proxuma.</p>
+<p aria-live="polite" class="copy-status" id="historyStatus">No local scan history yet.</p>
+<textarea id="caseNotes" placeholder="Optional: add a private note to the current scan before saving it again." rows="4"></textarea>
+<div class="case-actions">
+<button id="saveCaseButton" type="button">Save Current Scan</button>
+<button class="ghost-button" id="clearHistoryButton" type="button">Clear Local History</button>
+<button class="ghost-button danger-action" id="clearAllLocalDataButton" type="button">Clear All Local Data</button>
+</div>
+<ul aria-label="Local scan history" id="historyList"></ul>
+</div>
 
-    <section id="about" class="mission-strip">
-      <div class="mini-brand"><svg viewBox="0 0 64 64"><path d="M32 4 55 13v17c0 15.5-9.5 24.5-23 30C18.5 54.5 9 45.5 9 30V13L32 4Z"/><path d="M23 44V20h14c7 0 11 4 11 10s-4 10-11 10h-5v-8h5c2.2 0 3.8-1 3.8-3S39.2 26 37 26h-7v18h-7Z"/></svg></div>
-      <div><b>Our Mission</b><small>To protect individuals and families with privacy-first security tools that are simple, powerful, and accessible to all.</small></div>
-      <div><b>🔒 Privacy First</b><small>We never collect or store your data.</small></div>
-      <div><b>📈 Always Improving</b><small>Continuously updated to stay ahead of threats.</small></div>
-      <div><b>👥 Community Driven</b><small>Built with care, driven by trust.</small></div>
-      <div><b>🍁 Proudly Canadian</b><small>Designed and built in Canada.</small></div>
-    </section>
-  </main>
-
-  <footer>
-    <b>© <span id="year"></span> Proxuma.</b> Privacy-first protection, offline by default.
-    <small>Proxuma helps identify suspicious links and online risks. No tool can guarantee complete protection, but Proxuma is built to improve awareness, privacy, and safer browsing.</small>
-  </footer>
-  <script src="proxuma.engine.js"></script>
+</section>
+</section>
+<section aria-labelledby="workflowTitle" class="card unified-section workflow-layer" id="workflow">
+<div class="section-heading-row workflow-fixed-head">
+<div><p class="eyebrow">Step 5 · Review &amp; Trust</p><h2 id="workflowTitle">Turn findings into actions</h2><p class="muted">Open this workspace to verify evidence boundaries, track review status, save sessions, or export.</p></div>
+</div>
+<div aria-label="Review and trust tools" class="workflow-scroll-body" role="region" tabindex="0">
+<div aria-label="Five-step workflow" class="workflow-progress">
+<div class="workflow-step active" data-step="1" data-workflow-step=""><b>Scan</b><span>Run local checks</span></div>
+<div class="workflow-step" data-step="2" data-workflow-step=""><b>Review</b><span>Read verified findings</span></div>
+<div class="workflow-step" data-step="3" data-workflow-step=""><b>Prioritize</b><span>Set action status</span></div>
+<div class="workflow-step" data-step="4" data-workflow-step=""><b>Save</b><span>Name the session</span></div>
+<div class="workflow-step" data-step="5" data-workflow-step=""><b>Explain</b><span>Generate local guidance</span></div>
+</div>
+<div aria-label="Report trust boundary" class="trust-boundary-grid">
+<article class="trust-boundary-card verified"><span class="trust-label">Verified scanner finding</span><p>Direct output from Proxuma’s local rules and visible evidence.</p></article>
+<article class="trust-boundary-card interpretation"><span class="trust-label">Local interpretation</span><p>Plain-language organization of the visible report; no new lookup.</p></article>
+<article class="trust-boundary-card action"><span class="trust-label">Suggested next step</span><p>A user-controlled recommendation, never an automatic change.</p></article>
+</div>
+<div class="workflow-grid">
+<article class="workflow-card">
+<h3>Verified findings and remediation</h3>
+<p class="muted">Each finding keeps its evidence visible and can be tracked as To review, In progress, Resolved, or Accepted risk.</p>
+<div aria-label="Severity summary" class="severity-board">
+<div class="severity-chip severity-critical"><em id="sevCritical">0</em>Critical</div>
+<div class="severity-chip severity-high"><em id="sevHigh">0</em>High</div>
+<div class="severity-chip severity-medium"><em id="sevMedium">0</em>Medium</div>
+<div class="severity-chip severity-low"><em id="sevLow">0</em>Low</div>
+<div class="severity-chip severity-info"><em id="sevInfo">0</em>Info</div>
+</div>
+<div aria-label="Finding filters" class="finding-toolbar" role="group">
+<button aria-pressed="true" class="finding-filter active" data-filter="all" type="button">All</button>
+<button aria-pressed="false" class="finding-filter" data-filter="open" type="button">Open actions</button>
+<button aria-pressed="false" class="finding-filter" data-filter="resolved" type="button">Resolved</button>
+</div>
+<div aria-live="polite" class="trust-finding-list" id="trustFindingList"><div class="trust-empty">Run a scan to build unified finding cards.</div></div>
+<p aria-live="polite" class="workflow-status" id="trustActionStatus"></p>
+</article>
+<article class="workflow-card">
+<h3>Named scan sessions</h3>
+<p class="muted">Save the current verified report and remediation state in this browser.</p>
+<div class="session-toolbar"><input id="sessionNameInput" maxlength="80" placeholder="Session name" type="text"/><button id="saveNamedSessionButton" type="button">Save Session</button><button class="ghost-button" id="exportSessionsButton" type="button">Export Library</button></div>
+<p aria-live="polite" class="workflow-status" id="sessionStatus"></p>
+<ul aria-label="Saved scan sessions" class="session-list" id="namedSessionList"></ul>
+<div aria-live="polite" class="comparison-panel empty" id="sessionComparison">Choose Compare on a saved session to see new, resolved, unchanged, and severity-changed findings.</div>
+</article>
+</div>
+<div class="workflow-grid">
+<article class="workflow-card">
+<h3>Local explanation</h3>
+<p class="ai-separation-note"><strong>Boundary:</strong> This explanation reorganizes the visible offline report. It does not verify ownership, perform a hidden lookup, or replace the scanner findings.</p>
+<div class="advisor-toolbar"><button id="explainCurrentButton" type="button">Explain Current Scan</button><button class="ghost-button" id="copyExplanationButton" type="button">Copy Explanation</button></div>
+<div class="ai-output-panel empty" id="localAdvisorOutput">Run a scan, then generate a plain-language explanation.</div>
+<p aria-live="polite" class="workflow-status" id="advisorStatus"></p>
+</article>
+<article class="workflow-card">
+<h3>Report actions</h3>
+<p class="muted">Export a printable HTML report or structured JSON with findings, evidence, notes, and remediation status.</p>
+<div class="workflow-actions"><button id="exportTrustHtml" type="button">Export HTML Report</button><button class="ghost-button" id="exportTrustJson" type="button">Export JSON Report</button><button class="ghost-button workflow-reset" id="resetWorkspaceButton" type="button">Reset Workspace</button></div>
+<p aria-live="polite" class="workflow-status" id="trustExportStatus"></p>
+</article>
+</div>
+</div>
+<p aria-hidden="true" class="workflow-scroll-cue">Scroll inside for more review and trust tools</p>
+</section>
+<section aria-label="Return to PROXUMA ecosystem" class="ecosystem-return card">
+<div>
+<p class="eyebrow">Ecosystem path</p>
+<h2>Return to PROXUMA</h2>
+<p class="subtle">Finished checking a link, IP, QR payload, or message? Go back to the main PROXUMA hub without losing the ecosystem trail.</p>
+</div>
+<a aria-label="Return to the main PROXUMA canonical homepage" class="ecosystem-return-button unified-control-button unified-home-control" href="https://scar197124.github.io/PROXUMA/">← PROXUMA Home</a>
+</section>
+<p aria-label="Proxuma IT release version" class="proxuma-release-stamp">Proxuma IT v3.47.5 · Mobile Investigation Picker Fix</p>
+<section aria-hidden="true" class="hidden-support">
+<span hidden="" id="summarySupport"></span>
+</section>
+</main>
+<script src="proxuma-it.js"></script>
+<script src="ui-consistency.js"></script>
+<script src="workflow-intelligence.js"></script>
+<script src="focus-reading.js"></script>
+<script src="report-trust-action.js"></script>
+<script src="grouped-panel-controls.js"></script>
+<script src="product-simplification.js"></script>
 </body>
 </html>
