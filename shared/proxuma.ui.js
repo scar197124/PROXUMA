@@ -45,9 +45,7 @@
   }
 
   function initTheme() {
-    // Respect the HTML default theme first.
-    // This prevents a fresh Vercel domain with empty localStorage from flipping Lite into light mode.
-    let theme = document.body.classList.contains("theme-light") ? "light" : "dark";
+    let theme = "light";
     try {
       const stored = localStorage.getItem("proxuma-theme");
       if (stored === "light" || stored === "dark") theme = stored;
