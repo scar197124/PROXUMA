@@ -1,0 +1,14 @@
+UPLOAD TARGET
+scar197124/PROXUMA repository — main branch — repository root
+
+UPLOAD THESE FILES ONLY
+- index.html
+- about.html
+
+DO NOT upload the outer folder itself.
+DO NOT upload these files to Proxuma_IT or any product subfolder.
+
+These two files replace the current root canonical homepage and About page.
+
+COMMIT MESSAGE
+Restore colorful canonical PROXUMA homepage and About page
