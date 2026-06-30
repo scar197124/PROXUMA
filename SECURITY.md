@@ -18,4 +18,4 @@ Do not include sensitive third-party data in a report.
 
 ## Current scope
 
-Version 3.44.0 is a client-side prototype. Findings and interpretations require validation before being used for security, legal, employment, or enforcement decisions.
+Version 3.49.0 is a client-side prototype. Findings and interpretations require validation before being used for security, legal, employment, or enforcement decisions.

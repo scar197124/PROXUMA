@@ -1,3 +1,7 @@
 User-agent: *
 Allow: /
-Sitemap: https://scar197124.github.io/PROXUMA/sitemap.xml
+Disallow: /api/
+Disallow: /docs/archive/
+Disallow: /tests/
+
+Sitemap: https://scar197124.github.io/Proxuma_IT/sitemap.xml

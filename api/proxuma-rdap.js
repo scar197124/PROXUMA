@@ -1,4 +1,4 @@
-// Proxuma IT v3.29.0 — Vercel RDAP Bridge Prototype
+// Proxuma IT v3.52.2 — Optional Vercel RDAP bridge
 // Serverless-only endpoint. Do not call this automatically from the frontend.
 // Purpose: user-consented domain registration context through a backend boundary.
 
